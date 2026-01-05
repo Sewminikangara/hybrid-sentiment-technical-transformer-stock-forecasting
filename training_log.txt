@@ -1,0 +1,496 @@
+======================================================================
+STOCK PRICE FORECASTING - FULL TRAINING
+======================================================================
+
+Loading data from: data_processed/technical/technical_indicators_all_stocks_20251218_061714.csv
+Found 8 stocks: AAPL, GOOGL, TSLA, AMZN, MSFT, RELIANCE.NS, TCS.NS, INFY.NS
+
+Training Configuration:
+   Sequence Length: 60
+   Epochs: 50
+   Models: LSTM, Technical Transformer
+
+======================================================================
+[1/8] Training: AAPL
+======================================================================
+
+Preparing data for AAPL...
+
+============================================================
+Preparing data for AAPL
+============================================================
+✓ Training samples: 755
+✓ Test samples: 189
+✓ Features: 35
+✓ Sequence length: 60
+   Train samples: 755
+   Test samples:  189
+   Features: 35
+
+Training LSTM for AAPL (50 epochs)...
+
+--- Training LSTM for AAPL ---
+Epoch [10/50] - Train Loss: 0.000925, Val Loss: 0.007623
+Epoch [20/50] - Train Loss: 0.000767, Val Loss: 0.011102
+Epoch [30/50] - Train Loss: 0.000705, Val Loss: 0.004846
+Epoch [40/50] - Train Loss: 0.000570, Val Loss: 0.007393
+Epoch [50/50] - Train Loss: 0.000541, Val Loss: 0.007678
+
+LSTM Results:
+  RMSE: 0.135673
+  MAE: 0.116192
+  MAPE: 15.28%
+  Directional Accuracy: 53.72%
+✓ Model saved to results/AAPL_lstm.pt
+   LSTM - RMSE: 0.1357, Directional Accuracy: 53.72%
+
+Training Technical Transformer for AAPL (50 epochs)...
+
+--- Training Technical Transformer for AAPL ---
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.002516, Val Loss: 0.017101
+Epoch 00017: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [20/50] - Train Loss: 0.001801, Val Loss: 0.012128
+Epoch 00026: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [30/50] - Train Loss: 0.001583, Val Loss: 0.015667
+Epoch 00032: reducing learning rate of group 0 to 1.2500e-05.
+Epoch 00038: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [40/50] - Train Loss: 0.001622, Val Loss: 0.014917
+Epoch 00044: reducing learning rate of group 0 to 3.1250e-06.
+Epoch 00050: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [50/50] - Train Loss: 0.001542, Val Loss: 0.015309
+
+Technical Transformer Results:
+  RMSE: 0.176131
+  MAE: 0.154414
+  MAPE: 20.18%
+  Directional Accuracy: 49.47%
+✓ Model saved to results/AAPL_technical_transformer.pt
+   Transformer - RMSE: 0.1761, Directional Accuracy: 49.47%
+
+======================================================================
+[2/8] Training: GOOGL
+======================================================================
+
+Preparing data for GOOGL...
+
+============================================================
+Preparing data for GOOGL
+============================================================
+✓ Training samples: 755
+✓ Test samples: 189
+✓ Features: 35
+✓ Sequence length: 60
+   Train samples: 755
+   Test samples:  189
+   Features: 35
+
+Training LSTM for GOOGL (50 epochs)...
+
+--- Training LSTM for GOOGL ---
+Epoch [10/50] - Train Loss: 0.001872, Val Loss: 0.017065
+Epoch [20/50] - Train Loss: 0.001776, Val Loss: 0.015987
+Epoch [30/50] - Train Loss: 0.001623, Val Loss: 0.007467
+Epoch [40/50] - Train Loss: 0.001365, Val Loss: 0.016605
+Epoch [50/50] - Train Loss: 0.001112, Val Loss: 0.007699
+
+LSTM Results:
+  RMSE: 0.092093
+  MAE: 0.074967
+  MAPE: 9.19%
+  Directional Accuracy: 54.26%
+✓ Model saved to results/GOOGL_lstm.pt
+   LSTM - RMSE: 0.0921, Directional Accuracy: 54.26%
+
+Training Technical Transformer for GOOGL (50 epochs)...
+
+--- Training Technical Transformer for GOOGL ---
+Using device: cpu
+Epoch 00008: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [10/50] - Train Loss: 0.004112, Val Loss: 0.050608
+Epoch 00014: reducing learning rate of group 0 to 2.5000e-05.
+Epoch 00020: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [20/50] - Train Loss: 0.003119, Val Loss: 0.052703
+Epoch 00026: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [30/50] - Train Loss: 0.003501, Val Loss: 0.056054
+Epoch 00032: reducing learning rate of group 0 to 3.1250e-06.
+Epoch 00038: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [40/50] - Train Loss: 0.003085, Val Loss: 0.053759
+Epoch 00044: reducing learning rate of group 0 to 7.8125e-07.
+Epoch 00050: reducing learning rate of group 0 to 3.9063e-07.
+Epoch [50/50] - Train Loss: 0.003107, Val Loss: 0.053180
+
+Technical Transformer Results:
+  RMSE: 0.206311
+  MAE: 0.182042
+  MAPE: 22.71%
+  Directional Accuracy: 60.64%
+✓ Model saved to results/GOOGL_technical_transformer.pt
+   Transformer - RMSE: 0.2063, Directional Accuracy: 60.64%
+
+======================================================================
+[3/8] Training: TSLA
+======================================================================
+
+Preparing data for TSLA...
+
+============================================================
+Preparing data for TSLA
+============================================================
+✓ Training samples: 755
+✓ Test samples: 189
+✓ Features: 35
+✓ Sequence length: 60
+   Train samples: 755
+   Test samples:  189
+   Features: 35
+
+Training LSTM for TSLA (50 epochs)...
+
+--- Training LSTM for TSLA ---
+Epoch [10/50] - Train Loss: 0.002576, Val Loss: 0.000625
+Epoch [20/50] - Train Loss: 0.002213, Val Loss: 0.000692
+Epoch [30/50] - Train Loss: 0.002065, Val Loss: 0.000498
+Epoch [40/50] - Train Loss: 0.001813, Val Loss: 0.000523
+Epoch [50/50] - Train Loss: 0.001555, Val Loss: 0.000563
+
+LSTM Results:
+  RMSE: 0.054041
+  MAE: 0.033952
+  MAPE: 8.62%
+  Directional Accuracy: 45.74%
+✓ Model saved to results/TSLA_lstm.pt
+   LSTM - RMSE: 0.0540, Directional Accuracy: 45.74%
+
+Training Technical Transformer for TSLA (50 epochs)...
+
+--- Training Technical Transformer for TSLA ---
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.003172, Val Loss: 0.001586
+Epoch 00019: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [20/50] - Train Loss: 0.002369, Val Loss: 0.001535
+Epoch [30/50] - Train Loss: 0.002037, Val Loss: 0.001489
+Epoch [40/50] - Train Loss: 0.002077, Val Loss: 0.001551
+Epoch 00042: reducing learning rate of group 0 to 2.5000e-05.
+Epoch 00048: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [50/50] - Train Loss: 0.001652, Val Loss: 0.001458
+
+Technical Transformer Results:
+  RMSE: 0.081599
+  MAE: 0.055935
+  MAPE: 13.96%
+  Directional Accuracy: 51.06%
+✓ Model saved to results/TSLA_technical_transformer.pt
+   Transformer - RMSE: 0.0816, Directional Accuracy: 51.06%
+
+======================================================================
+[4/8] Training: AMZN
+======================================================================
+
+Preparing data for AMZN...
+
+============================================================
+Preparing data for AMZN
+============================================================
+✓ Training samples: 755
+✓ Test samples: 189
+✓ Features: 35
+✓ Sequence length: 60
+   Train samples: 755
+   Test samples:  189
+   Features: 35
+
+Training LSTM for AMZN (50 epochs)...
+
+--- Training LSTM for AMZN ---
+Epoch [10/50] - Train Loss: 0.003377, Val Loss: 0.003201
+Epoch [20/50] - Train Loss: 0.002869, Val Loss: 0.001032
+Epoch [30/50] - Train Loss: 0.002595, Val Loss: 0.003624
+Epoch [40/50] - Train Loss: 0.002356, Val Loss: 0.000838
+Epoch [50/50] - Train Loss: 0.002069, Val Loss: 0.000915
+
+LSTM Results:
+  RMSE: 0.065594
+  MAE: 0.045289
+  MAPE: 5.73%
+  Directional Accuracy: 53.19%
+✓ Model saved to results/AMZN_lstm.pt
+   LSTM - RMSE: 0.0656, Directional Accuracy: 53.19%
+
+Training Technical Transformer for AMZN (50 epochs)...
+
+--- Training Technical Transformer for AMZN ---
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.003598, Val Loss: 0.002422
+Epoch 00013: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [20/50] - Train Loss: 0.002604, Val Loss: 0.001532
+Epoch 00025: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [30/50] - Train Loss: 0.002207, Val Loss: 0.001904
+Epoch 00031: reducing learning rate of group 0 to 1.2500e-05.
+Epoch 00037: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [40/50] - Train Loss: 0.002177, Val Loss: 0.002093
+Epoch 00043: reducing learning rate of group 0 to 3.1250e-06.
+Epoch 00049: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [50/50] - Train Loss: 0.001988, Val Loss: 0.001869
+
+Technical Transformer Results:
+  RMSE: 0.093531
+  MAE: 0.067130
+  MAPE: 8.54%
+  Directional Accuracy: 51.06%
+✓ Model saved to results/AMZN_technical_transformer.pt
+   Transformer - RMSE: 0.0935, Directional Accuracy: 51.06%
+
+======================================================================
+[5/8] Training: MSFT
+======================================================================
+
+Preparing data for MSFT...
+
+============================================================
+Preparing data for MSFT
+============================================================
+✓ Training samples: 755
+✓ Test samples: 189
+✓ Features: 35
+✓ Sequence length: 60
+   Train samples: 755
+   Test samples:  189
+   Features: 35
+
+Training LSTM for MSFT (50 epochs)...
+
+--- Training LSTM for MSFT ---
+Epoch [10/50] - Train Loss: 0.002121, Val Loss: 0.003234
+Epoch [20/50] - Train Loss: 0.001611, Val Loss: 0.005190
+Epoch [30/50] - Train Loss: 0.002325, Val Loss: 0.007308
+Epoch [40/50] - Train Loss: 0.001481, Val Loss: 0.001744
+Epoch [50/50] - Train Loss: 0.001295, Val Loss: 0.001789
+
+LSTM Results:
+  RMSE: 0.036871
+  MAE: 0.028815
+  MAPE: 3.32%
+  Directional Accuracy: 57.45%
+✓ Model saved to results/MSFT_lstm.pt
+   LSTM - RMSE: 0.0369, Directional Accuracy: 57.45%
+
+Training Technical Transformer for MSFT (50 epochs)...
+
+--- Training Technical Transformer for MSFT ---
+Using device: cpu
+Epoch 00007: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [10/50] - Train Loss: 0.004115, Val Loss: 0.010263
+Epoch 00015: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [20/50] - Train Loss: 0.003350, Val Loss: 0.007390
+Epoch 00022: reducing learning rate of group 0 to 1.2500e-05.
+Epoch 00028: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [30/50] - Train Loss: 0.003284, Val Loss: 0.006679
+Epoch 00034: reducing learning rate of group 0 to 3.1250e-06.
+Epoch 00040: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [40/50] - Train Loss: 0.002848, Val Loss: 0.006836
+Epoch 00046: reducing learning rate of group 0 to 7.8125e-07.
+Epoch [50/50] - Train Loss: 0.003160, Val Loss: 0.006124
+
+Technical Transformer Results:
+  RMSE: 0.071155
+  MAE: 0.060524
+  MAPE: 7.06%
+  Directional Accuracy: 48.94%
+✓ Model saved to results/MSFT_technical_transformer.pt
+   Transformer - RMSE: 0.0712, Directional Accuracy: 48.94%
+
+======================================================================
+[6/8] Training: RELIANCE.NS
+======================================================================
+
+Preparing data for RELIANCE.NS...
+
+============================================================
+Preparing data for RELIANCE.NS
+============================================================
+✓ Training samples: 740
+✓ Test samples: 186
+✓ Features: 35
+✓ Sequence length: 60
+   Train samples: 740
+   Test samples:  186
+   Features: 35
+
+Training LSTM for RELIANCE.NS (50 epochs)...
+
+--- Training LSTM for RELIANCE.NS ---
+Epoch [10/50] - Train Loss: 0.003124, Val Loss: 0.003653
+Epoch [20/50] - Train Loss: 0.002396, Val Loss: 0.002453
+Epoch [30/50] - Train Loss: 0.002612, Val Loss: 0.007435
+Epoch [40/50] - Train Loss: 0.002242, Val Loss: 0.002020
+Epoch [50/50] - Train Loss: 0.002013, Val Loss: 0.002007
+
+LSTM Results:
+  RMSE: 0.039571
+  MAE: 0.029059
+  MAPE: 3.71%
+  Directional Accuracy: 41.62%
+✓ Model saved to results/RELIANCE.NS_lstm.pt
+   LSTM - RMSE: 0.0396, Directional Accuracy: 41.62%
+
+Training Technical Transformer for RELIANCE.NS (50 epochs)...
+
+--- Training Technical Transformer for RELIANCE.NS ---
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.004723, Val Loss: 0.011045
+Epoch [20/50] - Train Loss: 0.003488, Val Loss: 0.007457
+Epoch 00022: reducing learning rate of group 0 to 5.0000e-05.
+Epoch 00028: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [30/50] - Train Loss: 0.002907, Val Loss: 0.010956
+Epoch 00034: reducing learning rate of group 0 to 1.2500e-05.
+Epoch 00040: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [40/50] - Train Loss: 0.002575, Val Loss: 0.009252
+Epoch 00046: reducing learning rate of group 0 to 3.1250e-06.
+Epoch [50/50] - Train Loss: 0.002841, Val Loss: 0.008840
+
+Technical Transformer Results:
+  RMSE: 0.085443
+  MAE: 0.071665
+  MAPE: 9.00%
+  Directional Accuracy: 49.19%
+✓ Model saved to results/RELIANCE.NS_technical_transformer.pt
+   Transformer - RMSE: 0.0854, Directional Accuracy: 49.19%
+
+======================================================================
+[7/8] Training: TCS.NS
+======================================================================
+
+Preparing data for TCS.NS...
+
+============================================================
+Preparing data for TCS.NS
+============================================================
+✓ Training samples: 740
+✓ Test samples: 186
+✓ Features: 35
+✓ Sequence length: 60
+   Train samples: 740
+   Test samples:  186
+   Features: 35
+
+Training LSTM for TCS.NS (50 epochs)...
+
+--- Training LSTM for TCS.NS ---
+Epoch [10/50] - Train Loss: 0.001297, Val Loss: 0.002105
+Epoch [20/50] - Train Loss: 0.001189, Val Loss: 0.002166
+Epoch [30/50] - Train Loss: 0.000959, Val Loss: 0.002807
+Epoch [40/50] - Train Loss: 0.000881, Val Loss: 0.002080
+Epoch [50/50] - Train Loss: 0.000874, Val Loss: 0.003238
+
+LSTM Results:
+  RMSE: 0.095438
+  MAE: 0.077097
+  MAPE: 9.15%
+  Directional Accuracy: 49.73%
+✓ Model saved to results/TCS.NS_lstm.pt
+   LSTM - RMSE: 0.0954, Directional Accuracy: 49.73%
+
+Training Technical Transformer for TCS.NS (50 epochs)...
+
+--- Training Technical Transformer for TCS.NS ---
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.004053, Val Loss: 0.004599
+Epoch 00011: reducing learning rate of group 0 to 5.0000e-05.
+Epoch 00017: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [20/50] - Train Loss: 0.002764, Val Loss: 0.004239
+Epoch 00027: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [30/50] - Train Loss: 0.003156, Val Loss: 0.003448
+Epoch 00036: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [40/50] - Train Loss: 0.002832, Val Loss: 0.003442
+Epoch 00046: reducing learning rate of group 0 to 3.1250e-06.
+Epoch [50/50] - Train Loss: 0.002814, Val Loss: 0.003453
+
+Technical Transformer Results:
+  RMSE: 0.102483
+  MAE: 0.083583
+  MAPE: 10.03%
+  Directional Accuracy: 51.35%
+✓ Model saved to results/TCS.NS_technical_transformer.pt
+   Transformer - RMSE: 0.1025, Directional Accuracy: 51.35%
+
+======================================================================
+[8/8] Training: INFY.NS
+======================================================================
+
+Preparing data for INFY.NS...
+
+============================================================
+Preparing data for INFY.NS
+============================================================
+✓ Training samples: 740
+✓ Test samples: 186
+✓ Features: 35
+✓ Sequence length: 60
+   Train samples: 740
+   Test samples:  186
+   Features: 35
+
+Training LSTM for INFY.NS (50 epochs)...
+
+--- Training LSTM for INFY.NS ---
+Epoch [10/50] - Train Loss: 0.002328, Val Loss: 0.002198
+Epoch [20/50] - Train Loss: 0.002133, Val Loss: 0.002972
+Epoch [30/50] - Train Loss: 0.001807, Val Loss: 0.000957
+Epoch [40/50] - Train Loss: 0.002010, Val Loss: 0.003621
+Epoch [50/50] - Train Loss: 0.001264, Val Loss: 0.002139
+
+LSTM Results:
+  RMSE: 0.075773
+  MAE: 0.063080
+  MAPE: 8.65%
+  Directional Accuracy: 47.57%
+✓ Model saved to results/INFY.NS_lstm.pt
+   LSTM - RMSE: 0.0758, Directional Accuracy: 47.57%
+
+Training Technical Transformer for INFY.NS (50 epochs)...
+
+--- Training Technical Transformer for INFY.NS ---
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.003917, Val Loss: 0.015060
+Epoch 00012: reducing learning rate of group 0 to 5.0000e-05.
+Epoch 00018: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [20/50] - Train Loss: 0.002997, Val Loss: 0.008701
+Epoch 00024: reducing learning rate of group 0 to 1.2500e-05.
+Epoch 00030: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [30/50] - Train Loss: 0.002783, Val Loss: 0.009557
+Epoch 00036: reducing learning rate of group 0 to 3.1250e-06.
+Epoch [40/50] - Train Loss: 0.002735, Val Loss: 0.009239
+Epoch 00042: reducing learning rate of group 0 to 1.5625e-06.
+Epoch 00048: reducing learning rate of group 0 to 7.8125e-07.
+Epoch [50/50] - Train Loss: 0.002796, Val Loss: 0.009765
+
+Technical Transformer Results:
+  RMSE: 0.134286
+  MAE: 0.119515
+  MAPE: 17.01%
+  Directional Accuracy: 43.78%
+✓ Model saved to results/INFY.NS_technical_transformer.pt
+   Transformer - RMSE: 0.1343, Directional Accuracy: 43.78%
+
+======================================================================
+SAVING TRAINING RESULTS
+======================================================================
+
+Results saved to: results/training_results_20260104_230409.csv
+
+======================================================================
+AVERAGE PERFORMANCE BY MODEL
+======================================================================
+                         RMSE     MAE     MAPE  Directional_Accuracy
+model_type                                                          
+LSTM                   0.0744  0.0586   7.9567               50.4101
+Technical_Transformer  0.1189  0.0994  13.5603               50.6868
+
+======================================================================
+Training completed for 8 stocks
+Models saved in: models/
+Results saved in: results/
+Graphs saved in: graphs/
+======================================================================
+
