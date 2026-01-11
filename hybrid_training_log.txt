@@ -1,0 +1,233 @@
+Traceback (most recent call last):
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
+    early_metrics = train_early_fusion(stock, data)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
+    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
+    raise AttributeError("'{}' object has no attribute '{}'".format(
+AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
+Traceback (most recent call last):
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
+    early_metrics = train_early_fusion(stock, data)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
+    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
+    raise AttributeError("'{}' object has no attribute '{}'".format(
+AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
+Traceback (most recent call last):
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
+    early_metrics = train_early_fusion(stock, data)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
+    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
+    raise AttributeError("'{}' object has no attribute '{}'".format(
+AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
+Traceback (most recent call last):
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
+    early_metrics = train_early_fusion(stock, data)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
+    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
+    raise AttributeError("'{}' object has no attribute '{}'".format(
+AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
+Traceback (most recent call last):
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
+    early_metrics = train_early_fusion(stock, data)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
+    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
+    raise AttributeError("'{}' object has no attribute '{}'".format(
+AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
+Traceback (most recent call last):
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
+    early_metrics = train_early_fusion(stock, data)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
+    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
+    raise AttributeError("'{}' object has no attribute '{}'".format(
+AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
+Traceback (most recent call last):
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
+    early_metrics = train_early_fusion(stock, data)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
+    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
+    raise AttributeError("'{}' object has no attribute '{}'".format(
+AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
+Traceback (most recent call last):
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
+    early_metrics = train_early_fusion(stock, data)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
+    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
+    raise AttributeError("'{}' object has no attribute '{}'".format(
+AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
+Traceback (most recent call last):
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
+    early_metrics = train_early_fusion(stock, data)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
+    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
+    raise AttributeError("'{}' object has no attribute '{}'".format(
+AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
+================================================================================
+HYBRID MODEL TRAINING - ALL 3 FUSION STRATEGIES
+================================================================================
+
+Models: Early Fusion | Late Fusion | Attention Fusion
+Stocks: 9
+Epochs: 50 per model
+Features: 35 technical + 7 sentiment
+
+================================================================================
+[1/9] TRAINING AAPL
+================================================================================
+
+  Loading hybrid data for AAPL...
+    Records: 1004
+    Date range: 1970-01-01 00:00:00.000000116 to 1970-01-01 00:00:00.000000257
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+
+  ✗ Error training AAPL: 'EarlyFusionTransformer' object has no attribute 'train_model'
+
+================================================================================
+[2/9] TRAINING GOOGL
+================================================================================
+
+  Loading hybrid data for GOOGL...
+    Records: 1004
+    Date range: 1970-01-01 00:00:00.000000084 to 1970-01-01 00:00:00.000000196
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+
+  ✗ Error training GOOGL: 'EarlyFusionTransformer' object has no attribute 'train_model'
+
+================================================================================
+[3/9] TRAINING TSLA
+================================================================================
+
+  Loading hybrid data for TSLA...
+    Records: 1004
+    Date range: 1970-01-01 00:00:00.000000103 to 1970-01-01 00:00:00.000000475
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+
+  ✗ Error training TSLA: 'EarlyFusionTransformer' object has no attribute 'train_model'
+
+================================================================================
+[4/9] TRAINING AMZN
+================================================================================
+
+  Loading hybrid data for AMZN...
+    Records: 1004
+    Date range: 1970-01-01 00:00:00.000000082 to 1970-01-01 00:00:00.000000232
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+
+  ✗ Error training AMZN: 'EarlyFusionTransformer' object has no attribute 'train_model'
+
+================================================================================
+[5/9] TRAINING MSFT
+================================================================================
+
+  Loading hybrid data for MSFT...
+    Records: 1004
+    Date range: 1970-01-01 00:00:00.000000203 to 1970-01-01 00:00:00.000000461
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+
+  ✗ Error training MSFT: 'EarlyFusionTransformer' object has no attribute 'train_model'
+
+================================================================================
+[6/9] TRAINING RELIANCE.NS
+================================================================================
+
+  Loading hybrid data for RELIANCE.NS...
+    Records: 986
+    Date range: 1970-01-01 00:00:00.000000843 to 1970-01-01 00:00:00.000001592
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+
+  ✗ Error training RELIANCE.NS: 'EarlyFusionTransformer' object has no attribute 'train_model'
+
+================================================================================
+[7/9] TRAINING TCS.NS
+================================================================================
+
+  Loading hybrid data for TCS.NS...
+    Records: 986
+    Date range: 1970-01-01 00:00:00.000002572 to 1970-01-01 00:00:00.000004411
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+
+  ✗ Error training TCS.NS: 'EarlyFusionTransformer' object has no attribute 'train_model'
+
+================================================================================
+[8/9] TRAINING INFY.NS
+================================================================================
+
+  Loading hybrid data for INFY.NS...
+    Records: 986
+    Date range: 1970-01-01 00:00:00.000001100 to 1970-01-01 00:00:00.000001938
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+
+  ✗ Error training INFY.NS: 'EarlyFusionTransformer' object has no attribute 'train_model'
+
+================================================================================
+[9/9] TRAINING CSEALL
+================================================================================
+
+  Loading hybrid data for CSEALL...
+    Records: 259
+    Date range: 1970-01-01 00:00:00.000008917 to 1970-01-01 00:00:00.000025602
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+
+  ✗ Error training CSEALL: 'EarlyFusionTransformer' object has no attribute 'train_model'
+
+================================================================================
+SAVING RESULTS
+================================================================================
+
+✓ Results saved to: results/hybrid_training_results_20260111_115105.csv
+
+Total models trained: 0
+Expected: 27 (9 stocks × 3 models)
+
+================================================================================
+TRAINING SUMMARY
+================================================================================
+
+Average Performance by Model:
+Traceback (most recent call last):
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 256, in <module>
+    main()
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 248, in main
+    print(results_df.groupby('Model')[['RMSE', 'MAE', 'MAPE']].mean())
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/pandas/core/frame.py", line 8252, in groupby
+    return DataFrameGroupBy(
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/pandas/core/groupby/groupby.py", line 931, in __init__
+    grouper, exclusions, obj = get_grouper(
+  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/pandas/core/groupby/grouper.py", line 985, in get_grouper
+    raise KeyError(gpr)
+KeyError: 'Model'

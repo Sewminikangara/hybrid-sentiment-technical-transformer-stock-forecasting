@@ -235,17 +235,12 @@ def train_all_models(tickers: list, data_path: str, epochs: int = 50):
         try:
             trainer.train_arima(ticker, data, preprocessor)
         except Exception as e:
-            print(f"⚠️  ARIMA training failed: {e}")
+            print(f"  ARIMA training failed: {e}")
         
         trainer.train_lstm(ticker, data, epochs=epochs)
         
         # Train Transformer models
         trainer.train_technical_transformer(ticker, data, epochs=epochs)
-        
-        # Note: Hybrid models require sentiment data
-        # trainer.train_early_fusion(ticker, data, epochs=epochs)
-        # trainer.train_late_fusion(ticker, data, epochs=epochs)
-        # trainer.train_attention_fusion(ticker, data, epochs=epochs)
     
     # Save results
     trainer.save_results()
