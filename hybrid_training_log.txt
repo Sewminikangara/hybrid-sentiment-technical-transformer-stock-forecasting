@@ -174,3 +174,15 @@ Using device: cpu
 Epoch 00008: reducing learning rate of group 0 to 5.0000e-05.
 Epoch [10/50] - Train Loss: 0.000205, Val Loss: 0.000067
 Epoch 00014: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [20/50] - Train Loss: 0.000178, Val Loss: 0.000033
+Epoch 00026: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [30/50] - Train Loss: 0.000169, Val Loss: 0.000055
+Epoch 00032: reducing learning rate of group 0 to 6.2500e-06.
+Epoch 00038: reducing learning rate of group 0 to 3.1250e-06.
+Epoch [40/50] - Train Loss: 0.000155, Val Loss: 0.000056
+Epoch 00044: reducing learning rate of group 0 to 1.5625e-06.
+Epoch 00050: reducing learning rate of group 0 to 7.8125e-07.
+Epoch [50/50] - Train Loss: 0.000145, Val Loss: 0.000050
+
+  Training Attention Fusion Transformer...
+Using device: cpu
