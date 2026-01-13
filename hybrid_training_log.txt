@@ -1,75 +1,4 @@
-Traceback (most recent call last):
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
-    early_metrics = train_early_fusion(stock, data)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
-    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
-    raise AttributeError("'{}' object has no attribute '{}'".format(
-AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
-Traceback (most recent call last):
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
-    early_metrics = train_early_fusion(stock, data)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
-    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
-    raise AttributeError("'{}' object has no attribute '{}'".format(
-AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
-Traceback (most recent call last):
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
-    early_metrics = train_early_fusion(stock, data)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
-    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
-    raise AttributeError("'{}' object has no attribute '{}'".format(
-AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
-Traceback (most recent call last):
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
-    early_metrics = train_early_fusion(stock, data)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
-    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
-    raise AttributeError("'{}' object has no attribute '{}'".format(
-AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
-Traceback (most recent call last):
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
-    early_metrics = train_early_fusion(stock, data)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
-    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
-    raise AttributeError("'{}' object has no attribute '{}'".format(
-AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
-Traceback (most recent call last):
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
-    early_metrics = train_early_fusion(stock, data)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
-    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
-    raise AttributeError("'{}' object has no attribute '{}'".format(
-AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
-Traceback (most recent call last):
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
-    early_metrics = train_early_fusion(stock, data)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
-    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
-    raise AttributeError("'{}' object has no attribute '{}'".format(
-AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
-Traceback (most recent call last):
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
-    early_metrics = train_early_fusion(stock, data)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
-    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
-    raise AttributeError("'{}' object has no attribute '{}'".format(
-AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
-Traceback (most recent call last):
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 206, in main
-    early_metrics = train_early_fusion(stock, data)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 111, in train_early_fusion
-    model.train_model(X_train, data['y_train'], X_val, data['y_val'], epochs=EPOCHS)
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1614, in __getattr__
-    raise AttributeError("'{}' object has no attribute '{}'".format(
-AttributeError: 'EarlyFusionTransformer' object has no attribute 'train_model'
+Using hybrid data file: data_processed/hybrid/hybrid_data_all_stocks_20260113_113028.csv
 ================================================================================
 HYBRID MODEL TRAINING - ALL 3 FUSION STRATEGIES
 ================================================================================
@@ -77,7 +6,7 @@ HYBRID MODEL TRAINING - ALL 3 FUSION STRATEGIES
 Models: Early Fusion | Late Fusion | Attention Fusion
 Stocks: 9
 Epochs: 50 per model
-Features: 35 technical + 7 sentiment
+Features: Determined dynamically from data
 
 ================================================================================
 [1/9] TRAINING AAPL
@@ -85,13 +14,49 @@ Features: 35 technical + 7 sentiment
 
   Loading hybrid data for AAPL...
     Records: 1004
-    Date range: 1970-01-01 00:00:00.000000116 to 1970-01-01 00:00:00.000000257
+    Date range: 2021-01-04 05:00:00 to 2024-12-30 05:00:00
     Technical features: 35
     Sentiment features: 7
 
   Training Early Fusion Transformer...
+Using device: cpu
+Epoch 00010: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [10/50] - Train Loss: 0.000297, Val Loss: 0.000075
+Epoch [20/50] - Train Loss: 0.000216, Val Loss: 0.000032
+Epoch [30/50] - Train Loss: 0.000182, Val Loss: 0.000008
+Epoch [40/50] - Train Loss: 0.000190, Val Loss: 0.000013
+Epoch 00044: reducing learning rate of group 0 to 2.5000e-05.
+Epoch 00050: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [50/50] - Train Loss: 0.000152, Val Loss: 0.000011
 
-  ✗ Error training AAPL: 'EarlyFusionTransformer' object has no attribute 'train_model'
+  Training Late Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000140, Val Loss: 0.000100
+Epoch 00019: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [20/50] - Train Loss: 0.000085, Val Loss: 0.000043
+Epoch 00025: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [30/50] - Train Loss: 0.000068, Val Loss: 0.000035
+Epoch 00031: reducing learning rate of group 0 to 1.2500e-05.
+Epoch 00037: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [40/50] - Train Loss: 0.000063, Val Loss: 0.000046
+Epoch 00043: reducing learning rate of group 0 to 3.1250e-06.
+Epoch 00049: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [50/50] - Train Loss: 0.000059, Val Loss: 0.000037
+
+  Training Attention Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000071, Val Loss: 0.000011
+Epoch 00015: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [20/50] - Train Loss: 0.000055, Val Loss: 0.000014
+Epoch 00028: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [30/50] - Train Loss: 0.000042, Val Loss: 0.000018
+Epoch 00034: reducing learning rate of group 0 to 1.2500e-05.
+Epoch 00040: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [40/50] - Train Loss: 0.000044, Val Loss: 0.000007
+Epoch 00046: reducing learning rate of group 0 to 3.1250e-06.
+Epoch [50/50] - Train Loss: 0.000037, Val Loss: 0.000009
+
+  ✓ AAPL complete - 3 models trained
 
 ================================================================================
 [2/9] TRAINING GOOGL
@@ -99,135 +64,113 @@ Features: 35 technical + 7 sentiment
 
   Loading hybrid data for GOOGL...
     Records: 1004
-    Date range: 1970-01-01 00:00:00.000000084 to 1970-01-01 00:00:00.000000196
+    Date range: 2021-01-04 05:00:00 to 2024-12-30 05:00:00
     Technical features: 35
     Sentiment features: 7
 
   Training Early Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000241, Val Loss: 0.000042
+Epoch [20/50] - Train Loss: 0.000163, Val Loss: 0.000004
+Epoch [30/50] - Train Loss: 0.000135, Val Loss: 0.000002
+Epoch 00036: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [40/50] - Train Loss: 0.000112, Val Loss: 0.000001
+Epoch [50/50] - Train Loss: 0.000108, Val Loss: 0.000009
 
-  ✗ Error training GOOGL: 'EarlyFusionTransformer' object has no attribute 'train_model'
+  Training Late Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000048, Val Loss: 0.000002
+Epoch [20/50] - Train Loss: 0.000016, Val Loss: 0.000001
+Epoch [30/50] - Train Loss: 0.000011, Val Loss: 0.000001
+Epoch 00031: reducing learning rate of group 0 to 5.0000e-05.
+Epoch 00037: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [40/50] - Train Loss: 0.000010, Val Loss: 0.000000
+Epoch 00049: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [50/50] - Train Loss: 0.000009, Val Loss: 0.000000
+
+  Training Attention Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000012, Val Loss: 0.000007
+Epoch 00012: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [20/50] - Train Loss: 0.000008, Val Loss: 0.000004
+Using hybrid data file: data_processed/hybrid/hybrid_data_all_stocks_20260113_113028.csv
+================================================================================
+HYBRID MODEL TRAINING - ALL 3 FUSION STRATEGIES
+================================================================================
+
+Models: Early Fusion | Late Fusion | Attention Fusion
+Stocks: 9
+Epochs: 50 per model
+Features: Determined dynamically from data
 
 ================================================================================
-[3/9] TRAINING TSLA
+[1/9] TRAINING AAPL
 ================================================================================
 
-  Loading hybrid data for TSLA...
+  Loading hybrid data for AAPL...
     Records: 1004
-    Date range: 1970-01-01 00:00:00.000000103 to 1970-01-01 00:00:00.000000475
+    Date range: 2021-01-04 05:00:00 to 2024-12-30 05:00:00
     Technical features: 35
     Sentiment features: 7
 
   Training Early Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000039, Val Loss: 0.000014
+Epoch [20/50] - Train Loss: 0.000004, Val Loss: 0.000001
+Epoch 00030: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [30/50] - Train Loss: 0.000003, Val Loss: 0.000001
+Epoch 00036: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [40/50] - Train Loss: 0.000002, Val Loss: 0.000001
+Epoch 00042: reducing learning rate of group 0 to 1.2500e-05.
+Epoch 00048: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [50/50] - Train Loss: 0.000002, Val Loss: 0.000001
 
-  ✗ Error training TSLA: 'EarlyFusionTransformer' object has no attribute 'train_model'
+  Training Late Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000078, Val Loss: 0.000013
+Epoch [20/50] - Train Loss: 0.000031, Val Loss: 0.000001
+Epoch 00026: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [30/50] - Train Loss: 0.000021, Val Loss: 0.000004
+Epoch 00032: reducing learning rate of group 0 to 2.5000e-05.
+Epoch 00038: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [40/50] - Train Loss: 0.000016, Val Loss: 0.000003
+Epoch 00044: reducing learning rate of group 0 to 6.2500e-06.
+Epoch 00050: reducing learning rate of group 0 to 3.1250e-06.
+Epoch [50/50] - Train Loss: 0.000017, Val Loss: 0.000003
+
+  Training Attention Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000049, Val Loss: 0.000009
+Epoch 00018: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [20/50] - Train Loss: 0.000028, Val Loss: 0.000005
+Epoch [30/50] - Train Loss: 0.000020, Val Loss: 0.000004
+Epoch [40/50] - Train Loss: 0.000016, Val Loss: 0.000002
+Epoch [50/50] - Train Loss: 0.000012, Val Loss: 0.000003
+
+  ✓ AAPL complete - 3 models trained
 
 ================================================================================
-[4/9] TRAINING AMZN
+[2/9] TRAINING GOOGL
 ================================================================================
 
-  Loading hybrid data for AMZN...
+  Loading hybrid data for GOOGL...
     Records: 1004
-    Date range: 1970-01-01 00:00:00.000000082 to 1970-01-01 00:00:00.000000232
+    Date range: 2021-01-04 05:00:00 to 2024-12-30 05:00:00
     Technical features: 35
     Sentiment features: 7
 
   Training Early Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000361, Val Loss: 0.000014
+Epoch [20/50] - Train Loss: 0.000254, Val Loss: 0.000003
+Epoch 00027: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [30/50] - Train Loss: 0.000220, Val Loss: 0.000002
+Epoch [40/50] - Train Loss: 0.000184, Val Loss: 0.000001
+Epoch 00048: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [50/50] - Train Loss: 0.000188, Val Loss: 0.000002
 
-  ✗ Error training AMZN: 'EarlyFusionTransformer' object has no attribute 'train_model'
-
-================================================================================
-[5/9] TRAINING MSFT
-================================================================================
-
-  Loading hybrid data for MSFT...
-    Records: 1004
-    Date range: 1970-01-01 00:00:00.000000203 to 1970-01-01 00:00:00.000000461
-    Technical features: 35
-    Sentiment features: 7
-
-  Training Early Fusion Transformer...
-
-  ✗ Error training MSFT: 'EarlyFusionTransformer' object has no attribute 'train_model'
-
-================================================================================
-[6/9] TRAINING RELIANCE.NS
-================================================================================
-
-  Loading hybrid data for RELIANCE.NS...
-    Records: 986
-    Date range: 1970-01-01 00:00:00.000000843 to 1970-01-01 00:00:00.000001592
-    Technical features: 35
-    Sentiment features: 7
-
-  Training Early Fusion Transformer...
-
-  ✗ Error training RELIANCE.NS: 'EarlyFusionTransformer' object has no attribute 'train_model'
-
-================================================================================
-[7/9] TRAINING TCS.NS
-================================================================================
-
-  Loading hybrid data for TCS.NS...
-    Records: 986
-    Date range: 1970-01-01 00:00:00.000002572 to 1970-01-01 00:00:00.000004411
-    Technical features: 35
-    Sentiment features: 7
-
-  Training Early Fusion Transformer...
-
-  ✗ Error training TCS.NS: 'EarlyFusionTransformer' object has no attribute 'train_model'
-
-================================================================================
-[8/9] TRAINING INFY.NS
-================================================================================
-
-  Loading hybrid data for INFY.NS...
-    Records: 986
-    Date range: 1970-01-01 00:00:00.000001100 to 1970-01-01 00:00:00.000001938
-    Technical features: 35
-    Sentiment features: 7
-
-  Training Early Fusion Transformer...
-
-  ✗ Error training INFY.NS: 'EarlyFusionTransformer' object has no attribute 'train_model'
-
-================================================================================
-[9/9] TRAINING CSEALL
-================================================================================
-
-  Loading hybrid data for CSEALL...
-    Records: 259
-    Date range: 1970-01-01 00:00:00.000008917 to 1970-01-01 00:00:00.000025602
-    Technical features: 35
-    Sentiment features: 7
-
-  Training Early Fusion Transformer...
-
-  ✗ Error training CSEALL: 'EarlyFusionTransformer' object has no attribute 'train_model'
-
-================================================================================
-SAVING RESULTS
-================================================================================
-
-✓ Results saved to: results/hybrid_training_results_20260111_115105.csv
-
-Total models trained: 0
-Expected: 27 (9 stocks × 3 models)
-
-================================================================================
-TRAINING SUMMARY
-================================================================================
-
-Average Performance by Model:
-Traceback (most recent call last):
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 256, in <module>
-    main()
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/train_hybrid_models.py", line 248, in main
-    print(results_df.groupby('Model')[['RMSE', 'MAE', 'MAPE']].mean())
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/pandas/core/frame.py", line 8252, in groupby
-    return DataFrameGroupBy(
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/pandas/core/groupby/groupby.py", line 931, in __init__
-    grouper, exclusions, obj = get_grouper(
-  File "/Users/sewminikangara/Documents/Year 04/Research/stock price prediction /stock price prediction/.venv/lib/python3.9/site-packages/pandas/core/groupby/grouper.py", line 985, in get_grouper
-    raise KeyError(gpr)
-KeyError: 'Model'
+  Training Late Fusion Transformer...
+Using device: cpu
+Epoch 00008: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [10/50] - Train Loss: 0.000205, Val Loss: 0.000067
+Epoch 00014: reducing learning rate of group 0 to 2.5000e-05.

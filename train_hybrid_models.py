@@ -19,7 +19,14 @@ from models.transformer_late_fusion import LateFusionPredictor
 from models.transformer_attention_fusion import AttentionFusionPredictor
 
 # Configuration
-HYBRID_DATA_FILE = 'data_processed/hybrid/hybrid_data_all_stocks_20260107_144619.csv'
+# Find the most recent hybrid data file
+import glob
+hybrid_files = glob.glob('data_processed/hybrid/hybrid_data_all_stocks_*.csv')
+if not hybrid_files:
+    raise FileNotFoundError("No hybrid data file found. Run merge_hybrid_data.py first.")
+HYBRID_DATA_FILE = sorted(hybrid_files)[-1]  # Get most recent
+print(f"Using hybrid data file: {HYBRID_DATA_FILE}")
+
 SEQUENCE_LENGTH = 60
 EPOCHS = 50
 BATCH_SIZE = 32
@@ -27,8 +34,8 @@ BATCH_SIZE = 32
 # Stock symbols
 STOCKS = ['AAPL', 'GOOGL', 'TSLA', 'AMZN', 'MSFT', 'RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'CSEALL']
 
-# Feature counts
-TECHNICAL_FEATURES = 35
+# Feature counts (dynamically determined from data)
+TECHNICAL_FEATURES = None  # Will be set from actual data
 SENTIMENT_FEATURES = 7
 
 def prepare_hybrid_data(stock_symbol):
@@ -88,7 +95,9 @@ def prepare_hybrid_data(stock_symbol):
         'X_sent_test': X_sent[train_size+val_size:],
         'y_train': y[:train_size],
         'y_val': y[train_size:train_size+val_size],
-        'y_test': y[train_size+val_size:]
+        'y_test': y[train_size+val_size:],
+        'technical_features': len(technical_cols),
+        'sentiment_features': len(sentiment_cols)
     }
 
 def train_early_fusion(stock, data):
@@ -96,8 +105,8 @@ def train_early_fusion(stock, data):
     print(f"\n  Training Early Fusion Transformer...")
     # Instantiate predictor (trainer wrapper)
     predictor = EarlyFusionPredictor(
-        technical_size=TECHNICAL_FEATURES,
-        sentiment_size=SENTIMENT_FEATURES,
+        technical_size=data['technical_features'],
+        sentiment_size=data['sentiment_features'],
         d_model=128,
         nhead=8,
         num_encoder_layers=3,
@@ -126,8 +135,8 @@ def train_late_fusion(stock, data):
     """Train Late Fusion Transformer"""
     print(f"\n  Training Late Fusion Transformer...")
     predictor = LateFusionPredictor(
-        technical_size=TECHNICAL_FEATURES,
-        sentiment_size=SENTIMENT_FEATURES,
+        technical_size=data['technical_features'],
+        sentiment_size=data['sentiment_features'],
         d_model=128,
         nhead=8,
         num_encoder_layers=3,
@@ -153,8 +162,8 @@ def train_attention_fusion(stock, data):
     """Train Attention Fusion Transformer"""
     print(f"\n  Training Attention Fusion Transformer...")
     predictor = AttentionFusionPredictor(
-        technical_size=TECHNICAL_FEATURES,
-        sentiment_size=SENTIMENT_FEATURES,
+        technical_size=data['technical_features'],
+        sentiment_size=data['sentiment_features'],
         d_model=128,
         nhead=8,
         num_encoder_layers=3,
@@ -183,7 +192,7 @@ def main():
     print(f"\nModels: Early Fusion | Late Fusion | Attention Fusion")
     print(f"Stocks: {len(STOCKS)}")
     print(f"Epochs: {EPOCHS} per model")
-    print(f"Features: {TECHNICAL_FEATURES} technical + {SENTIMENT_FEATURES} sentiment")
+    print(f"Features: Determined dynamically from data")
     
     all_results = []
     

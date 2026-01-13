@@ -1,12 +1,13 @@
 """
 Merge Sentiment Data with Technical Indicators
-Prepare dataset for hybrid model training
+Prepare dataset for hybrid model training with proper normalization
 """
 
 import pandas as pd
 import numpy as np
 from pathlib import Path
 from datetime import datetime
+from sklearn.preprocessing import StandardScaler
 
 def load_and_merge_data():
     """Merge sentiment scores with technical indicators"""
@@ -16,29 +17,36 @@ def load_and_merge_data():
     print("=" * 80)
     
     # Load technical indicators
-    print("\n[1/4] Loading technical indicators...")
-    tech_file = 'data_processed/technical/technical_indicators_all_stocks_20260104_232310.csv'
-    tech_df = pd.read_csv(tech_file, index_col=0)
-    tech_df.index = pd.to_datetime(tech_df.index)
-    tech_df = tech_df.reset_index()
-    tech_df.columns = ['Date'] + list(tech_df.columns[1:])
+    print("\n[1/5] Loading technical indicators...")
+    tech_file = 'data_processed/technical/technical_indicators_all_stocks_with_cse_20260104_232250.csv'
+    tech_df = pd.read_csv(tech_file)
+    
+    # Check if Date is in index or column
+    if 'Date' not in tech_df.columns:
+        tech_df = tech_df.reset_index()
+        if 'index' in tech_df.columns:
+            tech_df = tech_df.rename(columns={'index': 'Date'})
+    
+    # Convert dates and remove timezone for consistency
+    tech_df['Date'] = pd.to_datetime(tech_df['Date'], format='mixed', utc=True).dt.tz_localize(None)
     
     # Rename Ticker to Stock for consistency
     if 'Ticker' in tech_df.columns:
         tech_df = tech_df.rename(columns={'Ticker': 'Stock'})
     
     print(f"  ✓ Loaded {len(tech_df)} technical indicator records")
-    print(f"  Columns: {tech_df.columns.tolist()[:5]}...")
+    print(f"  ✓ Date range: {tech_df['Date'].min().date()} to {tech_df['Date'].max().date()}")
     
     # Load sentiment data
-    print("\n[2/4] Loading sentiment data...")
+    print("\n[2/5] Loading sentiment data...")
     sent_file = 'data_raw/sentiment/sentiment_all_stocks_20260107_133019.csv'
     sent_df = pd.read_csv(sent_file)
-    sent_df['date'] = pd.to_datetime(sent_df['date'])
+    sent_df['date'] = pd.to_datetime(sent_df['date']).dt.tz_localize(None)
     print(f"  ✓ Loaded {len(sent_df)} sentiment records")
+    print(f"  ✓ Date range: {sent_df['date'].min().date()} to {sent_df['date'].max().date()}")
     
     # Merge data
-    print("\n[3/4] Merging datasets...")
+    print("\n[3/5] Merging datasets...")
     merged_data = []
     
     for stock in tech_df['Stock'].unique():
@@ -51,14 +59,20 @@ def load_and_merge_data():
         print(f"    Technical records: {len(stock_tech)}")
         print(f"    Sentiment records: {len(stock_sent)}")
         
-        # Merge on date
+        # Merge on date (convert both to date only for matching)
+        stock_tech['date_only'] = stock_tech['Date'].dt.date
+        stock_sent['date_only'] = stock_sent['date'].dt.date
+        
         merged = pd.merge(
             stock_tech,
             stock_sent,
-            left_on='Date',
-            right_on='date',
+            left_on='date_only',
+            right_on='date_only',
             how='left'
         )
+        
+        # Keep original Date column, drop helper columns
+        merged = merged.drop(columns=['date_only', 'date'], errors='ignore')
         
         # Fill missing sentiment with neutral (0.0)
         merged['sentiment_score'] = merged['sentiment_score'].fillna(0.0)
@@ -76,16 +90,42 @@ def load_and_merge_data():
         merged['sentiment_ma7'] = merged['sentiment_score'].rolling(window=7, min_periods=1).mean()
         merged['sentiment_volatility'] = merged['sentiment_score'].rolling(window=7, min_periods=1).std().fillna(0)
         
+        # Remove any rows with NaN or inf values in technical features
+        numeric_cols = merged.select_dtypes(include=[np.number]).columns
+        merged = merged.replace([np.inf, -np.inf], np.nan)
+        
+        # Fill remaining NaN with forward fill, then backward fill, then 0
+        for col in numeric_cols:
+            if col not in ['Date']:
+                merged[col] = merged[col].ffill().bfill().fillna(0)
+        
         print(f"    Merged records: {len(merged)}")
-        print(f"    Features: Technical({len([c for c in stock_tech.columns if c not in ['Date', 'Stock']])}) + Sentiment(7) = {len([c for c in merged.columns if c not in ['Date', 'Stock', 'stock', 'date', 'source']])}")
+        print(f"    Date range: {merged['Date'].min().date()} to {merged['Date'].max().date()}")
         
         merged_data.append(merged)
     
     # Combine all stocks
     final_df = pd.concat(merged_data, ignore_index=True)
     
+    # Normalize technical and sentiment features (keep Date, Stock, and categorical columns)
+    print("\n[4/5] Normalizing features...")
+    
+    exclude_cols = ['Date', 'Stock', 'stock', 'source', 'sentiment_label', 'confidence']
+    feature_cols = [c for c in final_df.columns if c not in exclude_cols and final_df[c].dtype in ['float64', 'int64']]
+    
+    # Simple normalization using min-max scaling per feature
+    for col in feature_cols:
+        col_min = final_df[col].min()
+        col_max = final_df[col].max()
+        if col_max > col_min:
+            final_df[col] = (final_df[col] - col_min) / (col_max - col_min)
+        else:
+            final_df[col] = 0.0
+    
+    print(f"  ✓ Normalized {len(feature_cols)} features")
+    
     # Save
-    print("\n[4/4] Saving merged dataset...")
+    print("\n[5/5] Saving merged dataset...")
     output_dir = Path('data_processed/hybrid')
     output_dir.mkdir(parents=True, exist_ok=True)
     
