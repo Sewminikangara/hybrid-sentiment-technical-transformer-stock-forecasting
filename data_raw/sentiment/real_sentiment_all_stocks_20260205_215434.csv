@@ -1,0 +1,378 @@
+stock,date,text,source,sentiment_score,sentiment_label,confidence
+AMZN,2021-03-08 21:49:06.688468,"Amazon earnings, Fed commentary, mortgage rates: What to Watch",yahoo_finance,0.1779,positive,0.1779
+CSEALL,2021-03-09 21:54:32.034855,"IFC and Colombo Stock Exchange Ring the Bell to Accelerate Women’s Business Leadership in Sri Lanka, Lauds Increased Board Representation - International Finance Corporation (IFC)",google_news,0.2732,positive,0.2732
+AAPL,2021-03-10 21:45:39.070257,"The Newest Member of the $1 Trillion Club Has Soared 4,755,356% Since Its IPO, and It's Still a Buy Right Now, According to Wall Street (Hint: Not a Tech Stock)",yahoo_finance,0.0,neutral,0.0
+GOOGL,2021-03-19 21:46:03.680714,"Stock market today: S&P 500, Nasdaq fall for 2nd day as tech slides on AI worries with Google earnings ahead",yahoo_finance,-0.4215,negative,0.4215
+MSFT,2021-03-20 21:50:56.690852,"Drop in Microsoft's stock is a buying opportunity, analyst says",yahoo_finance,0.1779,positive,0.1779
+AMZN,2021-03-22 21:49:06.689588,Argus Quick Note: Weekly Stock List for 01/05/2026: Argus' Most-Followed Stocks in 2025,yahoo_finance,0.0,neutral,0.0
+CSEALL,2021-03-28 21:54:32.032719,Most active penny stocks,yahoo_finance,0.4576,positive,0.4576
+GOOGL,2021-04-03 21:46:03.683146,Google operates 'from a position of strength': Earnings takeaways,yahoo_finance,0.4939,positive,0.4939
+AAPL,2021-04-05 21:45:39.069800,Alphabet stock sinks after Google parent announces $180 billion spending plan for 2026 in massive AI bet,yahoo_finance,0.0,neutral,0.0
+MSFT,2021-04-05 21:50:56.690899,Microsoft: The 'question' the company needs to answer,yahoo_finance,0.0,neutral,0.0
+MSFT,2021-04-05 21:50:56.691121,Research Reports: MSFT,yahoo_finance,0.0,neutral,0.0
+MSFT,2021-04-15 21:50:56.691828,Microsoft: Rampant Selloff Case Of Market Disconnect And Irrational 'SaaSapocalypse' Fears - Seeking Alpha,google_news,-0.6369,negative,0.6369
+GOOGL,2021-04-20 21:46:03.682657,What keeps Google's CEO up at night,yahoo_finance,0.0,neutral,0.0
+TSLA,2021-04-21 21:47:07.383870,Tesla Makes China Comeback,yahoo_finance,0.0,neutral,0.0
+AAPL,2021-04-24 21:45:39.072576,Will Apple's Explosive Growth Continue? This Often Overlooked Figure Answers the Question. - The Motley Fool,google_news,-0.1027,negative,0.1027
+MSFT,2021-04-29 21:50:56.694310,"After Earnings, Is Microsoft Stock a Buy, a Sell, or Fairly Valued? - Morningstar",google_news,0.4404,positive,0.4404
+CSEALL,2021-05-03 21:54:32.033714,Colombo Stock Exchange goes live with CCP in Sri Lanka - Securities Finance Times,google_news,0.296,positive,0.296
+AAPL,2021-05-08 21:45:39.072186,Apple Earnings: Prolific Quarter Portends Terrific 2026 Growth,yahoo_finance,0.6908,positive,0.6908
+CSEALL,2021-05-08 21:54:32.033364,Colombo Bourse Halts Trading on Unusual Prices in Debutant Stock - Bloomberg,google_news,0.0,neutral,0.0
+CSEALL,2021-05-08 21:54:32.038001,Sri Lanka CSE cancels all morning deals on Wealth Trust error trade - EconomyNext,google_news,0.4404,positive,0.4404
+AAPL,2021-05-15 21:45:39.071840,Company Insights: AAPL,yahoo_finance,0.0,neutral,0.0
+MSFT,2021-05-16 21:50:56.690974,Performance Overview: MSFT,yahoo_finance,0.0,neutral,0.0
+GOOGL,2021-05-20 21:46:03.687700,Google Earnings: What The Buy Side Expects From Cloud Computing Business - Investor's Business Daily,google_news,0.0,neutral,0.0
+INFY.NS,2021-05-21 21:53:27.320127,"Infosys and Wipro ADRs crash 3%-5%, Expert predicts trillion dollar wipeout - The Financial Express",google_news,-0.4019,negative,0.4019
+AAPL,2021-05-29 21:45:39.068776,Most active penny stocks,yahoo_finance,0.4576,positive,0.4576
+CSEALL,2021-06-02 21:54:32.036787,"Sri Lanka stocks close up, pushed by positive results - EconomyNext",google_news,0.5574,positive,0.5574
+GOOGL,2021-06-07 21:46:03.678674,Market Domination Overtime,yahoo_finance,-0.0516,negative,0.0516
+TSLA,2021-06-11 21:47:07.380756,Stocks in Translation,yahoo_finance,0.0,neutral,0.0
+TSLA,2021-06-12 21:47:07.388388,"Triglav Investments D.O.O. Purchases 2,520 Shares of Tesla, Inc. $TSLA - MarketBeat",google_news,0.296,positive,0.296
+GOOGL,2021-06-16 21:46:03.679696,"Stock market today: Dow, S&P 500, Nasdaq futures mixed after Wall Street's tech sell-off deepens",yahoo_finance,0.0,neutral,0.0
+MSFT,2021-06-29 21:50:56.693040,"With Shares Down 10% After Its Earnings Call, Is Microsoft a Buy? - The Motley Fool",google_news,-0.1779,negative,0.1779
+MSFT,2021-07-06 21:50:56.689228,AMD stock plummets despite Q4 earnings beat,yahoo_finance,0.0,neutral,0.0
+GOOGL,2021-07-08 21:46:03.683842,Global Stocks Were Leaders in 2025,yahoo_finance,0.0,neutral,0.0
+TSLA,2021-07-13 21:47:07.387295,Tesla stock drops nearly 4% as Volkswagen takes Europe EV crown and tech selloff bites - TechStock²,google_news,0.0,neutral,0.0
+GOOGL,2021-07-16 21:46:03.678778,Stocks in Translation,yahoo_finance,0.0,neutral,0.0
+AAPL,2021-07-17 21:45:39.070709,Apple Becomes Apple Again,yahoo_finance,0.0,neutral,0.0
+AMZN,2021-07-21 21:49:06.686801,"Stock market today: S&P 500, Nasdaq fall for 2nd day as tech slides on AI worries with Google earnings ahead",yahoo_finance,-0.4215,negative,0.4215
+TSLA,2021-07-23 21:47:07.384564,Earnings Trends: TSLA,yahoo_finance,0.0,neutral,0.0
+MSFT,2021-07-24 21:50:56.693414,Microsoft stock is flat the day after sinking 10%. Here's why - CNBC,google_news,0.0,neutral,0.0
+GOOGL,2021-07-31 21:46:03.687887,Google to Double Spending as Earnings Beat Wall Street Expectations - The Wall Street Journal,google_news,0.0,neutral,0.0
+AAPL,2021-08-05 21:45:39.075354,Apple stock rises as it bucks tech selloff amid AI disruption fears - Investing.com,google_news,-0.6486,negative,0.6486
+INFY.NS,2021-08-13 21:53:27.316891,"Infosys shares post worst day in six years! Market cap plunges by ₹56,000 crore; here is why - Upstox",google_news,-0.4926,negative,0.4926
+TSLA,2021-08-17 21:47:07.381446,Electric car market goes into reverse amid pay-per-mile tax threat,yahoo_finance,-0.5267,negative,0.5267
+MSFT,2021-08-22 21:50:56.692307,Shorting Microsoft Puts Looks Very Attractive to Value Investors in MSFT Stock - Barchart.com,google_news,0.7056,positive,0.7056
+INFY.NS,2021-08-26 21:53:27.319812,Infosys Stock (+10%): Up-Revised Guidance & AI Narrative Fuel Rally - Trefis,google_news,0.0,neutral,0.0
+MSFT,2021-09-02 21:50:56.687534,Most active penny stocks,yahoo_finance,0.4576,positive,0.4576
+GOOGL,2021-09-12 21:46:03.688656,Google earnings preview: What this analyst expects from Gemini - Yahoo Finance,google_news,0.0,neutral,0.0
+CSEALL,2021-09-16 21:54:32.037648,"IFC, Colombo Stock Exchange and Global Partners Ring the Bell for Gender Equality, Signaling the Urgent Need to Increase Women’s Corporate Leadership in Sri Lanka - International Finance Corporation (IFC)",google_news,0.4767,positive,0.4767
+MSFT,2021-09-17 21:50:56.688886,Stocks in Translation,yahoo_finance,0.0,neutral,0.0
+GOOGL,2021-09-23 21:46:03.687037,"Stock market today: S&P 500, Nasdaq fall for 2nd day as tech slides on AI worries with Google earnings ahead - Yahoo Finance",google_news,-0.4215,negative,0.4215
+TSLA,2021-09-23 21:47:07.385541,"After Earnings, Is Tesla Stock a Buy, a Sell, or Fairly Valued? - Morningstar",google_news,0.4404,positive,0.4404
+AMZN,2021-09-30 21:49:06.688663,Earnings Trends: AMZN,yahoo_finance,0.0,neutral,0.0
+MSFT,2021-10-07 21:50:56.689630,"Microsoft downgraded, Snap upgraded: Wall Street's top analyst calls",yahoo_finance,0.2023,positive,0.2023
+TSLA,2021-10-11 21:47:07.387679,"SpaceX and xAI Will Merge, but We Don’t Rule Out Eventual Consolidation with Tesla - Morningstar Canada",google_news,0.0,neutral,0.0
+GOOGL,2021-10-13 21:46:03.686540,Alphabet's earnings feature big cloud growth and big spending. What Wall Street has to say. - MarketWatch,google_news,0.3818,positive,0.3818
+GOOGL,2021-10-17 21:46:03.679971,What Google's CEO thinks of the future for software companies,yahoo_finance,0.0,neutral,0.0
+TSLA,2021-10-19 21:47:07.385818,Tesla Profit Forecasts Slashed Amid Musk's Spending Spree - Investor's Business Daily,google_news,0.25,positive,0.25
+AAPL,2021-10-21 21:45:39.069194,Market Domination Overtime,yahoo_finance,-0.0516,negative,0.0516
+AMZN,2021-11-13 21:49:06.685573,"Earnings live: Qualcomm stock dives as memory chip shortage weighs on outlook, Alphabet slides, Peloton falls",yahoo_finance,-0.25,negative,0.25
+AAPL,2021-11-19 21:45:39.072854,Apple Stock Could Surge to $300: Here’s What Needs to Happen - 24/7 Wall St.,google_news,0.0,neutral,0.0
+AMZN,2021-11-21 21:49:06.688612,Performance Overview: AMZN,yahoo_finance,0.0,neutral,0.0
+AAPL,2021-11-22 21:45:39.069249,Stocks in Translation,yahoo_finance,0.0,neutral,0.0
+TSLA,2021-11-29 21:47:07.387584,ChatGPT Thinks Tesla Stock Will Close At This Price In The Next 60 Days - Yahoo Finance,google_news,0.0,neutral,0.0
+AAPL,2021-12-01 21:45:39.071335,Apple: Could the memory chip shortage raise iPhone prices?,yahoo_finance,-0.25,negative,0.25
+AAPL,2021-12-02 21:45:39.076175,Is It Time to Take a Bite Out of Apple's Stock as Revenue Growth Accelerates? - The Motley Fool,google_news,-0.0772,negative,0.0772
+AAPL,2021-12-05 21:45:39.071878,Research Reports: AAPL,yahoo_finance,0.0,neutral,0.0
+INFY.NS,2021-12-09 21:53:27.317584,"Anthropic’s new AI tool sends shivers through the tech world, Infosys, TCS shares fall sharply - The Indian Express",google_news,0.296,positive,0.296
+GOOGL,2021-12-11 21:46:03.681141,Stocks in retreat as traders reconsider tech investment,yahoo_finance,0.2023,positive,0.2023
+TSLA,2021-12-11 21:47:07.384533,Performance Overview: TSLA,yahoo_finance,0.0,neutral,0.0
+INFY.NS,2021-12-17 21:53:27.318488,"Infosys, Wipro, TCS and other IT stocks tumble up to 8%. Here’s why - The Economic Times",google_news,0.0,neutral,0.0
+AAPL,2021-12-29 21:45:39.069976,Is Applied Optoelectronics (AAOI) Outperforming Other Computer and Technology Stocks This Year?,yahoo_finance,0.0,neutral,0.0
+AAPL,2021-12-30 21:45:39.074827,"Stock Market Today, Feb. 2: Apple Stock Jumps After Record Q1 Revenue Boosts Investor Confidence - The Motley Fool",google_news,0.4019,positive,0.4019
+AAPL,2022-01-05 21:45:39.072782,Apple: The Pros And Cons Of Investing Right Now - Downgrading To Hold - Seeking Alpha,google_news,0.0,neutral,0.0
+GOOGL,2022-01-11 21:46:03.685206,Alphabet and discouraging data on the US job market drag Wall Street lower - The Press Democrat,google_news,-0.7184,negative,0.7184
+INFY.NS,2022-01-14 21:53:27.315327,Infosys Extends 5‑Day Slide as Global Tech Sell-Off Deepens - HDFC Sky,google_news,0.128,positive,0.128
+TSLA,2022-01-17 21:47:07.380239,Stocks in Translation,yahoo_finance,0.0,neutral,0.0
+GOOGL,2022-01-20 21:46:03.686168,Google goes from laggard to leader as it pulls ahead of OpenAI with stellar AI growth By Reuters - Investing.com,google_news,0.3818,positive,0.3818
+MSFT,2022-01-20 21:50:56.691355,Microsoft Earnings: Good Quarter With AI Demand Ramping and Azure Good; Guidance In Line,yahoo_finance,0.6486,positive,0.6486
+AMZN,2022-02-06 21:49:06.687967,"Oppenheimer Raises Amazon.com, Inc. (AMZN) Target as AWS Momentum and Margin Expansion Accelerate",yahoo_finance,0.0,neutral,0.0
+TSLA,2022-02-13 21:47:07.386513,Should You Buy Tesla Stock After the SpaceX-xAI Merger? - Yahoo Finance,google_news,0.0,neutral,0.0
+AMZN,2022-02-14 21:49:06.685001,"Stock market today: Dow, S&P 500, Nasdaq sink as sell-off builds while silver, bitcoin plunge",yahoo_finance,0.0,neutral,0.0
+MSFT,2022-02-14 21:50:56.691064,MSFT Microsoft Corporation,yahoo_finance,0.0,neutral,0.0
+TSLA,2022-02-18 21:47:07.382008,"Backed by OpenAI, Tesla, and SpaceX Investors, Midas Is Building Mathematical Infrastructure to Secure AI Systems",yahoo_finance,0.3612,positive,0.3612
+MSFT,2022-02-22 21:50:56.690943,Microsoft: The 'question' the company needs to answer,yahoo_finance,0.0,neutral,0.0
+AAPL,2022-02-25 21:45:39.075518,Apple Inc. $AAPL Shares Sold by St. Johns Investment Management Company LLC - MarketBeat,google_news,0.296,positive,0.296
+AAPL,2022-03-01 21:45:39.069707,Alphabet stock sinks after Google parent announces $180 billion spending plan for 2026 in massive AI bet,yahoo_finance,0.0,neutral,0.0
+GOOGL,2022-03-08 21:46:03.679028,Most active penny stocks,yahoo_finance,0.4576,positive,0.4576
+GOOGL,2022-03-17 21:46:03.682203,Why Piper Sandler Says Google’s Project Genie Isn’t a Threat to AppLovin (APP),yahoo_finance,-0.5267,negative,0.5267
+GOOGL,2022-03-22 21:46:03.687273,"Alphabet says capital spending in 2026 could double, cloud business booms By Reuters - Investing.com",google_news,0.0,neutral,0.0
+AAPL,2022-03-27 21:45:39.072714,Apple Stock Investors Just Got Fantastic News From Tim Cook - Yahoo Finance,google_news,0.5574,positive,0.5574
+AAPL,2022-04-07 21:45:39.074327,Forget AI Start-Ups: This Trillion‑Dollar Tech Titan Is Emerging as a Dark Horse in the AI Race - The Motley Fool,google_news,-0.5859,negative,0.5859
+TSLA,2022-04-14 21:47:07.387205,Is Tesla Stock a Buy? Here's the Good News and the Bad News. - Nasdaq,google_news,-0.1531,negative,0.1531
+AAPL,2022-04-17 21:45:39.076538,Apple Inc. $AAPL is Janney Montgomery Scott LLC's Largest Position - MarketBeat,google_news,0.0,neutral,0.0
+MSFT,2022-04-18 21:50:56.688736,Most active penny stocks,yahoo_finance,0.4576,positive,0.4576
+MSFT,2022-04-18 21:50:56.693857,Microsoft stock plunges as Wall Street questions AI investments - Al Jazeera,google_news,0.0,neutral,0.0
+INFY.NS,2022-04-26 21:53:27.319738,"IT Stocks Plunge: LTIMindtree, Infosys Down 7% - Rediff MoneyWiz",google_news,0.0,neutral,0.0
+INFY.NS,2022-04-29 21:53:27.317851,Infosys’s stock suddenly surges 50% — then cools off. Inside Wall Street’s big Friday mystery. - MarketWatch,google_news,0.0,neutral,0.0
+TSLA,2022-05-05 21:47:07.380355,Prediction markets   NEW,yahoo_finance,0.0,neutral,0.0
+GOOGL,2022-05-10 21:46:03.679222,Market Domination Overtime,yahoo_finance,-0.0516,negative,0.0516
+GOOGL,2022-05-15 21:46:03.681587,"Alphabet (GOOGL) Execution Across AI, Ads, and Cloud Lifts Bernstein Outlook",yahoo_finance,0.0,neutral,0.0
+MSFT,2022-05-21 21:50:56.694788,"Markets Brief: Microsoft Stock Under Pressure, Pharma Earnings and Jobs Report on Deck - Morningstar Canada",google_news,-0.296,negative,0.296
+GOOGL,2022-05-24 21:46:03.684104,GOOGL Alphabet Inc. 333.04 -6.67 (-1.96%),yahoo_finance,0.0,neutral,0.0
+TSLA,2022-05-31 21:47:07.384667,Research Reports: TSLA,yahoo_finance,0.0,neutral,0.0
+AAPL,2022-06-22 21:45:39.074978,Apple Becomes Apple Again - AOL.com,google_news,0.0,neutral,0.0
+CSEALL,2022-06-26 21:54:32.034144,"Sri Lankan shares rise as consumer discretionary, financials stocks gain - Business Recorder",google_news,0.6808,positive,0.6808
+CSEALL,2022-07-06 21:54:32.035098,Market panic deepens as Sri Lankan stocks tumble to worst week since 2022 - Tamil Guardian,google_news,-0.8126,negative,0.8126
+MSFT,2022-07-09 21:50:56.689411,"Memory company stocks are seeing 1,000% gains from the AI boom",yahoo_finance,0.34,positive,0.34
+CSEALL,2022-07-10 21:54:32.031949,Most active penny stocks,yahoo_finance,0.4576,positive,0.4576
+MSFT,2022-07-13 21:50:56.694503,"Dow drops 215 points on losses for shares of Amazon.com Inc., Microsoft - MSN",google_news,-0.128,negative,0.128
+TSLA,2022-07-22 21:47:07.387887,"Tesla, Inc. $TSLA Shares Purchased by HighPoint Advisor Group LLC - MarketBeat",google_news,0.296,positive,0.296
+AMZN,2022-07-29 21:49:06.687735,Amazon Vows to 'Vigorously Challenge' German Regulator's 'Profit Disgorgement' Demand,yahoo_finance,0.5994,positive,0.5994
+CSEALL,2022-08-08 21:54:32.036667,"Sri Lankan shares end lower, snap four-week winning streak - Business Recorder",google_news,0.5267,positive,0.5267
+AMZN,2022-08-10 21:49:06.684461,Prediction markets   NEW,yahoo_finance,0.0,neutral,0.0
+TSLA,2022-08-12 21:47:07.381019,TSLA: Risk or rebound?,yahoo_finance,-0.2732,negative,0.2732
+GOOGL,2022-08-14 21:46:03.679532,"Stock market today: Dow, S&P 500, Nasdaq futures mixed after Wall Street's tech sell-off deepens",yahoo_finance,0.0,neutral,0.0
+CSEALL,2022-08-20 21:54:32.032918,Market Domination Overtime,yahoo_finance,-0.0516,negative,0.0516
+GOOGL,2022-08-21 21:46:03.683366,Google operates 'from a position of strength': Earnings takeaways,yahoo_finance,0.4939,positive,0.4939
+GOOGL,2022-09-06 21:46:03.686879,"Stock market today: S&P 500, Nasdaq edge up after tech sell-off with Google's AI push in focus - Yahoo Finance",google_news,0.0,neutral,0.0
+GOOGL,2022-09-14 21:46:03.679848,What Google's CEO thinks of the future for software companies,yahoo_finance,0.0,neutral,0.0
+CSEALL,2022-09-14 21:54:32.034313,Sri Lanka’s Market Slides After Cyclone Disrupts The Nation - Finimize,google_news,0.0,neutral,0.0
+TSLA,2022-09-18 21:47:07.384498,This Stock Could Be the First Big Winner of the Robotaxi Race,yahoo_finance,0.5859,positive,0.5859
+TSLA,2022-09-30 21:47:07.383824,Tesla Makes China Comeback,yahoo_finance,0.0,neutral,0.0
+AAPL,2022-10-05 21:45:39.075844,Is Apple Still a Good Growth Stock to Own in 2026? - The Motley Fool,google_news,0.3818,positive,0.3818
+AMZN,2022-10-06 21:49:06.688556,"Amazon earnings, Fed commentary, mortgage rates: What to Watch",yahoo_finance,0.1779,positive,0.1779
+CSEALL,2022-10-06 21:54:32.035629,"Sri Lankan market hits record high, stocks soar as officials woo UAE investors - Gulf News",google_news,0.4767,positive,0.4767
+AAPL,2022-10-07 21:45:39.074930,Apple stock price hovers near $276 as AI spending jitters hit tech; key dates ahead for AAPL - TechStock²,google_news,0.0,neutral,0.0
+GOOGL,2022-10-23 21:46:03.688185,"Stock market today: Dow jumps, S&P 500, Nasdaq fall with AI worries in focus ahead of Google earnings - Yahoo Finance UK",google_news,-0.4215,negative,0.4215
+AAPL,2022-10-24 21:45:39.070124,"The Newest Member of the $1 Trillion Club Has Soared 4,755,356% Since Its IPO, and It's Still a Buy Right Now, According to Wall Street (Hint: Not a Tech Stock)",yahoo_finance,0.0,neutral,0.0
+GOOGL,2022-11-16 21:46:03.682553,Related Videos: GOOGL,yahoo_finance,0.0,neutral,0.0
+TSLA,2022-11-18 21:47:07.386666,Tesla’s stock falls as bleak new sales figures signal more pain for beleaguered EV business - MarketWatch,google_news,-0.5563,negative,0.5563
+GOOGL,2022-11-20 21:46:03.687622,"Wall Street falls on third day of losses as big tech continues to decline, traders digest more jobs data - Seeking Alpha",google_news,-0.4019,negative,0.4019
+AMZN,2022-11-28 21:49:06.686496,"Amazon to report Q4 earnings with capex, AI growth in focus",yahoo_finance,0.5106,positive,0.5106
+AAPL,2022-12-02 21:45:39.070625,"Investment Manager Sheds $5.2 Million Worth of JD Shares, According to Latest Filing",yahoo_finance,0.4767,positive,0.4767
+MSFT,2022-12-02 21:50:56.693597,"Microsoft Shares Plunge 10%, Wiping Out Nearly $360 Billion in Market Value - Investopedia",google_news,0.5574,positive,0.5574
+TSLA,2022-12-14 21:47:07.386447,Tesla Begins 2026 With Solid China EV Sales As Musk Appears To Shift Focus - Investor's Business Daily,google_news,0.1531,positive,0.1531
+TSLA,2022-12-21 21:47:07.388525,"Tesla, Inc. $TSLA Position Boosted by SBI Securities Co. Ltd. - MarketBeat",google_news,0.5719,positive,0.5719
+AAPL,2022-12-31 21:45:39.071122,"Apple stock gains amid tech sell-off, Yum! Brands' mixed Q4 results",yahoo_finance,0.4003,positive,0.4003
+INFY.NS,2023-01-06 21:53:27.319308,Infosys Faces Steepest Decline in Over Two Years Amid AI Tool Uncertainty - The Bridge Chronicle,google_news,-0.34,negative,0.34
+MSFT,2023-01-08 21:50:56.688496,Stocks in Translation,yahoo_finance,0.0,neutral,0.0
+TSLA,2023-01-10 21:47:07.388071,"Tesla, Inc. $TSLA Shares Sold by BI Asset Management Fondsmaeglerselskab A S - MarketBeat",google_news,0.5719,positive,0.5719
+INFY.NS,2023-01-14 21:53:27.318202,"India secures 18% tariff deal with US: Infosys, Wipro stocks surge in US market - Times of India",google_news,0.3182,positive,0.3182
+CSEALL,2023-01-20 21:54:32.035496,Sri Lanka stock market closes cancelling all trades after error trade - EconomyNext,google_news,-0.5423,negative,0.5423
+AAPL,2023-01-26 21:45:39.069897,Is Applied Optoelectronics (AAOI) Outperforming Other Computer and Technology Stocks This Year?,yahoo_finance,0.0,neutral,0.0
+TSLA,2023-01-27 21:47:07.384597,Analyst Insights: TSLA,yahoo_finance,0.0,neutral,0.0
+AMZN,2023-02-04 21:49:06.686319,"Amazon to report Q4 earnings with capex, AI growth in focus",yahoo_finance,0.5106,positive,0.5106
+TSLA,2023-02-10 21:47:07.384908,The major U.S. stock indices are lower at midday on Friday. Earnings news,yahoo_finance,-0.296,negative,0.296
+CSEALL,2023-02-22 21:54:32.036496,Sri Lanka’s Stock Market Rebounds As Investors Watch Interest Rates - Finimize,google_news,0.4588,positive,0.4588
+CSEALL,2023-02-23 21:54:32.033209,Prediction markets are now on Yahoo Finance   Go to hub,yahoo_finance,0.0,neutral,0.0
+INFY.NS,2023-03-11 21:53:27.320001,"Infosys, TCS, Wipro: IT stocks nosedive after slump in US tech stocks; NIFTY IT tanks 6%. Here is what happened overnight - Upstox",google_news,0.5319,positive,0.5319
+TSLA,2023-03-13 21:47:07.382292,"Backed by OpenAI, Tesla, and SpaceX Investors, Midas Is Building Mathematical Infrastructure to Secure AI Systems",yahoo_finance,0.3612,positive,0.3612
+AMZN,2023-03-17 21:49:06.688823,Company Insights: AMZN,yahoo_finance,0.0,neutral,0.0
+TSLA,2023-04-02 21:47:07.388657,"Titleist Asset Management LLC Sells 1,239 Shares of Tesla, Inc. $TSLA - MarketBeat",google_news,0.5719,positive,0.5719
+GOOGL,2023-04-03 21:46:03.687467,Stock Futures Rise as Market Digests Google AI Spending Surge - Barron's,google_news,0.0,neutral,0.0
+MSFT,2023-04-13 21:50:56.689861,Amazon Cloud Sales in Focus After Microsoft’s $500 Billion Rout,yahoo_finance,0.1779,positive,0.1779
+MSFT,2023-04-13 21:50:56.692870,"Microsoft: At $430/Share, It’s Time To Be Greedy (Rating Upgrade) (NASDAQ:MSFT) - Seeking Alpha",google_news,-0.3182,negative,0.3182
+AMZN,2023-04-16 21:49:06.688717,Analyst Insights: AMZN,yahoo_finance,0.0,neutral,0.0
+AAPL,2023-04-22 21:45:39.075417,ChatGPT Thinks Apple Stock Will Close At This Price In The Next 60 Days - Yahoo Finance,google_news,0.0,neutral,0.0
+CSEALL,2023-04-25 21:54:32.035830,“US Authorities to Launch Investigation Into Pre-2019 Colombo Stock Exchange Transactions” - LankaeNews,google_news,0.0,neutral,0.0
+MSFT,2023-05-01 21:50:56.688787,Best money market accounts,yahoo_finance,0.6369,positive,0.6369
+AAPL,2023-05-03 21:45:39.076290,Apple Inc. $AAPL Shares Purchased by S Bank Fund Management Ltd - MarketBeat,google_news,0.296,positive,0.296
+INFY.NS,2023-05-04 21:53:27.318760,"Infosys, Wipro shares in focus as US-listed ADRs extend losses, down over 3%. What’s happening? - The Economic Times",google_news,0.0516,positive,0.0516
+AMZN,2023-05-07 21:49:06.689476,"Tuesday was the third straight day when alpha came in the form of ""smaller"" technology stocks as well as a broad spectrum of mid- and small-cap issues.",yahoo_finance,0.4588,positive,0.4588
+MSFT,2023-05-09 21:50:56.689715,"Microsoft downgraded, Snap upgraded: Wall Street's top analyst calls",yahoo_finance,0.2023,positive,0.2023
+CSEALL,2023-05-10 21:54:32.037250,CSE cancels all equity trading conducted before today’s market halt - Ada Derana,google_news,-0.2263,negative,0.2263
+MSFT,2023-05-17 21:50:56.689274,AMD stock plummets despite Q4 earnings beat,yahoo_finance,0.0,neutral,0.0
+TSLA,2023-06-11 21:47:07.384214,"Cathie Wood Pours Millions Into AMD, Tesla on Dip Buying Spree",yahoo_finance,0.0,neutral,0.0
+AMZN,2023-06-11 21:49:06.684641,Market Domination Overtime,yahoo_finance,-0.0516,negative,0.0516
+AAPL,2023-06-14 21:45:39.069484,Market Domination Overtime,yahoo_finance,-0.0516,negative,0.0516
+CSEALL,2023-06-16 21:54:32.036369,Sri Lanka stock market trading halted on Wealth Trust error trade - EconomyNext,google_news,0.5859,positive,0.5859
+GOOGL,2023-06-25 21:46:03.685715,"Stock market today: S&P 500, Nasdaq poised to add to tech sell-off as Google sinks, Amazon looms, silver tanks - Yahoo Finance UK",google_news,0.2732,positive,0.2732
+TSLA,2023-07-03 21:47:07.381142,"More about Tesla, Inc.",yahoo_finance,0.0,neutral,0.0
+CSEALL,2023-07-05 21:54:32.037159,"Unrealistic Orders, Unusual Prices: Why the Colombo Bourse Pulled the Plug Today - Newsfirst.",google_news,0.0,neutral,0.0
+CSEALL,2023-07-08 21:54:32.035973,Phoenix rising: How Colombo Stock Exchange symbolises nation’s remarkable resurrection - Daily FT,google_news,0.5574,positive,0.5574
+GOOGL,2023-07-09 21:46:03.683996,Argus Quick Note: Weekly Stock List for 01/05/2026: Argus' Most-Followed Stocks in 2025,yahoo_finance,0.0,neutral,0.0
+GOOGL,2023-07-15 21:46:03.683447,Performance Overview: GOOGL,yahoo_finance,0.0,neutral,0.0
+MSFT,2023-07-26 21:50:56.691093,Company Insights: MSFT,yahoo_finance,0.0,neutral,0.0
+GOOGL,2023-07-27 21:46:03.687402,Alphabet ramping up CapEx is proof of the demand for AI - Yahoo Finance,google_news,-0.128,negative,0.128
+CSEALL,2023-08-08 21:54:32.036166,"Sri Lankan shares end lower as financial, industrial stocks drag - Business Recorder",google_news,-0.2263,negative,0.2263
+AAPL,2023-08-22 21:45:39.069065,Best money market accounts,yahoo_finance,0.6369,positive,0.6369
+TSLA,2023-08-23 21:47:07.386106,Dow Jones Futures Rise As Santa Joins Rally In 2026; Big Tesla News Due - Investor's Business Daily,google_news,0.0,neutral,0.0
+GOOGL,2023-08-24 21:46:03.678914,Prediction markets   NEW,yahoo_finance,0.0,neutral,0.0
+TSLA,2023-08-24 21:47:07.380907,TSLA: Risk or rebound?,yahoo_finance,-0.2732,negative,0.2732
+MSFT,2023-08-28 21:50:56.693658,Goldman Sachs revamps Microsoft stock price target before earnings - thestreet.com,google_news,0.0,neutral,0.0
+MSFT,2023-09-03 21:50:56.690347,"Investment Manager Sheds $5.2 Million Worth of JD Shares, According to Latest Filing",yahoo_finance,0.4767,positive,0.4767
+AAPL,2023-09-08 21:45:39.073947,"If You'd Invested $1,000 in Apple 5 Years Ago, Here's How Much You'd Have Today - The Motley Fool",google_news,-0.4404,negative,0.4404
+GOOGL,2023-09-12 21:46:03.686401,"Alphabet: Solid Results, Stock Down. Another Gift From The Market (NASDAQ:GOOGL) - Seeking Alpha",google_news,0.5423,positive,0.5423
+AAPL,2023-09-14 21:45:39.071574,Apple-Google partnership should 'de-risk' AI for iPhone maker,yahoo_finance,0.0,neutral,0.0
+TSLA,2023-09-14 21:47:07.387773,"Tesla Stock Falls As The Market Mulls Tesla's Shift To 'Transportation-As-A-Service,' Massive Capital Spending - Investor's Business Daily",google_news,0.0,neutral,0.0
+TSLA,2023-09-14 21:47:07.388725,"ABN AMRO Bank N.V. Invests $5.60 Million in Tesla, Inc. $TSLA - MarketBeat",google_news,0.0,neutral,0.0
+MSFT,2023-09-14 21:50:56.688947,More about Microsoft Corporation,yahoo_finance,0.0,neutral,0.0
+AMZN,2023-09-22 21:49:06.684048,Most active penny stocks,yahoo_finance,0.4576,positive,0.4576
+GOOGL,2023-09-23 21:46:03.681451,"Alphabet (GOOGL) Execution Across AI, Ads, and Cloud Lifts Bernstein Outlook",yahoo_finance,0.0,neutral,0.0
+CSEALL,2023-09-27 21:54:32.037080,Sri Lanka stocks end 0.14-pct lower after reaching intraday high - EconomyNext,google_news,-0.1027,negative,0.1027
+INFY.NS,2023-10-02 21:53:27.317387,"Wipro, Infosys ADR Drops After Anthropic's Move Into Legal, Data Services - NDTV Profit",google_news,0.5267,positive,0.5267
+TSLA,2023-10-14 21:47:07.384373,This Stock Could Be the First Big Winner of the Robotaxi Race,yahoo_finance,0.5859,positive,0.5859
+MSFT,2023-10-22 21:50:56.691659,What Wall Street Thinks Microsoft Will Be Worth 1 Year From Now. Here's Why It Matters. - Yahoo Finance,google_news,0.25,positive,0.25
+AAPL,2023-10-29 21:45:39.070461,"Investment Manager Sheds $5.2 Million Worth of JD Shares, According to Latest Filing",yahoo_finance,0.4767,positive,0.4767
+GOOGL,2023-10-30 21:46:03.684559,Stock Market Today: Nasdaq Leads Stocks Down Again; Alphabet Cuts Losses After Earnings News (Live Coverage) - Investor's Business Daily,google_news,-0.5994,negative,0.5994
+INFY.NS,2023-10-30 21:53:27.315748,Infosys Share Price Live Updates: Infosys's beta reflects cautious market behavior - The Economic Times,google_news,0.2023,positive,0.2023
+AAPL,2023-10-31 21:45:39.072915,"Honeywell, These Stocks Led The Dow In January - Investor's Business Daily",google_news,0.0,neutral,0.0
+AAPL,2023-11-02 21:45:39.071801,Analyst Insights: AAPL,yahoo_finance,0.0,neutral,0.0
+CSEALL,2023-11-06 21:54:32.038503,Sri Lanka stocks drop 1.47-pct as profit taking continues - EconomyNext,google_news,0.2023,positive,0.2023
+GOOGL,2023-11-07 21:46:03.686787,"Software stocks struggle, Google's AI spending, layoffs surge and more in Morning Squawk - CNBC",google_news,-0.3182,negative,0.3182
+MSFT,2023-11-07 21:50:56.690464,"Investment Manager Sheds $5.2 Million Worth of JD Shares, According to Latest Filing",yahoo_finance,0.4767,positive,0.4767
+INFY.NS,2023-11-13 21:53:27.317050,"Infosys, TCS to HCL Tech: IT stocks crash up to 6% — What's behind the selloff? - Mint",google_news,-0.4019,negative,0.4019
+INFY.NS,2023-11-27 21:53:27.319534,"Infosys, HCLTech Lead IT Selloff As Anthropic AI Shock Deepens; Jefferies Warns Of More Downside - News18",google_news,-0.6478,negative,0.6478
+GOOGL,2023-11-28 21:46:03.688425,Google's (GOOGL.US) heavy investment in AI has weighed on its own stock price but ignited the semiconductor ecosystem: Are NVIDIA (NVDA.US) and Broadcom (AVGO.US) the biggest beneficiaries? - 富途牛牛,google_news,0.5719,positive,0.5719
+AMZN,2023-11-29 21:49:06.687467,Amazon Vows to 'Vigorously Challenge' German Regulator's 'Profit Disgorgement' Demand,yahoo_finance,0.5994,positive,0.5994
+AMZN,2023-11-30 21:49:06.685903,"Earnings live: Qualcomm stock dives as memory chip shortage weighs on outlook, Alphabet slides, Peloton falls",yahoo_finance,-0.25,negative,0.25
+TSLA,2023-12-07 21:47:07.388270,Tesla (TSLA) Stock: Price Falls 3.8% as Cathie Wood Buys the Dip - CoinCentral,google_news,0.0,neutral,0.0
+MSFT,2023-12-20 21:50:56.693803,"Stock Market News for Jan. 29, 2026: Microsoft Leads Tech Selloff; Nasdaq Drops - The Wall Street Journal",google_news,0.0,neutral,0.0
+AMZN,2023-12-22 21:49:06.687028,"Stock market today: S&P 500, Nasdaq fall for 2nd day as tech slides on AI worries with Google earnings ahead",yahoo_finance,-0.4215,negative,0.4215
+CSEALL,2023-12-25 21:54:32.038277,Stock market turnover tops Rs. 8 b - The Morning,google_news,0.5106,positive,0.5106
+CSEALL,2023-12-28 21:54:32.037373,Stock Exchange: CSE records 5.25% growth in January - The Morning,google_news,0.3818,positive,0.3818
+GOOGL,2024-01-05 21:46:03.682781,What Google's CEO thinks of the future for software companies,yahoo_finance,0.0,neutral,0.0
+MSFT,2024-01-05 21:50:56.692371,ChatGPT Thinks Microsoft Stock Will Close At This Price In The Next 60 Days - Benzinga,google_news,0.0,neutral,0.0
+AAPL,2024-01-09 21:45:39.074146,Is Apple Still a Good Growth Stock to Own in 2026? - Yahoo Finance,google_news,0.6705,positive,0.6705
+MSFT,2024-01-20 21:50:56.692546,"Billionaire Stanley Druckenmiller Sells Microsoft Stock and Buys an AI Stock Up 243,600% Since Its IPO - The Motley Fool",google_news,-0.4404,negative,0.4404
+TSLA,2024-01-21 21:47:07.386009,Veteran fund manager George Noble says Tesla is the 'biggest stock market bubble of all time' - Business Insider,google_news,0.4588,positive,0.4588
+MSFT,2024-01-25 21:50:56.694574,"Microsoft stock flips higher after Stifel downgrade puts Azure, AI spend back in focus - TechStock²",google_news,0.0,neutral,0.0
+MSFT,2024-02-16 21:50:56.692422,3 Reasons to Buy the Dip on Microsoft Stock - Yahoo Finance,google_news,0.0,neutral,0.0
+AAPL,2024-02-23 21:45:39.073029,ChatGPT Thinks Apple Stock Will Close At This Price In The Next 60 Days - Benzinga,google_news,0.0,neutral,0.0
+AMZN,2024-02-24 21:49:06.684585,Best money market accounts,yahoo_finance,0.6369,positive,0.6369
+MSFT,2024-03-01 21:50:56.690564,Software stocks take hit on AI. Is Wall Street worried of a bubble?,yahoo_finance,-0.296,negative,0.296
+MSFT,2024-03-04 21:50:56.692160,"Markets Brief: What’s Clipping Microsoft Stock, Pharma Earnings and Jobs Report on Deck - Morningstar",google_news,0.0,neutral,0.0
+AAPL,2024-03-13 21:45:39.073306,Apple Stock Investors Just Got Fantastic News From Tim Cook - The Motley Fool,google_news,0.1779,positive,0.1779
+AMZN,2024-03-19 21:49:06.684797,"More about Amazon.com, Inc.",yahoo_finance,0.0,neutral,0.0
+MSFT,2024-03-28 21:50:56.689153,Alphabet stock sinks after Google parent announces $180 billion spending plan for 2026 in massive AI bet,yahoo_finance,0.0,neutral,0.0
+AMZN,2024-04-01 21:49:06.688174,Amazon Cloud Sales in Focus After Microsoft’s $500 Billion Rout,yahoo_finance,0.1779,positive,0.1779
+AAPL,2024-04-03 21:45:39.071723,Performance Overview: AAPL,yahoo_finance,0.0,neutral,0.0
+AAPL,2024-04-11 21:45:39.072001,"Major stocks indices were a mixed bag on Thursday, as individual stocks drove",yahoo_finance,0.0,neutral,0.0
+GOOGL,2024-04-15 21:46:03.680840,Google earnings preview:  What this analyst expects from Gemini,yahoo_finance,0.0,neutral,0.0
+TSLA,2024-04-22 21:47:07.380676,Market Domination Overtime,yahoo_finance,-0.0516,negative,0.0516
+MSFT,2024-05-07 21:50:56.694212,Microsoft lost $357 billion in market cap as stock plunged most since 2020 - CNBC,google_news,-0.3182,negative,0.3182
+MSFT,2024-05-13 21:50:56.694115,"S&P 500 closes lower as Microsoft tanks, software shares slide: Live updates - CNBC",google_news,0.0,neutral,0.0
+INFY.NS,2024-05-15 21:53:27.320212,"Infosys, TCS, other IT stocks plunge up to 6% after tech selloff led by Anthropic's AI tool - TradingView",google_news,0.0,neutral,0.0
+AAPL,2024-05-26 21:45:39.075160,How investors should play Apple stock as it looks to break 7-week losing streak - CNBC,google_news,-0.0516,negative,0.0516
+TSLA,2024-05-26 21:47:07.382864,Tesla Stock Falls. Play the Odds of Musk Merging It With SpaceX.,yahoo_finance,0.34,positive,0.34
+CSEALL,2024-06-03 21:54:32.038161,"Sri Lanka stocks drop 3.04-pct after Cyclone Ditwah, construction stocks gain - EconomyNext",google_news,0.3182,positive,0.3182
+INFY.NS,2024-06-04 21:53:27.316504,"Infosys, HCLTech, other IT stocks extend decline led by Anthropic's AI tool; Jefferies sees 'more pain... - Moneycontrol",google_news,-0.4391,negative,0.4391
+AAPL,2024-06-06 21:45:39.071924,"Small-Caps, Emerging Markets Lead",yahoo_finance,0.0,neutral,0.0
+AAPL,2024-06-12 21:45:39.076599,Goldman Sachs reiterates Buy rating on Apple stock with $330 price target - Investing.com,google_news,0.0,neutral,0.0
+AMZN,2024-06-26 21:49:06.684536,Most active penny stocks,yahoo_finance,0.4576,positive,0.4576
+GOOGL,2024-06-29 21:46:03.683523,Earnings Trends: GOOGL,yahoo_finance,0.0,neutral,0.0
+GOOGL,2024-06-30 21:46:03.684697,Alphabet 2026 spending forecast soars past Wall Street expectations as Google parent goes all in on AI - Yahoo Finance,google_news,0.0,neutral,0.0
+INFY.NS,2024-06-30 21:53:27.316263,"Infosys Stock Suffers Biggest Drop in Six Years as Market Cap Tumbles ₹56,000 Crore - Meyka",google_news,-0.6369,negative,0.6369
+TSLA,2024-07-10 21:47:07.387014,"Portside Wealth Group LLC Purchases 1,543 Shares of Tesla, Inc. $TSLA - MarketBeat",google_news,0.6597,positive,0.6597
+GOOGL,2024-07-12 21:46:03.684995,Google Needed to Calm AI Fears. What the Stock Market Got Instead. - Barron's,google_news,-0.128,negative,0.128
+INFY.NS,2024-07-23 21:53:27.316670,"Infosys, TCS sink up to 8%: Why are IT stocks falling today? - India Today",google_news,-0.1531,negative,0.1531
+TSLA,2024-07-26 21:47:07.385691,Why Elon Musk’s xAI mega-merger could hurt the SpaceX stock market launch - the-independent.com,google_news,-0.5267,negative,0.5267
+CSEALL,2024-07-26 21:54:32.032998,Stocks in Translation,yahoo_finance,0.0,neutral,0.0
+GOOGL,2024-07-30 21:46:03.687193,"Stock market today: Dow rallies, while S&P 500, Nasdaq fall with AI worries in focus ahead of Google earnings - Yahoo Finance",google_news,-0.4215,negative,0.4215
+AMZN,2024-07-30 21:49:06.688361,Why Amazon is this analyst's 'top pick' this year,yahoo_finance,0.3612,positive,0.3612
+MSFT,2024-08-01 21:50:56.688845,Market Domination Overtime,yahoo_finance,-0.0516,negative,0.0516
+MSFT,2024-08-08 21:50:56.692665,Microsoft Is Tanking. What's Behind the Decline? - The Motley Fool,google_news,-0.4404,negative,0.4404
+AAPL,2024-08-11 21:45:39.071219,"Apple stock gains amid tech sell-off, Yum! Brands' mixed Q4 results",yahoo_finance,0.4003,positive,0.4003
+TSLA,2024-08-12 21:47:07.386801,'Muskonomy' shakeup: SpaceX valuation approaches Tesla's after merger with xAI - CNBC,google_news,-0.1531,negative,0.1531
+AAPL,2024-08-13 21:45:39.075921,Nordea Investment Management AB Has $5.43 Billion Stock Holdings in Apple Inc. $AAPL - MarketBeat,google_news,0.0,neutral,0.0
+MSFT,2024-08-23 21:50:56.688631,Prediction markets   NEW,yahoo_finance,0.0,neutral,0.0
+MSFT,2024-08-29 21:50:56.690765,"Drop in Microsoft's stock is a buying opportunity, analyst says",yahoo_finance,0.1779,positive,0.1779
+MSFT,2024-08-31 21:50:56.687803,Best money market accounts,yahoo_finance,0.6369,positive,0.6369
+GOOGL,2024-09-04 21:46:03.683599,Analyst Insights: GOOGL,yahoo_finance,0.0,neutral,0.0
+TSLA,2024-09-10 21:47:07.384761,"Tesla: SpaceX and xAI Will Merge, but We Don't Rule Out Eventual Consolidation With Tesla",yahoo_finance,0.0,neutral,0.0
+GOOGL,2024-09-28 21:46:03.680404,"Stock market today: S&P 500, Nasdaq fall for 2nd day as tech slides on AI worries with Google earnings ahead",yahoo_finance,-0.4215,negative,0.4215
+AMZN,2024-10-08 21:49:06.688079,Amazon Cloud Sales in Focus After Microsoft’s $500 Billion Rout,yahoo_finance,0.1779,positive,0.1779
+MSFT,2024-10-08 21:50:56.693731,Microsoft’s stock may be ‘dead money’ even after historic $357 billion market-cap wipeout - MarketWatch,google_news,0.0,neutral,0.0
+AMZN,2024-10-24 21:49:06.687860,"Oppenheimer Raises Amazon.com, Inc. (AMZN) Target as AWS Momentum and Margin Expansion Accelerate",yahoo_finance,0.0,neutral,0.0
+AMZN,2024-10-27 21:49:06.688770,"AMZN Amazon.com, Inc.",yahoo_finance,0.0,neutral,0.0
+MSFT,2024-11-04 21:50:56.693355,"AI is a planet-sized bubble — and Microsoft's slump is a taste of the crash to come, tech guru Erik Gordon says - Business Insider",google_news,-0.4019,negative,0.4019
+AAPL,2024-11-07 21:45:39.071006,"If You Invested $1000 in Apple a Decade Ago, This is How Much It'd Be Worth Now",yahoo_finance,0.2263,positive,0.2263
+GOOGL,2024-11-08 21:46:03.686010,Alphabet Stock Falls After Google's Parent Outlines AI Capex Boost - The Wall Street Journal,google_news,0.4019,positive,0.4019
+TSLA,2024-11-10 21:47:07.383145,Cathie Wood’s ARK Funds Buy the AMD Stock Drop,yahoo_finance,-0.2732,negative,0.2732
+GOOGL,2024-11-11 21:46:03.682461,Google-parent Alphabet says capital spending to soar on AI drive,yahoo_finance,0.0,neutral,0.0
+TSLA,2024-11-11 21:47:07.384058,BYD Moves To World Seventh Largest Country As Tesla Sales Slow,yahoo_finance,0.0,neutral,0.0
+AAPL,2024-11-15 21:45:39.069313,Prediction markets   NEW,yahoo_finance,0.0,neutral,0.0
+GOOGL,2024-11-15 21:46:03.685432,"Stock market today: S&P 500, Nasdaq sink, adding to tech sell-off after jobs data as Google slides, Amazon looms - Yahoo Finance",google_news,0.0258,neutral,0.0258
+GOOGL,2024-11-16 21:46:03.685881,"Stock market today: S&P 500, Nasdaq fall for 2nd day as tech slides on AI worries with Google earnings ahead - Yahoo! Finance Canada",google_news,-0.4753,negative,0.4753
+AMZN,2024-11-25 21:49:06.684681,Stocks in Translation,yahoo_finance,0.0,neutral,0.0
+TSLA,2024-12-03 21:47:07.387501,What Wall Street Thinks Tesla Will Be Worth by End of 2026. 1 Reason It Might Be Right - The Motley Fool,google_news,-0.25,negative,0.25
+MSFT,2024-12-13 21:50:56.689073,Alphabet stock sinks after Google parent announces $180 billion spending plan for 2026 in massive AI bet,yahoo_finance,0.0,neutral,0.0
+INFY.NS,2024-12-14 21:53:27.318295,Infosys Share Price Highlights: Infosys Stock Price History - The Economic Times,google_news,0.296,positive,0.296
+TSLA,2024-12-16 21:47:07.386865,"Tesla (TSLA) stock analysis: Buy, Sell, or Hold in 2026? - Finbold",google_news,0.0,neutral,0.0
+GOOGL,2025-01-04 21:46:03.688589,"Google parent beats on revenue, projects significant AI spending increase - CNBC",google_news,0.4767,positive,0.4767
+MSFT,2025-01-04 21:50:56.691178,"Major stocks indices were a mixed bag on Thursday, as individual stocks drove",yahoo_finance,0.0,neutral,0.0
+AAPL,2025-01-06 21:45:39.076482,"Apple stock price today: AAPL slides as tech dips, India tax win and chip-cost jump loom - TechStock²",google_news,0.4404,positive,0.4404
+MSFT,2025-01-09 21:50:56.693187,Microsoft Stock May Face Hurdles as Copilot Adoption Slips to 11.5% & Competition Intensifies - TipRanks,google_news,0.0,neutral,0.0
+INFY.NS,2025-01-15 21:53:27.317991,Why Anthropic's New AI Tool Dragged Down Indian IT Stocks - NDTV,google_news,-0.0516,negative,0.0516
+GOOGL,2025-01-19 21:46:03.678250,Most active penny stocks,yahoo_finance,0.4576,positive,0.4576
+AMZN,2025-01-20 21:49:06.684909,"Stock market today: Dow, S&P 500, Nasdaq sink as sell-off builds while silver, bitcoin plunge",yahoo_finance,0.0,neutral,0.0
+MSFT,2025-01-22 21:50:56.691003,Earnings Trends: MSFT,yahoo_finance,0.0,neutral,0.0
+CSEALL,2025-01-30 21:54:32.036931,Sri Lankan benchmark ends marginally lower as financials drag - Business Recorder,google_news,-0.4228,negative,0.4228
+MSFT,2025-02-04 21:50:56.691033,Analyst Insights: MSFT,yahoo_finance,0.0,neutral,0.0
+AAPL,2025-02-06 21:45:39.075665,Apple Inc. $AAPL Shares Sold by GRIMES & Co WEALTH MANAGEMENT LLC - MarketBeat,google_news,0.5267,positive,0.5267
+TSLA,2025-02-07 21:47:07.383958,BYD Moves To World Seventh Largest Country As Tesla Sales Slow,yahoo_finance,0.0,neutral,0.0
+INFY.NS,2025-02-08 21:53:27.316037,"Indian IT stocks crash: Infosys, TCS, Wipro down up to 7% - why launch of new AI tool by US startup Anthr - Times of India",google_news,-0.4019,negative,0.4019
+INFY.NS,2025-02-09 21:53:27.318987,Infosys Ltd Sees Robust Trading Activity Amid Institutional Interest and Upgraded Outlook - Markets Mojo,google_news,0.6597,positive,0.6597
+CSEALL,2025-02-27 21:54:32.035186,Heavy Trading at CSE Pushes Turnover to Rs. 11.11 Billion - Adaderana Biz English,google_news,0.0,neutral,0.0
+AAPL,2025-03-06 21:45:39.071679,Apple-Google partnership should 'de-risk' AI for iPhone maker,yahoo_finance,0.0,neutral,0.0
+AAPL,2025-03-08 21:45:39.075990,Hardman Johnston Global Advisors LLC Reduces Holdings in Apple Inc. $AAPL - MarketBeat,google_news,0.0,neutral,0.0
+CSEALL,2025-03-08 21:54:32.038364,5 Best Stock Brokers in Sri Lanka for 2025: Local & Global Picks - Benzinga,google_news,0.6369,positive,0.6369
+MSFT,2025-03-23 21:50:56.690197,"Cloud Security Posture Management Company Analysis 2025: Aqua Security, CrowdStrike, Fortinet, Microsoft, Orca, Palo Alto Networks, Qualys, SentinelOne, Sysdig, Tenable, Trend Micro, Upwind, Wiz",yahoo_finance,0.5859,positive,0.5859
+INFY.NS,2025-03-25 21:53:27.319677,BMO Capital raises Infosys stock price target to $20 on solid quarter - Investing.com,google_news,0.1531,positive,0.1531
+CSEALL,2025-04-05 21:54:32.035299,ESG News Recap: Sri Lanka Boosts Sustainable Finance - Impakter,google_news,0.3182,positive,0.3182
+AAPL,2025-04-07 21:45:39.069578,More about Apple Inc.,yahoo_finance,0.0,neutral,0.0
+TSLA,2025-04-11 21:47:07.383485,"Energy Storage System (ESS) Research Report 2025: A $376.75 Billion Market by 2029, Driven by Renewable Expansion, EV Adoption, and Rising Energy Investment Accelerate Demand",yahoo_finance,0.4019,positive,0.4019
+CSEALL,2025-04-11 21:54:32.032807,Best money market accounts,yahoo_finance,0.6369,positive,0.6369
+AAPL,2025-04-17 21:45:39.069429,Best money market accounts,yahoo_finance,0.6369,positive,0.6369
+AMZN,2025-04-17 21:49:06.684398,Stocks in Translation,yahoo_finance,0.0,neutral,0.0
+AAPL,2025-04-22 21:45:39.071495,Apple: Could the memory chip shortage raise iPhone prices?,yahoo_finance,-0.25,negative,0.25
+INFY.NS,2025-04-22 21:53:27.318075,"Stock Market Today, Dec. 19: NYSE Halts Infosys Trading After ADRs Spike - Nasdaq",google_news,0.0,neutral,0.0
+TSLA,2025-04-23 21:47:07.379747,Most active penny stocks,yahoo_finance,0.4576,positive,0.4576
+TSLA,2025-04-23 21:47:07.384635,Company Insights: TSLA,yahoo_finance,0.0,neutral,0.0
+TSLA,2025-04-24 21:47:07.385185,'Growing Chance' Of Tesla Merger To Create Musk Trinity With SpaceX And xAI - Investor's Business Daily,google_news,0.5859,positive,0.5859
+AAPL,2025-04-27 21:45:39.070668,Apple Becomes Apple Again,yahoo_finance,0.0,neutral,0.0
+GOOGL,2025-04-30 21:46:03.684807,"Stock market today: Dow, S&P 500, Nasdaq sink as sell-off builds while silver, bitcoin plunge - Yahoo Finance",google_news,0.0,neutral,0.0
+TSLA,2025-05-08 21:47:07.384139,"Cathie Wood Pours Millions Into AMD, Tesla on Dip Buying Spree",yahoo_finance,0.0,neutral,0.0
+TSLA,2025-05-08 21:47:07.386715,Tesla Makes China Comeback - 24/7 Wall St.,google_news,0.0,neutral,0.0
+GOOGL,2025-05-10 21:46:03.681302,Stocks in retreat as traders reconsider tech investment,yahoo_finance,0.2023,positive,0.2023
+AAPL,2025-05-12 21:45:39.071762,Earnings Trends: AAPL,yahoo_finance,0.0,neutral,0.0
+TSLA,2025-05-12 21:47:07.388198,Should You Buy Tesla Stock Before Jan. 28? - The Motley Fool,google_news,-0.4404,negative,0.4404
+AAPL,2025-05-25 21:45:39.073615,1 Reason to Buy Apple Stock Right Now - The Motley Fool,google_news,-0.4404,negative,0.4404
+TSLA,2025-05-25 21:47:07.386297,"Tesla Stock 2026 Forecast: Analysts Claim the ‘Car Business Is Falling Apart,’ Others Say Its the Biggest Leader ‘in Physical AI’ - TipRanks",google_news,-0.1531,negative,0.1531
+MSFT,2025-05-27 21:50:56.689808,Amazon Cloud Sales in Focus After Microsoft’s $500 Billion Rout,yahoo_finance,0.1779,positive,0.1779
+AMZN,2025-06-02 21:49:06.689069,Amazon Earnings: AWS Acceleration Leads the Way in Overall Good Results,yahoo_finance,0.5574,positive,0.5574
+INFY.NS,2025-06-04 21:53:27.317177,Infosys stock sinks 7% as Anthropic AI tools spook India’s IT exporters — what investors watch next - TechStock²,google_news,0.0,neutral,0.0
+TSLA,2025-06-21 21:47:07.380565,Best money market accounts,yahoo_finance,0.6369,positive,0.6369
+TSLA,2025-06-26 21:47:07.381672,Electric car market goes into reverse amid pay-per-mile tax threat,yahoo_finance,-0.5267,negative,0.5267
+GOOGL,2025-06-29 21:46:03.683748,Research Reports: GOOGL,yahoo_finance,0.0,neutral,0.0
+TSLA,2025-07-20 21:47:07.379957,Best money market accounts,yahoo_finance,0.6369,positive,0.6369
+MSFT,2025-07-25 21:50:56.694669,Microsoft Stock on the Edge: 3 Threats You Need to Know - Trefis,google_news,-0.4215,negative,0.4215
+AMZN,2025-07-27 21:49:06.684338,Market Domination Overtime,yahoo_finance,-0.0516,negative,0.0516
+CSEALL,2025-07-28 21:54:32.032463,Stocks in Translation,yahoo_finance,0.0,neutral,0.0
+TSLA,2025-07-30 21:47:07.380139,Market Domination Overtime,yahoo_finance,-0.0516,negative,0.0516
+CSEALL,2025-08-01 21:54:32.032189,Best money market accounts,yahoo_finance,0.6369,positive,0.6369
+CSEALL,2025-08-04 21:54:32.032600,Prediction markets   NEW,yahoo_finance,0.0,neutral,0.0
+GOOGL,2025-08-13 21:46:03.682902,What Google's CEO thinks of the future for software companies,yahoo_finance,0.0,neutral,0.0
+AAPL,2025-08-20 21:45:39.069525,Stocks in Translation,yahoo_finance,0.0,neutral,0.0
+AMZN,2025-08-21 21:49:06.688878,Research Reports: AMZN,yahoo_finance,0.0,neutral,0.0
+GOOGL,2025-08-24 21:46:03.681937,Why Piper Sandler Says Google’s Project Genie Isn’t a Threat to AppLovin (APP),yahoo_finance,-0.5267,negative,0.5267
+AAPL,2025-08-27 21:45:39.075223,Apple Inc. $AAPL Position Decreased by PKO Investment Management Joint Stock Co - MarketBeat,google_news,0.0,neutral,0.0
+TSLA,2025-08-27 21:47:07.382649,Tesla Stock Falls. Play the Odds of Musk Merging It With SpaceX.,yahoo_finance,0.34,positive,0.34
+TSLA,2025-08-27 21:47:07.383771,"Energy Storage System (ESS) Research Report 2025: A $376.75 Billion Market by 2029, Driven by Renewable Expansion, EV Adoption, and Rising Energy Investment Accelerate Demand",yahoo_finance,0.4019,positive,0.4019
+GOOGL,2025-08-28 21:46:03.678471,Best money market accounts,yahoo_finance,0.6369,positive,0.6369
+CSEALL,2025-08-29 21:54:32.032364,Market Domination Overtime,yahoo_finance,-0.0516,negative,0.0516
+AAPL,2025-08-31 21:45:39.069377,Most active penny stocks,yahoo_finance,0.4576,positive,0.4576
+AAPL,2025-09-19 21:45:39.070861,"If You Invested $1000 in Apple a Decade Ago, This is How Much It'd Be Worth Now",yahoo_finance,0.2263,positive,0.2263
+GOOGL,2025-09-19 21:46:03.686675,"Dow Jones Futures Fall, Bitcoin Dives Below $70,000; Google AI Spending Stuns - Investor's Business Daily",google_news,0.0258,neutral,0.0258
+AMZN,2025-09-21 21:49:06.684216,Best money market accounts,yahoo_finance,0.6369,positive,0.6369
+GOOGL,2025-10-03 21:46:03.682336,Google-parent Alphabet says capital spending to soar on AI drive,yahoo_finance,0.0,neutral,0.0
+MSFT,2025-10-05 21:50:56.694374,"Microsoft Plunges 14% Post Q2 Earnings: Buy, Sell or Hold the Stock? - Zacks Investment Research",google_news,0.0,neutral,0.0
+GOOGL,2025-10-09 21:46:03.683674,Company Insights: GOOGL,yahoo_finance,0.0,neutral,0.0
+GOOGL,2025-10-11 21:46:03.679297,Stocks in Translation,yahoo_finance,0.0,neutral,0.0
+INFY.NS,2025-10-13 21:53:27.317744,"Stock Market Today, Dec. 19: NYSE Halts Infosys Trading After ADRs Spike - The Motley Fool",google_news,-0.4404,negative,0.4404
+TSLA,2025-10-14 21:47:07.385405,"Here's Why I'm Still Not Buying Tesla Stock, Despite It Falling 9% This Year - The Motley Fool",google_news,-0.3519,negative,0.3519
+INFY.NS,2025-10-17 21:53:27.319149,IT shares in focus as ADRs slide overnight; why are tech stocks falling? - Business Standard,google_news,0.1531,positive,0.1531
+GOOGL,2025-10-23 21:46:03.687812,Google operates 'from a position of strength': Earnings takeaways - Yahoo Finance,google_news,0.4939,positive,0.4939
+GOOGL,2025-10-31 21:46:03.688030,"Stock Market Today: Dow, Nasdaq, S&P 500 Open Down; Alphabet, AMD, Nvidia, Amazon, More Movers; Bitcoin Drops - Barron's",google_news,0.1779,positive,0.1779
+CSEALL,2025-11-17 21:54:32.035744,Sri Lanka’s Stock Market Bounces Back After Cyclone Shock - Finimize,google_news,-0.3818,negative,0.3818
+MSFT,2025-11-28 21:50:56.688347,Market Domination Overtime,yahoo_finance,-0.0516,negative,0.0516
+GOOGL,2025-12-01 21:46:03.679115,Best money market accounts,yahoo_finance,0.6369,positive,0.6369
+TSLA,2025-12-02 21:47:07.380472,Most active penny stocks,yahoo_finance,0.4576,positive,0.4576
+MSFT,2025-12-06 21:50:56.689520,"Memory company stocks are seeing 1,000% gains from the AI boom",yahoo_finance,0.34,positive,0.34
+GOOGL,2025-12-12 21:46:03.680959,Google earnings preview:  What this analyst expects from Gemini,yahoo_finance,0.0,neutral,0.0
+MSFT,2025-12-12 21:50:56.691902,Microsoft stock price slips early: MSFT hit by Azure glitches as OpenAI spreads across clouds - TechStock²,google_news,0.0,neutral,0.0
+TSLA,2025-12-13 21:47:07.383019,Cathie Wood’s ARK Funds Buy the AMD Stock Drop,yahoo_finance,-0.2732,negative,0.2732
+TSLA,2025-12-13 21:47:07.385010,Tesla: Shares Rise on Media Report of Potential Merger With SpaceX,yahoo_finance,0.296,positive,0.296
+MSFT,2025-12-23 21:50:56.693979,"Stock market today: S&P 500, Nasdaq fall as Microsoft leads tech lower with Apple earnings on deck - Yahoo Finance",google_news,-0.296,negative,0.296
+AAPL,2025-12-27 21:45:39.074568,"Stock Market Today, Feb. 2: Apple Stock Jumps After Record Q1 Revenue Boosts Investor Confidence - Yahoo Finance",google_news,0.6808,positive,0.6808
+MSFT,2025-12-28 21:50:56.692047,‘This is Absurd’: Top Investor Positively Bullish on Microsoft Stock - TipRanks,google_news,0.6369,positive,0.6369
+MSFT,2025-12-30 21:50:56.690660,Software stocks take hit on AI. Is Wall Street worried of a bubble?,yahoo_finance,-0.296,negative,0.296
+AAPL,2026-01-03 21:45:39.072966,Apple stock price swing with $143B record revenue - thestreet.com,google_news,0.0,neutral,0.0
+GOOGL,2026-01-05 21:46:03.686231,5 Things to Know Before the Stock Market Opens - Investopedia,google_news,0.0,neutral,0.0
+TSLA,2026-01-07 21:47:07.388868,Tesla Stock: A 5.1/10 Rating -- What Does It Mean for Investors? - The Motley Fool,google_news,-0.4404,negative,0.4404
+MSFT,2026-01-19 21:50:56.691467,History Says Now Is the Time to Load Up on Microsoft Stock - The Motley Fool,google_news,-0.4404,negative,0.4404
+INFY.NS,2026-01-19 21:53:27.318396,"Infosys, TCS, other IT stocks plunge up to 8% after global tech selloff led by Anthropic's AI tool - Moneycontrol",google_news,0.0,neutral,0.0
+MSFT,2026-01-31 21:50:56.690044,"Cloud Security Posture Management Company Analysis 2025: Aqua Security, CrowdStrike, Fortinet, Microsoft, Orca, Palo Alto Networks, Qualys, SentinelOne, Sysdig, Tenable, Trend Micro, Upwind, Wiz",yahoo_finance,0.5859,positive,0.5859
+CSEALL,2026-01-31 21:54:32.037780,"Sri Lankan shares end higher as financials, industrials gain - Reuters",google_news,0.6808,positive,0.6808
