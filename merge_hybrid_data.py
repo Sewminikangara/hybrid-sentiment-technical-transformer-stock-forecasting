@@ -37,12 +37,13 @@ def load_and_merge_data():
     print(f"  ✓ Loaded {len(tech_df)} technical indicator records")
     print(f"  ✓ Date range: {tech_df['Date'].min().date()} to {tech_df['Date'].max().date()}")
     
-    # Load sentiment data
-    print("\n[2/5] Loading sentiment data...")
-    sent_file = 'data_raw/sentiment/sentiment_all_stocks_20260107_133019.csv'
+    # Load sentiment data (REAL sentiment from Yahoo Finance + Google News)
+    print("\n[2/5] Loading REAL sentiment data...")
+    sent_file = 'data_raw/sentiment/real_sentiment_all_stocks_20260205_215434.csv'
     sent_df = pd.read_csv(sent_file)
     sent_df['date'] = pd.to_datetime(sent_df['date']).dt.tz_localize(None)
-    print(f"  ✓ Loaded {len(sent_df)} sentiment records")
+    print(f"  ✓ Loaded {len(sent_df)} REAL sentiment records")
+    print(f"  ✓ Sources: Yahoo Finance + Google News")
     print(f"  ✓ Date range: {sent_df['date'].min().date()} to {sent_df['date'].max().date()}")
     
     # Merge data
@@ -71,8 +72,8 @@ def load_and_merge_data():
             how='left'
         )
         
-        # Keep original Date column, drop helper columns
-        merged = merged.drop(columns=['date_only', 'date'], errors='ignore')
+        # Keep original Date column, drop helper columns and text column
+        merged = merged.drop(columns=['date_only', 'date', 'text', 'source'], errors='ignore')
         
         # Fill missing sentiment with neutral (0.0)
         merged['sentiment_score'] = merged['sentiment_score'].fillna(0.0)

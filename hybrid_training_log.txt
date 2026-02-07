@@ -186,3 +186,399 @@ Epoch [50/50] - Train Loss: 0.000145, Val Loss: 0.000050
 
   Training Attention Fusion Transformer...
 Using device: cpu
+Epoch [10/50] - Train Loss: 0.000035, Val Loss: 0.000009
+Epoch [20/50] - Train Loss: 0.000020, Val Loss: 0.000006
+Epoch [30/50] - Train Loss: 0.000014, Val Loss: 0.000005
+Epoch 00032: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [40/50] - Train Loss: 0.000012, Val Loss: 0.000004
+Epoch 00041: reducing learning rate of group 0 to 2.5000e-05.
+Epoch 00047: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [50/50] - Train Loss: 0.000012, Val Loss: 0.000002
+
+  ✓ GOOGL complete - 3 models trained
+
+================================================================================
+[3/9] TRAINING TSLA
+================================================================================
+
+  Loading hybrid data for TSLA...
+    Records: 1004
+    Date range: 2021-01-04 05:00:00 to 2024-12-30 05:00:00
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000237, Val Loss: 0.000015
+Epoch [20/50] - Train Loss: 0.000186, Val Loss: 0.000023
+Epoch 00022: reducing learning rate of group 0 to 5.0000e-05.
+Epoch 00030: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [30/50] - Train Loss: 0.000148, Val Loss: 0.000005
+Epoch 00036: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [40/50] - Train Loss: 0.000151, Val Loss: 0.000005
+Epoch 00042: reducing learning rate of group 0 to 6.2500e-06.
+Epoch 00048: reducing learning rate of group 0 to 3.1250e-06.
+Epoch [50/50] - Train Loss: 0.000150, Val Loss: 0.000003
+
+  Training Late Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000030, Val Loss: 0.000005
+Epoch [20/50] - Train Loss: 0.000019, Val Loss: 0.000002
+Epoch [30/50] - Train Loss: 0.000015, Val Loss: 0.000002
+Epoch 00034: reducing learning rate of group 0 to 5.0000e-05.
+Epoch 00040: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [40/50] - Train Loss: 0.000013, Val Loss: 0.000002
+Epoch 00046: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [50/50] - Train Loss: 0.000012, Val Loss: 0.000002
+
+  Training Attention Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000012, Val Loss: 0.000007
+Epoch [20/50] - Train Loss: 0.000006, Val Loss: 0.000006
+Epoch 00022: reducing learning rate of group 0 to 5.0000e-05.
+Epoch 00028: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [30/50] - Train Loss: 0.000006, Val Loss: 0.000006
+Epoch 00034: reducing learning rate of group 0 to 1.2500e-05.
+Epoch 00040: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [40/50] - Train Loss: 0.000005, Val Loss: 0.000005
+Epoch 00046: reducing learning rate of group 0 to 3.1250e-06.
+Epoch [50/50] - Train Loss: 0.000005, Val Loss: 0.000005
+
+  ✓ TSLA complete - 3 models trained
+
+================================================================================
+[4/9] TRAINING AMZN
+================================================================================
+
+  Loading hybrid data for AMZN...
+    Records: 1004
+    Date range: 2021-01-04 05:00:00 to 2024-12-30 05:00:00
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000070, Val Loss: 0.000008
+Epoch [20/50] - Train Loss: 0.000035, Val Loss: 0.000002
+Epoch [30/50] - Train Loss: 0.000020, Val Loss: 0.000001
+Epoch [40/50] - Train Loss: 0.000017, Val Loss: 0.000001
+Epoch 00044: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [50/50] - Train Loss: 0.000010, Val Loss: 0.000001
+
+  Training Late Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000159, Val Loss: 0.000136
+Epoch 00019: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [20/50] - Train Loss: 0.000099, Val Loss: 0.000082
+Epoch 00025: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [30/50] - Train Loss: 0.000096, Val Loss: 0.000104
+Epoch 00031: reducing learning rate of group 0 to 1.2500e-05.
+Epoch 00037: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [40/50] - Train Loss: 0.000084, Val Loss: 0.000104
+Epoch 00043: reducing learning rate of group 0 to 3.1250e-06.
+Epoch 00049: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [50/50] - Train Loss: 0.000093, Val Loss: 0.000096
+
+  Training Attention Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000205, Val Loss: 0.000004
+Epoch 00012: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [20/50] - Train Loss: 0.000176, Val Loss: 0.000005
+Epoch 00030: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [30/50] - Train Loss: 0.000136, Val Loss: 0.000026
+Epoch 00036: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [40/50] - Train Loss: 0.000152, Val Loss: 0.000009
+Epoch 00042: reducing learning rate of group 0 to 6.2500e-06.
+Epoch 00048: reducing learning rate of group 0 to 3.1250e-06.
+Epoch [50/50] - Train Loss: 0.000152, Val Loss: 0.000003
+
+  ✓ AMZN complete - 3 models trained
+
+================================================================================
+[5/9] TRAINING MSFT
+================================================================================
+
+  Loading hybrid data for MSFT...
+    Records: 1004
+    Date range: 2021-01-04 05:00:00 to 2024-12-30 05:00:00
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000174, Val Loss: 0.000069
+Epoch 00018: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [20/50] - Train Loss: 0.000097, Val Loss: 0.000025
+Epoch 00026: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [30/50] - Train Loss: 0.000082, Val Loss: 0.000040
+Epoch 00032: reducing learning rate of group 0 to 1.2500e-05.
+Epoch 00038: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [40/50] - Train Loss: 0.000070, Val Loss: 0.000046
+Epoch 00044: reducing learning rate of group 0 to 3.1250e-06.
+Epoch 00050: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [50/50] - Train Loss: 0.000076, Val Loss: 0.000040
+
+  Training Late Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000263, Val Loss: 0.000013
+Epoch 00017: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [20/50] - Train Loss: 0.000179, Val Loss: 0.000003
+Epoch 00023: reducing learning rate of group 0 to 2.5000e-05.
+Epoch 00030: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [30/50] - Train Loss: 0.000168, Val Loss: 0.000003
+Epoch 00036: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [40/50] - Train Loss: 0.000142, Val Loss: 0.000002
+Epoch 00042: reducing learning rate of group 0 to 3.1250e-06.
+Epoch 00048: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [50/50] - Train Loss: 0.000137, Val Loss: 0.000003
+
+  Training Attention Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000112, Val Loss: 0.000003
+Epoch 00018: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [20/50] - Train Loss: 0.000070, Val Loss: 0.000012
+Epoch 00024: reducing learning rate of group 0 to 2.5000e-05.
+Epoch 00030: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [30/50] - Train Loss: 0.000075, Val Loss: 0.000018
+Epoch 00036: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [40/50] - Train Loss: 0.000066, Val Loss: 0.000011
+Epoch 00042: reducing learning rate of group 0 to 3.1250e-06.
+Epoch 00048: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [50/50] - Train Loss: 0.000066, Val Loss: 0.000009
+
+  ✓ MSFT complete - 3 models trained
+
+================================================================================
+[6/9] TRAINING RELIANCE.NS
+================================================================================
+
+  Loading hybrid data for RELIANCE.NS...
+    Records: 986
+    Date range: 2020-12-31 18:30:00 to 2024-12-29 18:30:00
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000283, Val Loss: 0.000062
+Epoch 00015: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [20/50] - Train Loss: 0.000233, Val Loss: 0.000032
+Epoch 00025: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [30/50] - Train Loss: 0.000173, Val Loss: 0.000046
+Epoch 00031: reducing learning rate of group 0 to 1.2500e-05.
+Epoch 00037: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [40/50] - Train Loss: 0.000158, Val Loss: 0.000050
+Epoch 00043: reducing learning rate of group 0 to 3.1250e-06.
+Epoch 00049: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [50/50] - Train Loss: 0.000158, Val Loss: 0.000058
+
+  Training Late Fusion Transformer...
+Using device: cpu
+Epoch 00008: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [10/50] - Train Loss: 0.000074, Val Loss: 0.000193
+Epoch 00014: reducing learning rate of group 0 to 2.5000e-05.
+Epoch 00020: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [20/50] - Train Loss: 0.000049, Val Loss: 0.000187
+Epoch 00026: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [30/50] - Train Loss: 0.000050, Val Loss: 0.000173
+Epoch 00032: reducing learning rate of group 0 to 3.1250e-06.
+Epoch 00038: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [40/50] - Train Loss: 0.000047, Val Loss: 0.000168
+Epoch 00044: reducing learning rate of group 0 to 7.8125e-07.
+Epoch 00050: reducing learning rate of group 0 to 3.9063e-07.
+Epoch [50/50] - Train Loss: 0.000037, Val Loss: 0.000169
+
+  Training Attention Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000034, Val Loss: 0.000157
+Epoch 00011: reducing learning rate of group 0 to 5.0000e-05.
+Epoch 00017: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [20/50] - Train Loss: 0.000022, Val Loss: 0.000151
+Epoch 00023: reducing learning rate of group 0 to 1.2500e-05.
+Epoch 00029: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [30/50] - Train Loss: 0.000021, Val Loss: 0.000145
+Epoch 00035: reducing learning rate of group 0 to 3.1250e-06.
+Epoch [40/50] - Train Loss: 0.000019, Val Loss: 0.000141
+Epoch 00041: reducing learning rate of group 0 to 1.5625e-06.
+Epoch 00047: reducing learning rate of group 0 to 7.8125e-07.
+Epoch [50/50] - Train Loss: 0.000020, Val Loss: 0.000140
+
+  ✓ RELIANCE.NS complete - 3 models trained
+
+================================================================================
+[7/9] TRAINING TCS.NS
+================================================================================
+
+  Loading hybrid data for TCS.NS...
+    Records: 986
+    Date range: 2020-12-31 18:30:00 to 2024-12-29 18:30:00
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+Using device: cpu
+Epoch 00007: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [10/50] - Train Loss: 0.000158, Val Loss: 0.000625
+Epoch 00013: reducing learning rate of group 0 to 2.5000e-05.
+Epoch 00019: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [20/50] - Train Loss: 0.000120, Val Loss: 0.000609
+Epoch 00025: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [30/50] - Train Loss: 0.000133, Val Loss: 0.000558
+Epoch 00031: reducing learning rate of group 0 to 3.1250e-06.
+Epoch 00037: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [40/50] - Train Loss: 0.000105, Val Loss: 0.000574
+Epoch 00043: reducing learning rate of group 0 to 7.8125e-07.
+Epoch 00049: reducing learning rate of group 0 to 3.9063e-07.
+Epoch [50/50] - Train Loss: 0.000110, Val Loss: 0.000566
+
+  Training Late Fusion Transformer...
+Using device: cpu
+Epoch 00009: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [10/50] - Train Loss: 0.000665, Val Loss: 0.001024
+Epoch 00015: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [20/50] - Train Loss: 0.000614, Val Loss: 0.000847
+Epoch 00021: reducing learning rate of group 0 to 1.2500e-05.
+Epoch 00027: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [30/50] - Train Loss: 0.000513, Val Loss: 0.000875
+Epoch 00033: reducing learning rate of group 0 to 3.1250e-06.
+Epoch 00039: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [40/50] - Train Loss: 0.000475, Val Loss: 0.000783
+Epoch 00045: reducing learning rate of group 0 to 7.8125e-07.
+Epoch [50/50] - Train Loss: 0.000481, Val Loss: 0.000863
+
+  Training Attention Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000948, Val Loss: 0.000469
+Epoch 00011: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [20/50] - Train Loss: 0.000697, Val Loss: 0.000310
+Epoch 00022: reducing learning rate of group 0 to 2.5000e-05.
+Epoch 00028: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [30/50] - Train Loss: 0.000613, Val Loss: 0.000549
+Epoch 00034: reducing learning rate of group 0 to 6.2500e-06.
+Epoch 00040: reducing learning rate of group 0 to 3.1250e-06.
+Epoch [40/50] - Train Loss: 0.000516, Val Loss: 0.000400
+Epoch 00046: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [50/50] - Train Loss: 0.000475, Val Loss: 0.000499
+
+  ✓ TCS.NS complete - 3 models trained
+
+================================================================================
+[8/9] TRAINING INFY.NS
+================================================================================
+
+  Loading hybrid data for INFY.NS...
+    Records: 986
+    Date range: 2020-12-31 18:30:00 to 2024-12-29 18:30:00
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000098, Val Loss: 0.000024
+Epoch [20/50] - Train Loss: 0.000051, Val Loss: 0.000012
+Epoch [30/50] - Train Loss: 0.000038, Val Loss: 0.000009
+Epoch [40/50] - Train Loss: 0.000033, Val Loss: 0.000012
+Epoch 00047: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [50/50] - Train Loss: 0.000031, Val Loss: 0.000008
+
+  Training Late Fusion Transformer...
+Using device: cpu
+Epoch 00008: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [10/50] - Train Loss: 0.000080, Val Loss: 0.000013
+Epoch [20/50] - Train Loss: 0.000062, Val Loss: 0.000013
+Epoch 00027: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [30/50] - Train Loss: 0.000049, Val Loss: 0.000008
+Epoch 00039: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [40/50] - Train Loss: 0.000049, Val Loss: 0.000008
+Epoch 00045: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [50/50] - Train Loss: 0.000045, Val Loss: 0.000009
+
+  Training Attention Fusion Transformer...
+Using device: cpu
+Epoch [10/50] - Train Loss: 0.000076, Val Loss: 0.000013
+Epoch [20/50] - Train Loss: 0.000067, Val Loss: 0.000009
+Epoch 00023: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [30/50] - Train Loss: 0.000058, Val Loss: 0.000007
+Epoch [40/50] - Train Loss: 0.000050, Val Loss: 0.000007
+Epoch 00041: reducing learning rate of group 0 to 2.5000e-05.
+Epoch 00047: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [50/50] - Train Loss: 0.000047, Val Loss: 0.000007
+
+  ✓ INFY.NS complete - 3 models trained
+
+================================================================================
+[9/9] TRAINING CSEALL
+================================================================================
+
+  Loading hybrid data for CSEALL...
+    Records: 259
+    Date range: 2021-01-01 00:00:00 to 2025-12-23
+    Technical features: 35
+    Sentiment features: 7
+
+  Training Early Fusion Transformer...
+Using device: cpu
+Epoch 00007: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [10/50] - Train Loss: 0.005428, Val Loss: 0.030260
+Epoch 00013: reducing learning rate of group 0 to 2.5000e-05.
+Epoch 00019: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [20/50] - Train Loss: 0.003479, Val Loss: 0.022082
+Epoch 00025: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [30/50] - Train Loss: 0.003432, Val Loss: 0.024528
+Epoch 00031: reducing learning rate of group 0 to 3.1250e-06.
+Epoch 00037: reducing learning rate of group 0 to 1.5625e-06.
+Epoch [40/50] - Train Loss: 0.003169, Val Loss: 0.023326
+Epoch 00043: reducing learning rate of group 0 to 7.8125e-07.
+Epoch 00049: reducing learning rate of group 0 to 3.9063e-07.
+Epoch [50/50] - Train Loss: 0.004078, Val Loss: 0.024037
+
+  Training Late Fusion Transformer...
+Using device: cpu
+Epoch 00008: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [10/50] - Train Loss: 0.002859, Val Loss: 0.030106
+Epoch 00014: reducing learning rate of group 0 to 2.5000e-05.
+Epoch 00020: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [20/50] - Train Loss: 0.002666, Val Loss: 0.025861
+Epoch [30/50] - Train Loss: 0.002053, Val Loss: 0.022682
+Epoch 00039: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [40/50] - Train Loss: 0.002820, Val Loss: 0.020620
+Epoch 00045: reducing learning rate of group 0 to 3.1250e-06.
+Epoch [50/50] - Train Loss: 0.002789, Val Loss: 0.021344
+
+  Training Attention Fusion Transformer...
+Using device: cpu
+Epoch 00008: reducing learning rate of group 0 to 5.0000e-05.
+Epoch [10/50] - Train Loss: 0.003455, Val Loss: 0.031858
+Epoch [20/50] - Train Loss: 0.002691, Val Loss: 0.023738
+Epoch 00028: reducing learning rate of group 0 to 2.5000e-05.
+Epoch [30/50] - Train Loss: 0.003021, Val Loss: 0.018724
+Epoch 00036: reducing learning rate of group 0 to 1.2500e-05.
+Epoch [40/50] - Train Loss: 0.002233, Val Loss: 0.022125
+Epoch 00045: reducing learning rate of group 0 to 6.2500e-06.
+Epoch [50/50] - Train Loss: 0.002008, Val Loss: 0.024297
+
+  ✓ CSEALL complete - 3 models trained
+
+================================================================================
+SAVING RESULTS
+================================================================================
+
+✓ Results saved to: results/hybrid_training_results_20260113_124134.csv
+
+Total models trained: 27
+Expected: 27 (9 stocks × 3 models)
+
+================================================================================
+TRAINING SUMMARY
+================================================================================
+
+Average Performance by Model:
+                      RMSE       MAE       MAPE
+Model                                          
+Attention_Fusion  0.048409  0.047151  37.035744
+Early_Fusion      0.048072  0.046895  32.073489
+Late_Fusion       0.049597  0.048272  71.293651
+
+================================================================================
+HYBRID MODEL TRAINING COMPLETE
+================================================================================
