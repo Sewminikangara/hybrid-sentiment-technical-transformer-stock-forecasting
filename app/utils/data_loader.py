@@ -13,28 +13,55 @@ class DataLoader:
     def __init__(self):
         self.base_path = Path(__file__).parent.parent.parent
         self.data_path = self.base_path / 'data_processed' / 'hybrid'
+        self.raw_data_path = self.base_path / 'data_raw' / 'stock_prices'
         self.results_path = self.base_path / 'results'
         
     def load_stock_data(self, stock='AAPL'):
-        """Load processed hybrid data for a stock"""
+        """Load hybrid data with real prices for a stock"""
         try:
-            # Find latest hybrid data file
+            # Load processed hybrid data (normalized features)
             hybrid_files = list(self.data_path.glob('hybrid_data_all_stocks_*.csv'))
             
             if not hybrid_files:
                 return None
             
-            latest_file = max(hybrid_files, key=lambda p: p.stat().st_mtime)
-            df = pd.read_csv(latest_file)
+            latest_hybrid = max(hybrid_files, key=lambda p: p.stat().st_mtime)
+            df_hybrid = pd.read_csv(latest_hybrid)
             
             # Filter by stock
-            stock_data = df[df['Stock'] == stock].copy()
+            stock_data = df_hybrid[df_hybrid['Stock'] == stock].copy()
             stock_data = stock_data.sort_values('Date').reset_index(drop=True)
             
+            # Load raw prices to get actual Close prices
+            raw_files = list(self.raw_data_path.glob('all_stocks_with_cse_*.csv'))
+            if raw_files:
+                latest_raw = max(raw_files, key=lambda p: p.stat().st_mtime)
+                df_raw = pd.read_csv(latest_raw)
+                
+                # Filter by stock (use Ticker column)
+                raw_stock = df_raw[df_raw['Ticker'] == stock][['Date', 'Close', 'Open', 'High', 'Low', 'Volume']].copy()
+                
+                if len(raw_stock) > 0:
+                    # Use index-based replacement (assuming same order after sorting)
+                    raw_stock = raw_stock.sort_values('Date').reset_index(drop=True)
+                    
+                    # Take the minimum length to avoid index errors
+                    min_len = min(len(stock_data), len(raw_stock))
+                    
+                    # Replace Close price with real price
+                    stock_data = stock_data.iloc[:min_len].copy()
+                    stock_data['Close'] = raw_stock['Close'].iloc[:min_len].values
+                    stock_data['Open'] = raw_stock['Open'].iloc[:min_len].values
+                    stock_data['High'] = raw_stock['High'].iloc[:min_len].values
+                    stock_data['Low'] = raw_stock['Low'].iloc[:min_len].values
+                    stock_data['Volume'] = raw_stock['Volume'].iloc[:min_len].values
+                
             return stock_data
             
         except Exception as e:
             print(f"Error loading stock data: {e}")
+            import traceback
+            traceback.print_exc()
             return None
     
     def load_training_results(self):

@@ -135,13 +135,21 @@ class ChartVisualizer:
         
         return fig
     
-    def create_sentiment_chart(self, data):
+    def create_sentiment_chart(self, data, stock='Stock'):
         """Create sentiment timeline chart"""
         
         dates = pd.to_datetime(data['Date'])
-        sentiment = data['compound']
         
-        colors = ['green' if s > 0 else 'red' for s in sentiment]
+        # Try to find sentiment column
+        if 'sentiment_score' in data.columns:
+            sentiment = data['sentiment_score']
+        elif 'compound' in data.columns:
+            sentiment = data['compound']
+        else:
+            # No sentiment data available
+            return go.Figure()
+        
+        colors = ['green' if s > 0 else 'red' if s < 0 else 'gray' for s in sentiment]
         
         fig = go.Figure()
         
@@ -150,16 +158,36 @@ class ChartVisualizer:
             y=sentiment,
             marker_color=colors,
             name='Sentiment',
-            hovertemplate='<b>Date:</b> %{x|%Y-%m-%d}<br><b>Sentiment:</b> %{y:.2f}<extra></extra>'
+            hovertemplate='<b>Date:</b> %{x|%Y-%m-%d}<br><b>Sentiment:</b> %{y:.3f}<extra></extra>'
         ))
         
+        # Add moving averages if available
+        if 'sentiment_ma7' in data.columns:
+            fig.add_trace(go.Scatter(
+                x=dates,
+                y=data['sentiment_ma7'],
+                mode='lines',
+                name='7-Day MA',
+                line=dict(color='yellow', width=2)
+            ))
+        
+        if 'sentiment_ma3' in data.columns:
+            fig.add_trace(go.Scatter(
+                x=dates,
+                y=data['sentiment_ma3'],
+                mode='lines',
+                name='3-Day MA',
+                line=dict(color='cyan', width=1, dash='dot')
+            ))
+        
         fig.update_layout(
-            title='Sentiment Analysis Timeline',
+            title=f'{stock} Sentiment Timeline',
             xaxis_title='Date',
             yaxis_title='Sentiment Score',
             template='plotly_dark',
             height=300,
-            margin=dict(l=40, r=40, t=60, b=40)
+            margin=dict(l=40, r=40, t=60, b=40),
+            showlegend=True
         )
         
         return fig

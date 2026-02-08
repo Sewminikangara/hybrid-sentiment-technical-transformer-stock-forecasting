@@ -62,26 +62,22 @@ class StockPredictor:
             print(f"SUCCESS: Model loaded for {self.stock} - {self.model_name}")
             print(f"Features: {technical_dim} technical + {sentiment_dim} sentiment = {technical_dim + sentiment_dim} total")
             
-            # Normalize data
+            # Get real Close prices for scaling (already loaded from raw data)
+            real_close_prices = stock_data['Close'].values
+            last_real_price = real_close_prices[-1]
+            
+            # Technical and sentiment features are already normalized in hybrid data
+            # Just extract them directly
             technical_features = stock_data[technical_cols].values
             sentiment_features = stock_data[sentiment_cols].values
-            target = stock_data['Close'].values
-            
-            tech_scaler = StandardScaler()
-            sent_scaler = StandardScaler()
-            price_scaler = StandardScaler()
-            
-            tech_norm = tech_scaler.fit_transform(technical_features)
-            sent_norm = sent_scaler.fit_transform(sentiment_features)
-            price_norm = price_scaler.fit_transform(target.reshape(-1, 1))
             
             # Generate predictions
             predictions = []
             device = self.model_loader.device
             
-            # Use last sequence as input
-            tech_seq = torch.FloatTensor(tech_norm[-self.sequence_length:]).unsqueeze(0).to(device)
-            sent_seq = torch.FloatTensor(sent_norm[-self.sequence_length:]).unsqueeze(0).to(device)
+            # Use last sequence as input (data is already normalized)
+            tech_seq = torch.FloatTensor(technical_features[-self.sequence_length:]).unsqueeze(0).to(device)
+            sent_seq = torch.FloatTensor(sentiment_features[-self.sequence_length:]).unsqueeze(0).to(device)
             
             with torch.no_grad():
                 for _ in range(days):
@@ -94,8 +90,20 @@ class StockPredictor:
                     sent_seq = sent_seq[:, 1:, :]
             
             # Denormalize predictions
-            predictions = np.array(predictions).reshape(-1, 1)
-            predictions_denorm = price_scaler.inverse_transform(predictions).flatten()
+            # Model was trained on normalized data, need to scale back to real prices
+            predictions = np.array(predictions)
+            
+            # Calculate price statistics from real historical data
+            price_mean = np.mean(real_close_prices)
+            price_std = np.std(real_close_prices)
+            
+            # Denormalize: value * std + mean
+            predictions_denorm = predictions * price_std + price_mean
+            
+            # Ensure predictions are reasonable (within 20% of last price)
+            predictions_denorm = np.clip(predictions_denorm, 
+                                        last_real_price * 0.8, 
+                                        last_real_price * 1.2)
             
             # Generate dates
             last_date = pd.to_datetime(stock_data['Date'].iloc[-1])
@@ -104,6 +112,8 @@ class StockPredictor:
             # Calculate confidence intervals (±5%)
             lower = predictions_denorm * 0.95
             upper = predictions_denorm * 1.05
+            
+            print(f"Prediction range: ${predictions_denorm[0]:.2f} to ${predictions_denorm[-1]:.2f}")
             
             return {
                 'dates': pred_dates,

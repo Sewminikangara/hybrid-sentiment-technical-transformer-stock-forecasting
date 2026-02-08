@@ -350,27 +350,59 @@ def show_analysis_tab(stock):
                 st.metric("MACD", f"{macd:.2f}", macd_signal)
         
         with col2:
-            st.subheader("💬 Sentiment Analysis")
+            st.subheader("Sentiment Analysis")
             
-            if 'compound' in stock_data.columns:
-                sentiment = stock_data['compound'].iloc[-1]
+            # Current sentiment score
+            if 'sentiment_score' in stock_data.columns:
+                sentiment = stock_data['sentiment_score'].iloc[-1]
                 sent_label = "Positive" if sentiment > 0.05 else "Negative" if sentiment < -0.05 else "Neutral"
-                st.metric("Sentiment Score", f"{sentiment:.2f}", sent_label)
+                st.metric("Sentiment Score", f"{sentiment:.3f}", sent_label)
             
-            if 'pos' in stock_data.columns:
-                pos = stock_data['pos'].iloc[-1] * 100
-                neg = stock_data['neg'].iloc[-1] * 100
-                neu = stock_data['neu'].iloc[-1] * 100
+            # Sentiment breakdown
+            if 'sentiment_positive' in stock_data.columns:
+                pos = stock_data['sentiment_positive'].iloc[-1] * 100
+                neg = stock_data['sentiment_negative'].iloc[-1] * 100
+                neu = stock_data['sentiment_neutral'].iloc[-1] * 100
                 
-                st.write(f"Positive: {pos:.1f}%")
-                st.write(f"Negative: {neg:.1f}%")
-                st.write(f"Neutral: {neu:.1f}%")
+                st.write(f"**Breakdown:**")
+                st.write(f"• Positive: {pos:.1f}%")
+                st.write(f"• Negative: {neg:.1f}%")
+                st.write(f"• Neutral: {neu:.1f}%")
+            
+            # Sentiment trend analysis
+            if 'sentiment_ma7' in stock_data.columns and 'sentiment_ma3' in stock_data.columns:
+                ma7 = stock_data['sentiment_ma7'].iloc[-1]
+                ma3 = stock_data['sentiment_ma3'].iloc[-1]
+                prev_ma7 = stock_data['sentiment_ma7'].iloc[-2]
+                
+                trend = "Improving" if ma7 > prev_ma7 else "Declining"
+                momentum = "Accelerating" if ma3 > ma7 else "Decelerating"
+                
+                st.write(f"**Trend:** {trend}")
+                st.write(f"**Momentum:** {momentum}")
+            
+            # Sentiment volatility
+            if 'sentiment_volatility' in stock_data.columns:
+                volatility = stock_data['sentiment_volatility'].iloc[-1]
+                vol_label = "Stable" if volatility < 0.1 else "Volatile" if volatility < 0.2 else "Highly Volatile"
+                st.metric("Sentiment Volatility", f"{volatility:.3f}", vol_label)
         
-        # Price chart
-        st.subheader("📈 Price History (60 days)")
-        visualizer = ChartVisualizer()
-        fig = visualizer.create_historical_chart(stock_data.tail(60), stock)
-        st.plotly_chart(fig, use_container_width=True)
+        # Charts side by side
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            # Price chart
+            st.subheader("Price History (60 days)")
+            visualizer = ChartVisualizer()
+            fig = visualizer.create_historical_chart(stock_data.tail(60), stock)
+            st.plotly_chart(fig, use_container_width=True)
+        
+        with col2:
+            # Sentiment trend chart
+            st.subheader("Sentiment Trend (60 days)")
+            if 'sentiment_score' in stock_data.columns:
+                fig = visualizer.create_sentiment_chart(stock_data.tail(60), stock)
+                st.plotly_chart(fig, use_container_width=True)
         
     except Exception as e:
         st.error(f"Error loading analysis: {str(e)}")
