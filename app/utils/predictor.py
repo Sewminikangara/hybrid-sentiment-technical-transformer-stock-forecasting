@@ -10,8 +10,8 @@ from sklearn.preprocessing import StandardScaler
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from app.utils.data_loader import DataLoader
-from app.utils.model_loader import ModelLoader
+from utils.data_loader import DataLoader
+from utils.model_loader import ModelLoader
 
 class StockPredictor:
     """Generate stock price predictions"""
@@ -32,10 +32,15 @@ class StockPredictor:
             if stock_data is None or len(stock_data) < self.sequence_length:
                 return None
             
-            # Prepare features
-            technical_cols = [col for col in stock_data.columns if col not in 
-                             ['Date', 'Stock', 'Close', 'compound', 'neg', 'neu', 'pos']]
-            sentiment_cols = ['compound', 'neg', 'neu', 'pos']
+            # Prepare features - use same column definitions as training
+            technical_cols = [c for c in stock_data.columns if c not in 
+                             ['Date', 'Stock', 'stock', 'date', 'source', 'Close',
+                              'sentiment_score', 'sentiment_label', 'confidence',
+                              'sentiment_positive', 'sentiment_negative', 'sentiment_neutral',
+                              'sentiment_ma3', 'sentiment_ma7', 'sentiment_volatility']]
+            
+            sentiment_cols = ['sentiment_score', 'sentiment_positive', 'sentiment_negative', 
+                             'sentiment_neutral', 'sentiment_ma3', 'sentiment_ma7', 'sentiment_volatility']
             
             # Get technical dimensions
             technical_dim = len(technical_cols)
@@ -50,7 +55,12 @@ class StockPredictor:
             )
             
             if model is None:
+                print(f"WARNING: Model not loaded for {self.stock} - {self.model_name}")
+                print(f"Technical dims: {technical_dim}, Sentiment dims: {sentiment_dim}")
                 return self._generate_sample_prediction(stock_data, days)
+            
+            print(f"SUCCESS: Model loaded for {self.stock} - {self.model_name}")
+            print(f"Features: {technical_dim} technical + {sentiment_dim} sentiment = {technical_dim + sentiment_dim} total")
             
             # Normalize data
             technical_features = stock_data[technical_cols].values

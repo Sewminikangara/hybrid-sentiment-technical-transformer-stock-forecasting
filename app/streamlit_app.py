@@ -3,6 +3,9 @@ Stock Price Prediction PWA
 Hybrid Sentiment-Technical Transformer Models
 Progressive Web App for iOS/Android/Desktop
 
+Author: Sewmini Kangara
+Date: February 2026
+"""
 
 import streamlit as st
 import pandas as pd
@@ -16,15 +19,15 @@ from datetime import datetime, timedelta
 # Add parent directory to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from app.utils.data_loader import DataLoader
-from app.utils.model_loader import ModelLoader
-from app.utils.predictor import StockPredictor
-from app.utils.visualizer import ChartVisualizer
+from utils.data_loader import DataLoader
+from utils.model_loader import ModelLoader
+from utils.predictor import StockPredictor
+from utils.visualizer import ChartVisualizer
 
 # Page config - MUST be first Streamlit command
 st.set_page_config(
     page_title="MarketMind - AI Stock Predictions",
-    page_icon="🧠",
+    page_icon="📈",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
@@ -109,28 +112,28 @@ def main():
     # Header
     col1, col2 = st.columns([3, 1])
     with col1:
-        st.title("🧠 MarketMind")
+        st.title("MarketMind")
         st.markdown("*Creating Future Trends with AI*")
     with col2:
         st.image("https://img.shields.io/badge/AI-Transformer-blueviolet", use_column_width=True)
     
     # Sidebar - Stock & Model Selection
     with st.sidebar:
-        st.header("⚙️ Settings")
+        st.header("Settings")
         
         # Stock selector
         stocks = ['AAPL', 'GOOGL', 'TSLA', 'AMZN', 'MSFT', 
                   'RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'CSEALL']
         stock_names = {
-            'AAPL': '🍎 Apple',
-            'GOOGL': '🔍 Google',
-            'TSLA': '🚗 Tesla',
-            'AMZN': '📦 Amazon',
-            'MSFT': '💻 Microsoft',
-            'RELIANCE.NS': '🇮🇳 Reliance',
-            'TCS.NS': '🇮🇳 TCS',
-            'INFY.NS': '🇮🇳 Infosys',
-            'CSEALL': '🇱🇰 CSE All Share'
+            'AAPL': 'Apple',
+            'GOOGL': 'Google',
+            'TSLA': 'Tesla',
+            'AMZN': 'Amazon',
+            'MSFT': 'Microsoft',
+            'RELIANCE.NS': 'Reliance',
+            'TCS.NS': 'TCS',
+            'INFY.NS': 'Infosys',
+            'CSEALL': 'CSE All Share'
         }
         
         selected_stock = st.selectbox(
@@ -160,7 +163,7 @@ def main():
         st.markdown("---")
         
         # Quick stats
-        st.subheader("📊 Quick Stats")
+        st.subheader("Quick Stats")
         try:
             results_file = list(Path('../results').glob('hybrid_training_results_*.csv'))
             if results_file:
@@ -182,7 +185,7 @@ def main():
             pass
         
         st.markdown("---")
-        st.markdown("###  Install App")
+        st.markdown("### Install App")
         st.markdown("""
         **On iPhone:**
         1. Tap Share button
@@ -195,7 +198,7 @@ def main():
         """)
     
     # Main content
-    tab1, tab2, tab3, tab4 = st.tabs(["🎯 Prediction", "📊 Analysis", "⚖️ Compare", "ℹ️ About"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Prediction", "Analysis", "Compare", "About"])
     
     with tab1:
         show_prediction_tab(selected_stock, selected_model, pred_days)
@@ -212,7 +215,7 @@ def main():
 def show_prediction_tab(stock, model, days):
     """Main prediction interface"""
     
-    st.header(f"🎯 {stock} Price Prediction")
+    st.header(f"{stock} Price Prediction")
     
     try:
         # Load data
@@ -263,25 +266,24 @@ def show_prediction_tab(stock, model, days):
                 }
         
         # Prediction chart
-        st.subheader("📈 Price Forecast")
+        st.subheader("Price Forecast")
         visualizer = ChartVisualizer()
         fig = visualizer.create_prediction_chart(stock_data, predictions, stock)
         st.plotly_chart(fig, use_container_width=True)
         
         # Trading signal
-        st.subheader("🎯 Trading Signal")
+        st.subheader("Trading Signal")
         pred_price = predictions['prices'][-1]
         signal, confidence = generate_signal(latest_price, pred_price, predictions)
         
         signal_colors = {'BUY': '#4CAF50', 'SELL': '#f44336', 'HOLD': '#FFC107'}
-        signal_icons = {'BUY': '🚀', 'SELL': '📉', 'HOLD': '⏸️'}
         
         col1, col2, col3 = st.columns(3)
         with col1:
             st.markdown(f"""
             <div class="prediction-card">
                 <h2 style="color: {signal_colors[signal]}; margin: 0;">
-                    {signal_icons[signal]} {signal}
+                    {signal}
                 </h2>
             </div>
             """, unsafe_allow_html=True)
@@ -294,7 +296,7 @@ def show_prediction_tab(stock, model, days):
             st.metric("Expected Return", f"{expected_return:+.2f}%")
         
         # Key metrics
-        st.subheader("📊 Prediction Summary")
+        st.subheader("Prediction Summary")
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
@@ -308,7 +310,7 @@ def show_prediction_tab(stock, model, days):
             st.metric("Volatility", f"${volatility:.2f}")
         
         with col4:
-            trend = "Bullish 📈" if pred_price > latest_price else "Bearish 📉"
+            trend = "Bullish" if pred_price > latest_price else "Bearish"
             st.metric("Trend", trend)
         
     except Exception as e:
@@ -318,7 +320,7 @@ def show_prediction_tab(stock, model, days):
 def show_analysis_tab(stock):
     """Technical and sentiment analysis"""
     
-    st.header("📊 Technical Analysis")
+    st.header("Technical Analysis")
     
     try:
         data_loader = st.session_state.data_loader
@@ -332,7 +334,7 @@ def show_analysis_tab(stock):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.subheader("📈 Technical Indicators")
+            st.subheader("Technical Indicators")
             
             # RSI
             if 'RSI' in stock_data.columns:

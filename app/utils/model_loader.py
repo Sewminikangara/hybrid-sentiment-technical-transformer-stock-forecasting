@@ -31,7 +31,7 @@ class ModelLoader:
             'LSTM Baseline': 'lstm'
         }
     
-    def load_model(self, stock, model_name, technical_dim=20, sentiment_dim=4):
+    def load_model(self, stock, model_name, technical_dim=35, sentiment_dim=7):
         """Load a trained model"""
         try:
             model_key = self.model_map.get(model_name, 'early_fusion')
@@ -41,39 +41,39 @@ class ModelLoader:
                 print(f"Model file not found: {model_path}")
                 return None
             
-            # Initialize model architecture
+            # Initialize model architecture (using correct parameter names)
             if model_key == 'early_fusion':
                 model = EarlyFusionTransformer(
-                    technical_dim=technical_dim,
-                    sentiment_dim=sentiment_dim,
+                    technical_size=technical_dim,
+                    sentiment_size=sentiment_dim,
                     d_model=128,
                     nhead=8,
-                    num_layers=4,
-                    dropout=0.2
+                    num_encoder_layers=3,
+                    dropout=0.1
                 )
             elif model_key == 'late_fusion':
                 model = LateFusionTransformer(
-                    technical_dim=technical_dim,
-                    sentiment_dim=sentiment_dim,
+                    technical_size=technical_dim,
+                    sentiment_size=sentiment_dim,
                     d_model=128,
                     nhead=8,
-                    num_layers=4,
-                    dropout=0.2
+                    num_encoder_layers=3,
+                    dropout=0.1
                 )
             elif model_key == 'attention_fusion':
                 model = AttentionFusionTransformer(
-                    technical_dim=technical_dim,
-                    sentiment_dim=sentiment_dim,
+                    technical_size=technical_dim,
+                    sentiment_size=sentiment_dim,
                     d_model=128,
                     nhead=8,
-                    num_layers=4,
-                    dropout=0.2
+                    num_encoder_layers=3,
+                    dropout=0.1
                 )
             elif model_key == 'lstm':
+                # LSTM uses combined input_size
                 model = LSTMModel(
-                    technical_dim=technical_dim,
-                    sentiment_dim=sentiment_dim,
-                    hidden_dim=128,
+                    input_size=technical_dim + sentiment_dim,
+                    hidden_size=128,
                     num_layers=2,
                     dropout=0.2
                 )
@@ -86,10 +86,13 @@ class ModelLoader:
             model = model.to(self.device)
             model.eval()
             
+            print(f"Successfully loaded model: {model_path.name}")
             return model
             
         except Exception as e:
-            print(f"Error loading model: {e}")
+            print(f"Error loading model {model_path.name}: {e}")
+            import traceback
+            traceback.print_exc()
             return None
     
     def get_model_info(self, model_name):
