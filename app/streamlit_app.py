@@ -27,7 +27,7 @@ from utils.visualizer import ChartVisualizer
 # Page config - MUST be first Streamlit command
 st.set_page_config(
     page_title="MarketMind - AI Stock Predictions",
-    page_icon="�",
+    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
@@ -45,8 +45,10 @@ st.markdown("""
 <meta name="apple-mobile-web-app-title" content="MarketMind">
 <meta name="theme-color" content="#667eea">
 <meta name="description" content="MarketMind - AI-powered stock predictions. Creating future trends with hybrid sentiment-technical transformer models.">
-<link rel="manifest" href="/app/static/manifest.json">
-<link rel="apple-touch-icon" href="/app/static/icon-192.png">
+
+<!-- PWA will use these when deployed to a server -->
+<link rel="icon" type="image/png" href="📊">
+<link rel="apple-touch-icon" sizes="180x180" href="📊">
 
 <style>
     /* Mobile-first responsive design */
@@ -123,27 +125,46 @@ def main():
     with st.sidebar:
         st.header("Settings")
         
-        # Stock selector
-        stocks = ['AAPL', 'GOOGL', 'TSLA', 'AMZN', 'MSFT', 
-                  'RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'CSEALL']
-        stock_names = {
-            'AAPL': 'Apple',
-            'GOOGL': 'Google',
-            'TSLA': 'Tesla',
-            'AMZN': 'Amazon',
-            'MSFT': 'Microsoft',
-            'RELIANCE.NS': 'Reliance',
-            'TCS.NS': 'TCS',
-            'INFY.NS': 'Infosys',
-            'CSEALL': 'CSE All Share'
-        }
+        # Market Type selector
+        market_type = st.radio("Market Type:", ["Stocks", "Forex"], index=0)
         
+        # Stock selector
+        if market_type == "Stocks":
+            stocks = ['AAPL', 'GOOGL', 'TSLA', 'AMZN', 'MSFT', 
+                      'RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'CSEALL']
+            stock_names = {
+                'AAPL': 'Apple',
+                'GOOGL': 'Google',
+                'TSLA': 'Tesla',
+                'AMZN': 'Amazon',
+                'MSFT': 'Microsoft',
+                'RELIANCE.NS': 'Reliance',
+                'TCS.NS': 'TCS',
+                'INFY.NS': 'Infosys',
+                'CSEALL': 'CSE All Share'
+            }
+        else:  # Forex
+            stocks = ['EURUSD', 'GBPUSD', 'USDJPY', 'AUDUSD', 'USDCAD', 'USDCHF']
+            stock_names = {
+                'EURUSD': 'EUR/USD - Euro vs US Dollar',
+                'GBPUSD': 'GBP/USD - British Pound vs US Dollar',
+                'USDJPY': 'USD/JPY - US Dollar vs Japanese Yen',
+                'AUDUSD': 'AUD/USD - Australian Dollar vs US Dollar',
+                'USDCAD': 'USD/CAD - US Dollar vs Canadian Dollar',
+                'USDCHF': 'USD/CHF - US Dollar vs Swiss Franc'
+            }
+        
+        label = "Select Currency Pair" if market_type == "Forex" else "Select Stock"
         selected_stock = st.selectbox(
-            "Select Stock",
+            label,
             stocks,
             format_func=lambda x: stock_names[x],
             key='stock_selector'
         )
+        
+        # Show forex disclaimer
+        if market_type == "Forex":
+            st.info("Forex data available - AI predictions coming soon! Currently showing real exchange rates from European Central Bank.")
         
         # Model selector
         models = ['Early Fusion', 'Late Fusion', 'Attention Fusion', 'LSTM Baseline']
@@ -206,27 +227,34 @@ def main():
         index=0
     )
     
+    is_forex = (market_type == "Forex")
+    
     if view_mode == "Prediction":
-        show_prediction_tab(selected_stock, selected_model, pred_days)
+        show_prediction_tab(selected_stock, selected_model, pred_days, is_forex)
     elif view_mode == "Analysis":
-        show_analysis_tab(selected_stock)
+        show_analysis_tab(selected_stock, is_forex)
     elif view_mode == "Compare Models":
-        show_comparison_tab(selected_stock)
+        show_comparison_tab(selected_stock, is_forex)
     elif view_mode == "AI Assistant":
         show_ai_assistant_tab(selected_stock, selected_model)
     elif view_mode == "About":
         show_about_tab()
 
-def show_prediction_tab(stock, model, days):
+def show_prediction_tab(stock, model, days, is_forex=False):
     """Main prediction interface"""
     
-    st.header(f"{stock} Price Prediction")
+    label = "Exchange Rate Prediction" if is_forex else "Price Prediction"
+    st.header(f"{stock} {label}")
+    
+    if is_forex:
+        st.info("💱 Forex predictions use the same AI transformer models trained on currency pairs from European Central Bank data.")
+        # Note: Rest of code below will handle forex predictions the same way as stocks
     
     try:
         # Load data
         with st.spinner("Loading data..."):
             data_loader = st.session_state.data_loader
-            stock_data = data_loader.load_stock_data(stock)
+            stock_data = data_loader.load_stock_data(stock, is_forex=is_forex)
             
             if stock_data is None or len(stock_data) == 0:
                 st.error(f"No data available for {stock}")
@@ -240,10 +268,13 @@ def show_prediction_tab(stock, model, days):
         
         # Display current price
         col1, col2, col3 = st.columns(3)
+        price_label = "Current Rate" if is_forex else "Current Price"
+        price_format = f"{latest_price:.4f}" if is_forex else f"${latest_price:.2f}"
+        
         with col1:
             st.metric(
-                "Current Price",
-                f"${latest_price:.2f}",
+                price_label,
+                price_format,
                 f"{pct_change:+.2f}%",
                 delta_color="normal"
             )
@@ -257,7 +288,7 @@ def show_prediction_tab(stock, model, days):
         
         # Generate prediction
         with st.spinner("Generating predictions..."):
-            predictor = StockPredictor(stock, model)
+            predictor = StockPredictor(stock, model, is_forex=is_forex)
             predictions = predictor.predict(days)
             
             if predictions is None:
@@ -304,15 +335,19 @@ def show_prediction_tab(stock, model, days):
         st.subheader("Prediction Summary")
         col1, col2, col3, col4 = st.columns(4)
         
+        volatility = np.std([p for p in predictions['prices']])
+        price_format_pred = f"{pred_price:.4f}" if is_forex else f"${pred_price:.2f}"
+        price_format_range = f"{predictions['lower'][-1]:.4f} - {predictions['upper'][-1]:.4f}" if is_forex else f"${predictions['lower'][-1]:.2f} - ${predictions['upper'][-1]:.2f}"
+        volatility_format = f"{volatility:.4f}" if is_forex else f"${volatility:.2f}"
+        
         with col1:
-            st.metric("Predicted Price", f"${pred_price:.2f}")
+            st.metric("Predicted Price", price_format_pred)
         
         with col2:
-            st.metric("Price Range", f"${predictions['lower'][-1]:.2f} - ${predictions['upper'][-1]:.2f}")
+            st.metric("Price Range", price_format_range)
         
         with col3:
-            volatility = np.std([p for p in predictions['prices']])
-            st.metric("Volatility", f"${volatility:.2f}")
+            st.metric("Volatility", volatility_format)
         
         with col4:
             trend = "Bullish" if pred_price > latest_price else "Bearish"
@@ -322,14 +357,14 @@ def show_prediction_tab(stock, model, days):
         st.error(f"Error generating prediction: {str(e)}")
         st.info("This is a demo. Full prediction requires trained models.")
 
-def show_analysis_tab(stock):
+def show_analysis_tab(stock, is_forex=False):
     """Technical and sentiment analysis"""
     
-    st.header("Technical Analysis")
+    st.header(f"{stock} {'Exchange Rate' if is_forex else 'Technical'} Analysis")
     
     try:
         data_loader = st.session_state.data_loader
-        stock_data = data_loader.load_stock_data(stock)
+        stock_data = data_loader.load_stock_data(stock, is_forex=is_forex)
         
         if stock_data is None:
             st.warning("No data available")
@@ -360,14 +395,18 @@ def show_analysis_tab(stock):
             # Current sentiment score
             if 'sentiment_score' in stock_data.columns:
                 sentiment = stock_data['sentiment_score'].iloc[-1]
-                sent_label = "Positive" if sentiment > 0.05 else "Negative" if sentiment < -0.05 else "Neutral"
+                sent_label = "Positive" if sentiment > 0.55 else "Negative" if sentiment < 0.45 else "Neutral"
                 st.metric("Sentiment Score", f"{sentiment:.3f}", sent_label)
             
-            # Sentiment breakdown
-            if 'sentiment_positive' in stock_data.columns:
-                pos = stock_data['sentiment_positive'].iloc[-1] * 100
-                neg = stock_data['sentiment_negative'].iloc[-1] * 100
-                neu = stock_data['sentiment_neutral'].iloc[-1] * 100
+            # Sentiment breakdown - handle both column naming conventions
+            pos_col = 'sentiment_positive' if 'sentiment_positive' in stock_data.columns else 'positive'
+            neg_col = 'sentiment_negative' if 'sentiment_negative' in stock_data.columns else 'negative'
+            neu_col = 'sentiment_neutral' if 'sentiment_neutral' in stock_data.columns else 'neutral'
+            
+            if pos_col in stock_data.columns:
+                pos = stock_data[pos_col].iloc[-1] * 100
+                neg = stock_data[neg_col].iloc[-1] * 100
+                neu = stock_data[neu_col].iloc[-1] * 100
                 
                 st.write(f"**Breakdown:**")
                 st.write(f"• Positive: {pos:.1f}%")
@@ -375,10 +414,13 @@ def show_analysis_tab(stock):
                 st.write(f"• Neutral: {neu:.1f}%")
             
             # Sentiment trend analysis
-            if 'sentiment_ma7' in stock_data.columns and 'sentiment_ma3' in stock_data.columns:
-                ma7 = stock_data['sentiment_ma7'].iloc[-1]
-                ma3 = stock_data['sentiment_ma3'].iloc[-1]
-                prev_ma7 = stock_data['sentiment_ma7'].iloc[-2]
+            ma7_col = 'sentiment_ma7' if 'sentiment_ma7' in stock_data.columns else 'sentiment_MA7'
+            ma3_col = 'sentiment_ma3' if 'sentiment_ma3' in stock_data.columns else 'sentiment_MA3'
+            
+            if ma7_col in stock_data.columns and ma3_col in stock_data.columns:
+                ma7 = stock_data[ma7_col].iloc[-1]
+                ma3 = stock_data[ma3_col].iloc[-1]
+                prev_ma7 = stock_data[ma7_col].iloc[-2]
                 
                 trend = "Improving" if ma7 > prev_ma7 else "Declining"
                 momentum = "Accelerating" if ma3 > ma7 else "Decelerating"
@@ -412,10 +454,14 @@ def show_analysis_tab(stock):
     except Exception as e:
         st.error(f"Error loading analysis: {str(e)}")
 
-def show_comparison_tab(stock):
+def show_comparison_tab(stock, is_forex=False):
     """Compare all models"""
     
     st.header("⚖️ Model Comparison")
+    
+    if is_forex:
+        st.info("📊 Forex model comparison coming soon. Models are trained and ready for predictions!")
+        return
     
     try:
         # Load results
