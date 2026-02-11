@@ -16,9 +16,10 @@ from utils.model_loader import ModelLoader
 class StockPredictor:
     """Generate stock price predictions"""
     
-    def __init__(self, stock, model_name):
+    def __init__(self, stock, model_name, is_forex=False):
         self.stock = stock
         self.model_name = model_name
+        self.is_forex = is_forex
         self.data_loader = DataLoader()
         self.model_loader = ModelLoader()
         self.sequence_length = 60
@@ -27,20 +28,30 @@ class StockPredictor:
         """Generate predictions for next N days"""
         try:
             # Load data
-            stock_data = self.data_loader.load_stock_data(self.stock)
+            stock_data = self.data_loader.load_stock_data(self.stock, is_forex=self.is_forex)
             
             if stock_data is None or len(stock_data) < self.sequence_length:
                 return None
             
+            # Define sentiment column names (handle both stock and forex naming)
+            if self.is_forex:
+                # Forex uses: positive, negative, neutral, sentiment_MA3, sentiment_MA7
+                sentiment_exclude = ['sentiment_score', 'positive', 'negative', 'neutral',
+                                   'sentiment_MA3', 'sentiment_MA7', 'sentiment_volatility']
+                sentiment_cols = ['sentiment_score', 'positive', 'negative', 
+                                'neutral', 'sentiment_MA3', 'sentiment_MA7', 'sentiment_volatility']
+            else:
+                # Stocks use: sentiment_positive, sentiment_negative, sentiment_neutral, sentiment_ma3, sentiment_ma7
+                sentiment_exclude = ['sentiment_score', 'sentiment_label', 'confidence',
+                                   'sentiment_positive', 'sentiment_negative', 'sentiment_neutral',
+                                   'sentiment_ma3', 'sentiment_ma7', 'sentiment_volatility']
+                sentiment_cols = ['sentiment_score', 'sentiment_positive', 'sentiment_negative', 
+                                'sentiment_neutral', 'sentiment_ma3', 'sentiment_ma7', 'sentiment_volatility']
+            
             # Prepare features - use same column definitions as training
             technical_cols = [c for c in stock_data.columns if c not in 
-                             ['Date', 'Stock', 'stock', 'date', 'source', 'Close',
-                              'sentiment_score', 'sentiment_label', 'confidence',
-                              'sentiment_positive', 'sentiment_negative', 'sentiment_neutral',
-                              'sentiment_ma3', 'sentiment_ma7', 'sentiment_volatility']]
-            
-            sentiment_cols = ['sentiment_score', 'sentiment_positive', 'sentiment_negative', 
-                             'sentiment_neutral', 'sentiment_ma3', 'sentiment_ma7', 'sentiment_volatility']
+                             ['Date', 'Stock', 'stock', 'date', 'source', 'Close', 'Open', 'High', 'Low', 'Volume']
+                             and c not in sentiment_exclude]
             
             # Get technical dimensions
             technical_dim = len(technical_cols)

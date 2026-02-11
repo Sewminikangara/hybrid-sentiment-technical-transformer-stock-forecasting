@@ -41,39 +41,56 @@ class ModelLoader:
                 print(f"Model file not found: {model_path}")
                 return None
             
+            # Load checkpoint first to check format
+            checkpoint = torch.load(model_path, map_location=self.device)
+            
+            # Determine if this is forex model (has config) or stock model
+            if isinstance(checkpoint, dict) and 'config' in checkpoint:
+                # Forex model - use smaller architecture
+                d_model = 64
+                nhead = 4
+                num_layers = 2
+                hidden_size_lstm = 64
+            else:
+                # Stock model - use original architecture
+                d_model = 128
+                nhead = 8
+                num_layers = 3
+                hidden_size_lstm = 128
+            
             # Initialize model architecture (using correct parameter names)
             if model_key == 'early_fusion':
                 model = EarlyFusionTransformer(
                     technical_size=technical_dim,
                     sentiment_size=sentiment_dim,
-                    d_model=128,
-                    nhead=8,
-                    num_encoder_layers=3,
+                    d_model=d_model,
+                    nhead=nhead,
+                    num_encoder_layers=num_layers,
                     dropout=0.1
                 )
             elif model_key == 'late_fusion':
                 model = LateFusionTransformer(
                     technical_size=technical_dim,
                     sentiment_size=sentiment_dim,
-                    d_model=128,
-                    nhead=8,
-                    num_encoder_layers=3,
+                    d_model=d_model,
+                    nhead=nhead,
+                    num_encoder_layers=num_layers,
                     dropout=0.1
                 )
             elif model_key == 'attention_fusion':
                 model = AttentionFusionTransformer(
                     technical_size=technical_dim,
                     sentiment_size=sentiment_dim,
-                    d_model=128,
-                    nhead=8,
-                    num_encoder_layers=3,
+                    d_model=d_model,
+                    nhead=nhead,
+                    num_encoder_layers=num_layers,
                     dropout=0.1
                 )
             elif model_key == 'lstm':
                 # LSTM uses combined input_size
                 model = LSTMModel(
                     input_size=technical_dim + sentiment_dim,
-                    hidden_size=128,
+                    hidden_size=hidden_size_lstm,
                     num_layers=2,
                     dropout=0.2
                 )
@@ -81,8 +98,14 @@ class ModelLoader:
                 return None
             
             # Load weights
-            checkpoint = torch.load(model_path, map_location=self.device)
-            model.load_state_dict(checkpoint)
+            # Handle different checkpoint formats
+            if isinstance(checkpoint, dict) and 'model_state_dict' in checkpoint:
+                # Forex model format (with nested dict)
+                model.load_state_dict(checkpoint['model_state_dict'])
+            else:
+                # Stock model format (direct state dict)
+                model.load_state_dict(checkpoint)
+            
             model = model.to(self.device)
             model.eval()
             
