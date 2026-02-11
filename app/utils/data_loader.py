@@ -16,10 +16,29 @@ class DataLoader:
         self.raw_data_path = self.base_path / 'data_raw' / 'stock_prices'
         self.results_path = self.base_path / 'results'
         
-    def load_stock_data(self, stock='AAPL'):
-        """Load hybrid data with real prices for a stock"""
+    def load_stock_data(self, stock='AAPL', is_forex=False):
+        """Load hybrid data with real prices for a stock or forex pair"""
         try:
-            # Load processed hybrid data (normalized features)
+            # For forex, load from forex data file
+            if is_forex:
+                forex_files = list(self.raw_data_path.glob('forex_*_data_*.csv'))
+                if not forex_files:
+                    return None
+                
+                latest_forex = max(forex_files, key=lambda p: p.stat().st_mtime)
+                df_forex = pd.read_csv(latest_forex)
+                
+                # Filter by ticker
+                forex_data = df_forex[df_forex['Ticker'] == stock].copy()
+                forex_data = forex_data.sort_values('Date').reset_index(drop=True)
+                
+                if len(forex_data) > 0:
+                    # Rename columns to match expected format
+                    forex_data['Stock'] = stock
+                    return forex_data
+                return None
+            
+            # Load processed hybrid data (normalized features) for stocks
             hybrid_files = list(self.data_path.glob('hybrid_data_all_stocks_*.csv'))
             
             if not hybrid_files:
