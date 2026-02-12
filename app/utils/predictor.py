@@ -33,29 +33,35 @@ class StockPredictor:
             if stock_data is None or len(stock_data) < self.sequence_length:
                 return None
             
-            # Define sentiment column names (handle both stock and forex naming)
+            # CRITICAL: Define exact column sets for technical vs sentiment features
+            # These MUST match what the models were trained on
+            
             if self.is_forex:
-                # Forex uses: positive, negative, neutral, sentiment_MA3, sentiment_MA7
-                sentiment_exclude = ['sentiment_score', 'positive', 'negative', 'neutral',
-                                   'sentiment_MA3', 'sentiment_MA7', 'sentiment_volatility']
-                sentiment_cols = ['sentiment_score', 'positive', 'negative', 
-                                'neutral', 'sentiment_MA3', 'sentiment_MA7', 'sentiment_volatility']
+                # FOREX: Match train_forex_models.py exclusions
+                sentiment_cols_forex = ['sentiment_score', 'positive', 'negative', 'neutral',
+                                       'sentiment_MA3', 'sentiment_MA7', 'sentiment_volatility']
+                exclude_forex = ['Date', 'Stock', 'Close',  # Match forex training
+                                'sentiment_score', 'positive', 'negative', 'neutral',
+                                'sentiment_MA3', 'sentiment_MA7', 'sentiment_volatility']
+                
+                actual_sentiment_cols = [col for col in sentiment_cols_forex if col in stock_data.columns]
+                technical_cols = [col for col in stock_data.columns if col not in exclude_forex]
             else:
-                # Stocks use: sentiment_positive, sentiment_negative, sentiment_neutral, sentiment_ma3, sentiment_ma7
-                sentiment_exclude = ['sentiment_score', 'sentiment_label', 'confidence',
-                                   'sentiment_positive', 'sentiment_negative', 'sentiment_neutral',
-                                   'sentiment_ma3', 'sentiment_ma7', 'sentiment_volatility']
-                sentiment_cols = ['sentiment_score', 'sentiment_positive', 'sentiment_negative', 
-                                'sentiment_neutral', 'sentiment_ma3', 'sentiment_ma7', 'sentiment_volatility']
+                # STOCK: Match train_hybrid_models.py exclusions
+                sentiment_cols_stock = ['sentiment_score', 'sentiment_positive', 'sentiment_negative', 'sentiment_neutral',
+                                       'sentiment_ma3', 'sentiment_ma7', 'sentiment_volatility']
+                exclude_stock = ['Date', 'Stock', 'stock', 'date', 'source', 'Close',
+                                'Ticker',  # Not in training
+                                'sentiment_score', 'sentiment_label', 'confidence',
+                                'sentiment_positive', 'sentiment_negative', 'sentiment_neutral',
+                                'sentiment_ma3', 'sentiment_ma7', 'sentiment_volatility']
+                
+                actual_sentiment_cols = [col for col in sentiment_cols_stock if col in stock_data.columns]
+                technical_cols = [col for col in stock_data.columns if col not in exclude_stock]
             
-            # Prepare features - use same column definitions as training
-            technical_cols = [c for c in stock_data.columns if c not in 
-                             ['Date', 'Stock', 'stock', 'date', 'source', 'Close', 'Open', 'High', 'Low', 'Volume']
-                             and c not in sentiment_exclude]
-            
-            # Get technical dimensions
+            # Get dimensions
             technical_dim = len(technical_cols)
-            sentiment_dim = len(sentiment_cols)
+            sentiment_dim = len(actual_sentiment_cols)
             
             # Load model
             model = self.model_loader.load_model(
@@ -66,12 +72,7 @@ class StockPredictor:
             )
             
             if model is None:
-                print(f"WARNING: Model not loaded for {self.stock} - {self.model_name}")
-                print(f"Technical dims: {technical_dim}, Sentiment dims: {sentiment_dim}")
-                return self._generate_sample_prediction(stock_data, days)
-            
-            print(f"SUCCESS: Model loaded for {self.stock} - {self.model_name}")
-            print(f"Features: {technical_dim} technical + {sentiment_dim} sentiment = {technical_dim + sentiment_dim} total")
+                return None
             
             # Get real Close prices for scaling (already loaded from raw data)
             real_close_prices = stock_data['Close'].values
@@ -80,7 +81,7 @@ class StockPredictor:
             # Technical and sentiment features are already normalized in hybrid data
             # Just extract them directly
             technical_features = stock_data[technical_cols].values
-            sentiment_features = stock_data[sentiment_cols].values
+            sentiment_features = stock_data[actual_sentiment_cols].values
             
             # Generate predictions
             predictions = []
@@ -124,8 +125,6 @@ class StockPredictor:
             lower = predictions_denorm * 0.95
             upper = predictions_denorm * 1.05
             
-            print(f"Prediction range: ${predictions_denorm[0]:.2f} to ${predictions_denorm[-1]:.2f}")
-            
             return {
                 'dates': pred_dates,
                 'prices': predictions_denorm.tolist(),
@@ -134,29 +133,7 @@ class StockPredictor:
             }
             
         except Exception as e:
-            print(f"Error in prediction: {e}")
-            return self._generate_sample_prediction(stock_data, days)
-    
-    def _generate_sample_prediction(self, stock_data, days):
-        """Generate sample prediction when model not available"""
-        last_price = stock_data['Close'].iloc[-1]
-        last_date = pd.to_datetime(stock_data['Date'].iloc[-1])
-        
-        # Simple random walk with slight upward bias
-        predictions = []
-        current_price = last_price
-        
-        for i in range(days):
-            change = np.random.normal(0.001, 0.02)  # Slight upward drift
-            current_price = current_price * (1 + change)
-            predictions.append(current_price)
-        
-        pred_dates = [last_date + timedelta(days=i+1) for i in range(days)]
-        
-        predictions = np.array(predictions)
-        lower = predictions * 0.95
-        upper = predictions * 1.05
-        
+            return None
         return {
             'dates': pred_dates,
             'prices': predictions.tolist(),

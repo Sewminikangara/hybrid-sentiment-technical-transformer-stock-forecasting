@@ -19,23 +19,20 @@ class DataLoader:
     def load_stock_data(self, stock='AAPL', is_forex=False):
         """Load hybrid data with real prices for a stock or forex pair"""
         try:
-            # For forex, load from forex data file
             if is_forex:
-                forex_files = list(self.raw_data_path.glob('forex_*_data_*.csv'))
+                forex_files = list(self.data_path.glob('forex_hybrid_data_*.csv'))
                 if not forex_files:
                     return None
                 
                 latest_forex = max(forex_files, key=lambda p: p.stat().st_mtime)
                 df_forex = pd.read_csv(latest_forex)
                 
-                # Filter by ticker
-                forex_data = df_forex[df_forex['Ticker'] == stock].copy()
+                forex_data = df_forex[df_forex['Stock'] == stock].copy()
                 forex_data = forex_data.sort_values('Date').reset_index(drop=True)
                 
                 if len(forex_data) > 0:
-                    # Rename columns to match expected format
-                    forex_data['Stock'] = stock
                     return forex_data
+                    
                 return None
             
             # Load processed hybrid data (normalized features) for stocks
@@ -78,9 +75,6 @@ class DataLoader:
             return stock_data
             
         except Exception as e:
-            print(f"Error loading stock data: {e}")
-            import traceback
-            traceback.print_exc()
             return None
     
     def load_training_results(self):
@@ -97,7 +91,6 @@ class DataLoader:
             return results
             
         except Exception as e:
-            print(f"Error loading results: {e}")
             return None
     
     def get_stock_info(self, stock):
