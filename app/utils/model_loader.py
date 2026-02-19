@@ -41,22 +41,28 @@ class ModelLoader:
                 print(f"Model file not found: {model_path}")
                 return None
             
-            # Load checkpoint first to check format
-            checkpoint = torch.load(model_path, map_location=self.device)
+            # Load checkpoint - use weights_only=False for models saved with numpy objects
+            checkpoint = torch.load(model_path, map_location=self.device, weights_only=False)
             
             # Determine if this is forex model (has config) or stock model
             if isinstance(checkpoint, dict) and 'config' in checkpoint:
-                # Forex model - use smaller architecture
+                # Forex model - use configuration from checkpoint
                 d_model = 64
                 nhead = 4
                 num_layers = 2
                 hidden_size_lstm = 64
+                # Forex models use 29 technical + 7 sentiment = 36 total
+                technical_dim = 29
+                sentiment_dim = 7
             else:
                 # Stock model - use original architecture
                 d_model = 128
                 nhead = 8
                 num_layers = 3
                 hidden_size_lstm = 128
+                # Stock models use 35 technical + 7 sentiment = 42 total
+                technical_dim = 35
+                sentiment_dim = 7
             
             # Initialize model architecture (using correct parameter names)
             if model_key == 'early_fusion':
