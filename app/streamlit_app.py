@@ -19,14 +19,14 @@ from utils.visualizer import ChartVisualizer
 
 # Page config - MUST be first Streamlit command
 st.set_page_config(
-    page_title="TradeXy - AI Trading Intelligence",
+    page_title="TradeXy - Stock Forecasting Platform",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
         'Get Help': 'https://github.com/Sewminikangara',
         'Report a bug': 'https://github.com/Sewminikangara',
-        'About': "# TradeXy\nProfessional AI Trading Intelligence Platform"
+        'About': "# TradeXy\nHybrid Sentiment-Technical Stock Forecasting Platform"
     }
 )
 
@@ -37,7 +37,7 @@ st.markdown("""
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="TradeXy">
 <meta name="theme-color" content="#0F172A">
-<meta name="description" content="TradeXy - Professional AI Trading Intelligence. Real-time predictions powered by deep learning transformers.">
+<meta name="description" content="TradeXy - Professional Stock Forecasting Platform. Real-time predictions powered by deep learning transformers.">
 
 <link rel="icon" type="image/png" href="⚡">
 <link rel="apple-touch-icon" sizes="180x180" href="⚡">
@@ -213,10 +213,10 @@ def main():
             ⚡ TradeXy
         </h1>
         <p style='color: #94A3B8; font-size: 1.1rem; margin-top: 0.5rem; font-weight: 500;'>
-            Professional AI Trading Intelligence Platform
+            Hybrid Sentiment-Technical Stock Forecasting Platform
         </p>
         <p style='color: #64748B; font-size: 0.9rem;'>
-            Powered by Deep Learning Transformers | Real-time Market Analysis
+            Transformer-based Prediction Models | Multi-Market Analysis
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -269,7 +269,7 @@ def main():
         
         # Show forex disclaimer
         if market_type == "Forex":
-            st.info("Forex data available - AI predictions coming soon! Currently showing real exchange rates from European Central Bank.")
+            st.info("Forex data available - Predictions available! Currently showing real exchange rates from European Central Bank.")
         
         # Model selector
         models = ['Early Fusion', 'Late Fusion', 'Attention Fusion', 'LSTM Baseline']
@@ -348,10 +348,10 @@ def main():
         2. Tap 'Install app'
         """)
     
-    # Main content - Use selectbox instead of tabs for AI Assistant compatibility
+    # Main content
     view_mode = st.selectbox(
         "Select View:",
-        ["Prediction", "Analysis", "Compare Models", "Trading Bot", "Auto Trader", "AI Assistant", "About"],
+        ["Prediction", "Analysis", "Compare Models", "Trading Bot", "Auto Trader", "About"],
         index=0
     )
     
@@ -367,8 +367,6 @@ def main():
         show_trading_bot_tab(selected_stock, selected_model, is_forex)
     elif view_mode == "Auto Trader":
         show_auto_trader_tab(selected_stock, selected_model, is_forex)
-    elif view_mode == "AI Assistant":
-        show_ai_assistant_tab(selected_stock, selected_model)
     elif view_mode == "About":
         show_about_tab()
 
@@ -379,7 +377,7 @@ def show_prediction_tab(stock, model, days, is_forex=False):
     st.header(f"{stock} {label}")
     
     if is_forex:
-        st.info("💱 Forex predictions use the same AI transformer models trained on currency pairs from European Central Bank data.")
+        st.info("💱 Forex predictions use the same transformer models trained on currency pairs from European Central Bank data.")
     
     try:
         with st.spinner("Loading data..."):
@@ -902,10 +900,10 @@ def show_trading_bot_tab(stock, model_name, is_forex=False):
     st.header("🤖 Automated Trading Bot")
     
     st.markdown("""
-    ### AI-Powered Trading Signal Generator
+    ### Prediction-Based Trading Signal Generator
     
-    This trading bot extension analyzes market conditions in real-time and generates automated trading signals based on:
-    - **AI Predictions**: Deep learning transformer forecasts
+    This trading bot analyzes market conditions in real-time and generates automated trading signals based on:
+    - **Model Predictions**: Deep learning transformer forecasts
     - **Technical Analysis**: RSI, MACD, Bollinger Bands
     - **Sentiment Signals**: News sentiment momentum
     - **Risk Management**: Stop-loss and take-profit recommendations
@@ -1120,7 +1118,7 @@ def show_trading_bot_tab(stock, model_name, is_forex=False):
     
     st.info("""
     💡 **Note**: This is a research demonstration of automated trading signals. 
-    The bot generates signals based on AI predictions but does **NOT** execute real trades.
+    The bot generates signals based on model predictions but does **NOT** execute real trades.
     
     To implement actual trading:
     1. Connect to broker API (Alpaca, Interactive Brokers, etc.)
@@ -1150,7 +1148,7 @@ def show_trading_bot_tab(stock, model_name, is_forex=False):
     st.warning("""
     ⚠️ **Important Disclaimer**:
     - This bot is for **educational and research purposes only**
-    - **NOT financial advice** - Automated signals are AI-generated estimates
+    - **NOT financial advice** - Automated signals are model-generated estimates
     - **High risk** - Automated trading can result in significant losses
     - **Test thoroughly** - Always paper trade before using real money
     - **Monitor constantly** - Never leave automated trading unattended
@@ -1164,10 +1162,10 @@ def show_auto_trader_tab(stock, model, is_forex=False):
     st.header("🤖 Automated Trading Bot")
     
     st.info("""
-    **Automated AI Trading** - Connect to Binance Testnet (fake money) or run paper trading to automatically execute trades based on model predictions!
+    **Automated Model-Based Trading** - Connect to Binance Testnet (fake money) or run paper trading to automatically execute trades based on model predictions!
     
     - ✅ **Safe**: Uses Binance Testnet (no real money at risk)
-    - ✅ **Automated**: Auto-executes BUY/SELL based on AI confidence
+    - ✅ **Automated**: Auto-executes BUY/SELL based on model confidence
     - ✅ **Risk Managed**: Built-in stop-loss and take-profit
     - ✅ **Performance Tracking**: Real-time win rate, P&L, Sharpe ratio
     """)
@@ -1320,13 +1318,13 @@ def show_auto_trader_tab(stock, model, is_forex=False):
         st.markdown("---")
         
         # Generate signal for current stock
-        st.subheader(f"AI Signal for {stock}")
+        st.subheader(f"Model Signal for {stock}")
         
         col1, col2 = st.columns([2, 1])
         
         with col1:
-            if st.button("🔮 Generate AI Trading Signal", type="primary"):
-                with st.spinner("Analyzing market with AI..."):
+            if st.button("🔮 Generate Trading Signal", type="primary"):
+                with st.spinner("Analyzing market with prediction models..."):
                     try:
                         # Load predictor
                         from utils.predictor import StockPredictor
@@ -1379,7 +1377,7 @@ def show_auto_trader_tab(stock, model, is_forex=False):
                                     st.metric("Current Price", f"${current_price:.4f}")
                                     st.metric("Predicted Price (Tomorrow)", f"${pred_price:.4f}",
                                              delta=f"{price_change_pct:+.2f}%")
-                                    st.metric("AI Confidence", f"{confidence*100:.1f}%")
+                                    st.metric("Model Confidence", f"{confidence*100:.1f}%")
                                     
                                     # Auto-execute button
                                     if signal != "HOLD":
@@ -1520,9 +1518,9 @@ def show_about_tab():
     st.header("⚡ About TradeXy")
     
     st.markdown("""
-    ### Professional AI Trading Intelligence Platform
+    ### Hybrid Sentiment-Technical Stock Forecasting Platform
     
-    **TradeXy** is a cutting-edge trading platform powered by deep learning transformers that combines sentiment analysis with technical indicators to predict stock and forex movements with research-grade accuracy.
+    **TradeXy** is a research-based trading platform powered by deep learning transformers that combines sentiment analysis with technical indicators to predict stock and forex movements with high accuracy.
     
     ---
     
@@ -1531,7 +1529,7 @@ def show_about_tab():
     - **Forex**: 6 major currency pairs (EUR/USD, GBP/USD, USD/JPY, AUD/USD, USD/CAD, USD/CHF)
     - **Real-time Analysis**: Live sentiment + technical indicator processing
     
-    #### 🤖 AI Model Architecture
+    #### 🤖 Model Architecture
     
     1. **Early Fusion Transformer**
        - Combines sentiment + technical at input layer
@@ -1561,7 +1559,7 @@ def show_about_tab():
     - Multi-model comparison dashboard
     - Advanced technical analysis (RSI, MACD, Bollinger, Stochastic)
     - Sentiment integration from financial news
-    - AI Trading Assistant for insights
+    - Automated Trading Signal Generator
     - Progressive Web App (PWA) - installable on any device
     - Professional dark theme with animations
     
@@ -1586,13 +1584,13 @@ def show_about_tab():
     
     **TradeXy** is a research platform demonstrating advanced deep learning for financial forecasting. **For educational and research purposes only**.
     
-    - ❌ **NOT financial advice** - AI-generated estimates only
+    - ❌ **NOT financial advice** - Model-generated estimates only
     - ⚠️ **Past performance ≠ Future results** - Markets are unpredictable
     - 💼 **Consult professionals** - Seek qualified financial advisors
     - 📊 **Do your research** - Use multiple sources
     - ⚡ **Trade responsibly** - Only invest what you can afford to lose
     
-    **Trading involves substantial risk. This showcases AI research capabilities.**
+    **Trading involves substantial risk. This platform demonstrates research capabilities in hybrid sentiment-technical forecasting.**
     
     ---
     
