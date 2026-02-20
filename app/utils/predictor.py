@@ -16,10 +16,11 @@ from utils.model_loader import ModelLoader
 class StockPredictor:
     """Generate stock price predictions"""
     
-    def __init__(self, stock, model_name, is_forex=False):
+    def __init__(self, stock, model_name, is_forex=False, is_crypto=False):
         self.stock = stock
         self.model_name = model_name
         self.is_forex = is_forex
+        self.is_crypto = is_crypto
         self.data_loader = DataLoader()
         self.model_loader = ModelLoader()
         self.sequence_length = 60
@@ -28,7 +29,7 @@ class StockPredictor:
         """Generate predictions for next N days"""
         try:
             # Load data
-            stock_data = self.data_loader.load_stock_data(self.stock, is_forex=self.is_forex)
+            stock_data = self.data_loader.load_stock_data(self.stock, is_forex=self.is_forex, is_crypto=self.is_crypto)
             
             if stock_data is None or len(stock_data) < self.sequence_length:
                 return None
@@ -36,11 +37,11 @@ class StockPredictor:
             # CRITICAL: Define exact column sets for technical vs sentiment features
             # These MUST match what the models were trained on
             
-            if self.is_forex:
-                # FOREX: Match train_forex_models.py exclusions
+            if self.is_forex or self.is_crypto:
+                # FOREX/CRYPTO: Match train_forex_models.py / collect_train_crypto.py exclusions
                 sentiment_cols_forex = ['sentiment_score', 'positive', 'negative', 'neutral',
                                        'sentiment_MA3', 'sentiment_MA7', 'sentiment_volatility']
-                exclude_forex = ['Date', 'Stock', 'Close',  # Match forex training
+                exclude_forex = ['Date', 'Stock', 'Open', 'High', 'Low', 'Close', 'Volume',
                                 'sentiment_score', 'positive', 'negative', 'neutral',
                                 'sentiment_MA3', 'sentiment_MA7', 'sentiment_volatility']
                 
@@ -91,9 +92,24 @@ class StockPredictor:
             tech_seq = torch.FloatTensor(technical_features[-self.sequence_length:]).unsqueeze(0).to(device)
             sent_seq = torch.FloatTensor(sentiment_features[-self.sequence_length:]).unsqueeze(0).to(device)
             
+            # Check if LSTM model (takes single combined input)
+            from models.baseline_lstm import LSTMModel
+            is_lstm = isinstance(model, LSTMModel)
+            
             with torch.no_grad():
                 for _ in range(days):
-                    pred = model(tech_seq, sent_seq)
+                    if is_lstm:
+                        # LSTM input size may be tech-only or tech+sent depending on training
+                        lstm_input_size = model.lstm.input_size
+                        if lstm_input_size == technical_dim:
+                            # Trained on technical features only
+                            pred = model(tech_seq)
+                        else:
+                            # Trained on combined features
+                            combined = torch.cat([tech_seq, sent_seq], dim=-1)
+                            pred = model(combined)
+                    else:
+                        pred = model(tech_seq, sent_seq)
                     predictions.append(pred.cpu().numpy()[0, 0])
                     
                     # Update sequence (simple approach - use last prediction)
@@ -134,9 +150,3 @@ class StockPredictor:
             
         except Exception as e:
             return None
-        return {
-            'dates': pred_dates,
-            'prices': predictions.tolist(),
-            'lower': lower.tolist(),
-            'upper': upper.tolist()
-        }

@@ -60,10 +60,10 @@ class ProfessionalTrader:
                 # Test connection
                 self.exchange.load_markets()
                 self.connected = True
-                print(f"✅ Connected to Binance {'Testnet' if testnet else 'Live'}")
+                print(f"Connected to Binance {'Testnet' if testnet else 'Live'}")
                 
             except Exception as e:
-                print(f"❌ Connection failed: {e}")
+                print(f"Connection failed: {e}")
                 self.exchange = None
                 self.connected = False
         
@@ -451,7 +451,7 @@ class ProfessionalTrader:
             
             return {
                 'status': 'success',
-                'message': f"✅ REAL ORDER EXECUTED: {signal} {position_size:.6f} {symbol} @ ${current_price:.2f}",
+                'message': f"REAL ORDER EXECUTED: {signal} {position_size:.6f} {symbol} @ ${current_price:.2f}",
                 'trade': trade_record,
                 'order': result
             }

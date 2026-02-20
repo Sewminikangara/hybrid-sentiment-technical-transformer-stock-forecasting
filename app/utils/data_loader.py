@@ -16,9 +16,25 @@ class DataLoader:
         self.raw_data_path = self.base_path / 'data_raw' / 'stock_prices'
         self.results_path = self.base_path / 'results'
         
-    def load_stock_data(self, stock='AAPL', is_forex=False):
-        """Load hybrid data with real prices for a stock or forex pair"""
+    def load_stock_data(self, stock='AAPL', is_forex=False, is_crypto=False):
+        """Load hybrid data with real prices for a stock, forex pair, or crypto pair"""
         try:
+            if is_crypto:
+                crypto_files = list(self.data_path.glob('crypto_hybrid_data_*.csv'))
+                if not crypto_files:
+                    return None
+
+                latest_crypto = max(crypto_files, key=lambda p: p.stat().st_mtime)
+                df_crypto = pd.read_csv(latest_crypto)
+
+                crypto_data = df_crypto[df_crypto['Stock'] == stock].copy()
+                crypto_data = crypto_data.sort_values('Date').reset_index(drop=True)
+
+                if len(crypto_data) > 0:
+                    return crypto_data
+
+                return None
+
             if is_forex:
                 forex_files = list(self.data_path.glob('forex_hybrid_data_*.csv'))
                 if not forex_files:
@@ -104,7 +120,13 @@ class DataLoader:
             'RELIANCE.NS': {'name': 'Reliance Industries', 'sector': 'Conglomerate', 'market': 'NSE'},
             'TCS.NS': {'name': 'Tata Consultancy Services', 'sector': 'IT Services', 'market': 'NSE'},
             'INFY.NS': {'name': 'Infosys Ltd.', 'sector': 'IT Services', 'market': 'NSE'},
-            'CSEALL': {'name': 'CSE All Share Index', 'sector': 'Index', 'market': 'CSE'}
+            'CSEALL': {'name': 'CSE All Share Index', 'sector': 'Index', 'market': 'CSE'},
+            'BTCUSD': {'name': 'Bitcoin', 'sector': 'Cryptocurrency', 'market': 'Crypto'},
+            'ETHUSD': {'name': 'Ethereum', 'sector': 'Cryptocurrency', 'market': 'Crypto'},
+            'BNBUSD': {'name': 'Binance Coin', 'sector': 'Cryptocurrency', 'market': 'Crypto'},
+            'SOLUSD': {'name': 'Solana', 'sector': 'Cryptocurrency', 'market': 'Crypto'},
+            'XRPUSD': {'name': 'XRP', 'sector': 'Cryptocurrency', 'market': 'Crypto'},
+            'ADAUSD': {'name': 'Cardano', 'sector': 'Cryptocurrency', 'market': 'Crypto'},
         }
         
         return stock_info.get(stock, {'name': stock, 'sector': 'Unknown', 'market': 'Unknown'})

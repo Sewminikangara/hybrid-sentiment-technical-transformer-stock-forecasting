@@ -44,14 +44,14 @@ class ModelLoader:
             # Load checkpoint - use weights_only=False for models saved with numpy objects
             checkpoint = torch.load(model_path, map_location=self.device, weights_only=False)
             
-            # Determine if this is forex model (has config) or stock model
+            # Determine if this is forex/crypto model (has config) or stock model
             if isinstance(checkpoint, dict) and 'config' in checkpoint:
-                # Forex model - use configuration from checkpoint
+                # Forex or crypto model - use configuration from checkpoint
                 d_model = 64
                 nhead = 4
                 num_layers = 2
                 hidden_size_lstm = 64
-                # Forex models use 29 technical + 7 sentiment = 36 total
+                # These models use 29 technical + 7 sentiment = 36 total
                 technical_dim = 29
                 sentiment_dim = 7
             else:
@@ -93,10 +93,24 @@ class ModelLoader:
                     dropout=0.1
                 )
             elif model_key == 'lstm':
-                # LSTM uses combined input_size
+                # LSTM uses combined input_size - auto-detect from checkpoint weights
+                if isinstance(checkpoint, dict) and 'model_state_dict' in checkpoint:
+                    weight = checkpoint['model_state_dict']['lstm.weight_ih_l0']
+                elif isinstance(checkpoint, dict) and 'lstm.weight_ih_l0' in checkpoint:
+                    weight = checkpoint['lstm.weight_ih_l0']
+                else:
+                    weight = None
+                
+                if weight is not None:
+                    actual_input_size = weight.shape[1]
+                    actual_hidden = weight.shape[0] // 4
+                else:
+                    actual_input_size = technical_dim + sentiment_dim
+                    actual_hidden = hidden_size_lstm
+                
                 model = LSTMModel(
-                    input_size=technical_dim + sentiment_dim,
-                    hidden_size=hidden_size_lstm,
+                    input_size=actual_input_size,
+                    hidden_size=actual_hidden,
                     num_layers=2,
                     dropout=0.2
                 )
