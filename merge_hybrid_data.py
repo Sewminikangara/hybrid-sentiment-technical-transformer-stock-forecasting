@@ -152,8 +152,13 @@ def load_and_merge_data():
     print("\nFeature categories:")
     tech_features = [c for c in final_df.columns if c not in ['Date', 'Stock', 'stock', 'date', 'source', 'sentiment_score', 'sentiment_label', 'confidence', 'sentiment_positive', 'sentiment_negative', 'sentiment_neutral', 'sentiment_ma3', 'sentiment_ma7', 'sentiment_volatility']]
     sent_features = ['sentiment_score', 'sentiment_positive', 'sentiment_negative', 'sentiment_neutral', 'sentiment_ma3', 'sentiment_ma7', 'sentiment_volatility']
+    ew_features = [c for c in final_df.columns if c.startswith('ew_')]
     
-    print(f"  Technical indicators: {len(tech_features)}")
+    print(f"  Technical indicators (incl. Elliott Wave): {len(tech_features)}")
+    print(f"  └─ Elliott Wave features (Frost & Prechter): {len(ew_features)}")
+    if ew_features:
+        for ef in ew_features:
+            print(f"       • {ef}")
     print(f"  Sentiment features: {len(sent_features)}")
     print(f"  Total predictive features: {len(tech_features) + len(sent_features)}")
     
