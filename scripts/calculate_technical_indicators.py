@@ -8,6 +8,15 @@ from ta.trend import MACD, EMAIndicator, SMAIndicator
 from ta.momentum import RSIIndicator, StochasticOscillator
 from ta.volume import OnBalanceVolumeIndicator
 
+# Elliott Wave Principle (Frost & Prechter, 1978/2005)
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent))
+try:
+    from scripts.elliott_wave_analyzer import ElliottWaveAnalyzer
+except ImportError:
+    from elliott_wave_analyzer import ElliottWaveAnalyzer
+
 def create_output_directory():
     """Create directory for processed technical data"""
     base_path = Path(__file__).parent.parent / 'data_processed' / 'technical'
@@ -133,8 +142,29 @@ def calculate_trend_features(df):
     
     return df
 
+
+def calculate_elliott_wave(df):
+    """Calculate Elliott Wave features (Frost & Prechter, 1978/2005)
+    
+    Generates 8 features based on Elliott Wave Principle:
+    - ew_wave_number:        Current wave (1-5 impulse, -1/-2/-3 corrective A/B/C)
+    - ew_wave_direction:     Impulse direction (1=bullish, -1=bearish, 0=neutral)
+    - ew_wave_position:      Normalised position within current wave (0→1)
+    - ew_fib_retracement_382: Distance to 38.2% Fibonacci level
+    - ew_fib_retracement_618: Distance to 61.8% Fibonacci level
+    - ew_wave_confidence:    Confidence of wave pattern identification (0→1)
+    - ew_impulse_strength:   Strength of impulse wave momentum
+    - ew_corrective_depth:   Depth of corrective retracement vs impulse range
+    """
+    print("  Calculating Elliott Wave Features (Frost & Prechter)...")
+    
+    analyzer = ElliottWaveAnalyzer(lookback=120, swing_order=5)
+    df = analyzer.calculate_elliott_wave_features(df, price_col='Close')
+    
+    return df
+
 def calculate_all_indicators(df):
-    """Calculate all technical indicators"""
+    """Calculate all technical indicators including Elliott Wave features"""
     print("\nCalculating Technical Indicators...")
     
     df = calculate_moving_averages(df)
@@ -145,8 +175,9 @@ def calculate_all_indicators(df):
     df = calculate_obv(df)
     df = calculate_price_features(df)
     df = calculate_trend_features(df)
+    df = calculate_elliott_wave(df)  # Elliott Wave Principle (Frost & Prechter)
     
-    print("✓ All indicators calculated")
+    print("✓ All indicators calculated (including Elliott Wave)")
     
     return df
 
@@ -213,7 +244,8 @@ def display_indicator_info():
         "Stochastic Oscillator": "Momentum indicator comparing closing price to price range",
         "OBV (On-Balance Volume)": "Volume-based indicator predicting price movements",
         "Price Features": "Returns, volatility, momentum",
-        "Trend Features": "Trend direction and strength"
+        "Trend Features": "Trend direction and strength",
+        "Elliott Wave (Frost & Prechter)": "Wave pattern detection: 5-wave impulse + 3-wave corrective, Fibonacci retracements, wave confidence & position"
     }
     
     for indicator, description in indicators_info.items():
