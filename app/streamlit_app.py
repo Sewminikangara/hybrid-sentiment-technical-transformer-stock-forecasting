@@ -200,7 +200,7 @@ def main():
         except Exception:
             pass
 
-    PAGES = ["Home", "Prediction", "Analysis", "Compare Models",
+    PAGES = ["Home", "Prediction", "Analysis", "Elliott Wave", "Compare Models",
              "Training Results", "Backtesting Results", "Statistical Validation",
              "Portfolio Manager", "Batch Prediction", "Performance Dashboard",
              "Trading Bot", "Auto Trader", "About"]
@@ -215,6 +215,8 @@ def main():
         show_prediction_tab(selected_stock, selected_model, pred_days, is_forex, is_crypto)
     elif view_mode == "Analysis":
         show_analysis_tab(selected_stock, is_forex, is_crypto)
+    elif view_mode == "Elliott Wave":
+        show_elliott_wave_tab(selected_stock, is_forex, is_crypto)
     elif view_mode == "Compare Models":
         show_comparison_tab(selected_stock, is_forex, is_crypto)
     elif view_mode == "Training Results":
@@ -254,7 +256,7 @@ def show_home_tab():
     with col3:
         st.metric("Model Architectures", "4", "Transformer-based")
     with col4:
-        st.metric("Feature Dimensions", "42", "35 Technical + 7 Sentiment")
+        st.metric("Feature Dimensions", "50", "43 Technical (incl. Elliott Wave) + 7 Sentiment")
 
     st.markdown("---")
     col1, col2, col3 = st.columns(3)
@@ -454,6 +456,233 @@ def show_analysis_tab(stock, is_forex=False, is_crypto=False):
                 st.plotly_chart(fig, use_container_width=True)
     except Exception as e:
         st.error(f"Error loading analysis: {str(e)}")
+
+
+def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
+    """Dedicated Elliott Wave Analysis page based on Frost & Prechter (1978/2005)"""
+    st.header(f"{stock} Elliott Wave Analysis")
+    st.markdown("""
+    <div style='background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%); padding: 1.5rem;
+         border-radius: 16px; border: 1px solid rgba(148, 163, 184, 0.1); margin-bottom: 1.5rem;'>
+        <p style='color: #94A3B8; margin: 0; font-size: 0.95rem;'>
+            <strong style='color: #A78BFA;'>Elliott Wave Principle</strong> (Frost & Prechter, 1978/2005):
+            Markets move in recursive 5-wave impulse patterns followed by 3-wave corrective patterns.
+            Wave relationships obey Fibonacci ratios (38.2%, 61.8%, 161.8%).
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    try:
+        data_loader = st.session_state.data_loader
+        stock_data = data_loader.load_stock_data(stock, is_forex=is_forex, is_crypto=is_crypto)
+        if stock_data is None or len(stock_data) == 0:
+            st.error(f"No data available for {stock}")
+            return
+
+        has_ew = 'ew_wave_number' in stock_data.columns
+
+        if has_ew:
+            last = stock_data.iloc[-1]
+            wave_num = int(last.get('ew_wave_number', 0))
+            direction = int(last.get('ew_wave_direction', 0))
+            confidence = float(last.get('ew_wave_confidence', 0))
+            position = float(last.get('ew_wave_position', 0.5))
+            fib_382 = float(last.get('ew_fib_retracement_382', 0))
+            fib_618 = float(last.get('ew_fib_retracement_618', 0))
+            impulse_str = float(last.get('ew_impulse_strength', 0))
+            corr_depth = float(last.get('ew_corrective_depth', 0))
+
+            # Wave label
+            if wave_num > 0:
+                wave_label = f"Impulse Wave {wave_num}"
+                phase = "Impulse"
+                phase_color = "#4CAF50" if direction >= 0 else "#f44336"
+            elif wave_num < 0:
+                abc_map = {-1: 'A', -2: 'B', -3: 'C'}
+                wave_label = f"Corrective Wave {abc_map.get(wave_num, '?')}"
+                phase = "Corrective"
+                phase_color = "#FFC107"
+            else:
+                wave_label = "No clear wave pattern"
+                phase = "Neutral"
+                phase_color = "#94A3B8"
+
+            dir_label = "Bullish 📈" if direction == 1 else ("Bearish 📉" if direction == -1 else "Neutral ➡️")
+
+            # Position label
+            if position < 0.33:
+                pos_label = "Early"
+            elif position < 0.67:
+                pos_label = "Middle"
+            else:
+                pos_label = "Late"
+
+            # ── Status Banner ──
+            st.markdown(f"""
+            <div style='background: linear-gradient(135deg, #1E293B 0%, #334155 100%); padding: 1.5rem;
+                 border-radius: 16px; border: 2px solid {phase_color}; margin-bottom: 1.5rem;
+                 box-shadow: 0 10px 40px rgba(0,0,0,0.3);'>
+                <h2 style='margin:0; color: {phase_color}; font-size: 1.8rem;'>{wave_label}</h2>
+                <p style='color: #94A3B8; margin: 0.5rem 0 0 0;'>{dir_label} • {pos_label} stage ({position*100:.0f}% through wave) • Confidence: {confidence*100:.0f}%</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+            # ── Key Metrics Row ──
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("Current Wave", wave_label.split()[-1], phase)
+            with col2:
+                st.metric("Direction", dir_label.replace(" 📈","").replace(" 📉","").replace(" ➡️",""))
+            with col3:
+                st.metric("Wave Confidence", f"{confidence*100:.0f}%")
+            with col4:
+                st.metric("Wave Position", f"{position*100:.0f}%", pos_label)
+
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("Fib 38.2% Distance", f"{fib_382:.3f}")
+            with col2:
+                st.metric("Fib 61.8% Distance", f"{fib_618:.3f}")
+            with col3:
+                st.metric("Impulse Strength", f"{impulse_str*100:.0f}%")
+            with col4:
+                st.metric("Corrective Depth", f"{corr_depth*100:.0f}%")
+
+            st.markdown("---")
+
+            # ── Elliott Wave Feature History Chart ──
+            st.subheader("Elliott Wave Pattern Over Time")
+            recent = stock_data.tail(120).copy()
+            if 'Date' in recent.columns:
+                recent['Date'] = pd.to_datetime(recent['Date'])
+
+            fig = go.Figure()
+
+            # Price with wave coloring
+            fig.add_trace(go.Scatter(
+                x=recent['Date'] if 'Date' in recent.columns else recent.index,
+                y=recent['Close'],
+                mode='lines',
+                name='Price',
+                line=dict(color='#60A5FA', width=2)
+            ))
+
+            # Overlay wave confidence as fill
+            if 'ew_wave_confidence' in recent.columns:
+                close_min = recent['Close'].min()
+                close_range = recent['Close'].max() - close_min
+                conf_scaled = close_min + recent['ew_wave_confidence'] * close_range * 0.3
+                fig.add_trace(go.Scatter(
+                    x=recent['Date'] if 'Date' in recent.columns else recent.index,
+                    y=conf_scaled,
+                    mode='lines',
+                    name='Wave Confidence (scaled)',
+                    line=dict(color='#A78BFA', width=1, dash='dot'),
+                    opacity=0.5
+                ))
+
+            fig.update_layout(
+                template='plotly_dark',
+                plot_bgcolor='rgba(15,23,42,0)',
+                paper_bgcolor='rgba(15,23,42,0)',
+                height=400,
+                margin=dict(l=0, r=0, t=30, b=0),
+                xaxis_title='',
+                yaxis_title='Price',
+                legend=dict(orientation='h', yanchor='bottom', y=1.02)
+            )
+            st.plotly_chart(fig, use_container_width=True)
+
+            # ── Wave Number Timeline ──
+            col1, col2 = st.columns(2)
+            with col1:
+                st.subheader("Wave Number Timeline")
+                fig2 = go.Figure()
+                colors = []
+                for wn in recent['ew_wave_number']:
+                    if wn > 0:
+                        colors.append('#4CAF50')  # Impulse: green
+                    elif wn < 0:
+                        colors.append('#FFC107')  # Corrective: amber
+                    else:
+                        colors.append('#94A3B8')  # Neutral: grey
+
+                fig2.add_trace(go.Bar(
+                    x=recent['Date'] if 'Date' in recent.columns else recent.index,
+                    y=recent['ew_wave_number'],
+                    marker_color=colors,
+                    name='Wave Number'
+                ))
+                fig2.update_layout(
+                    template='plotly_dark',
+                    plot_bgcolor='rgba(15,23,42,0)',
+                    paper_bgcolor='rgba(15,23,42,0)',
+                    height=300,
+                    margin=dict(l=0, r=0, t=10, b=0),
+                    yaxis_title='Wave #'
+                )
+                st.plotly_chart(fig2, use_container_width=True)
+
+            with col2:
+                st.subheader("Fibonacci Distance")
+                fig3 = go.Figure()
+                fig3.add_trace(go.Scatter(
+                    x=recent['Date'] if 'Date' in recent.columns else recent.index,
+                    y=recent['ew_fib_retracement_382'],
+                    mode='lines', name='Fib 38.2%',
+                    line=dict(color='#F472B6', width=2)
+                ))
+                fig3.add_trace(go.Scatter(
+                    x=recent['Date'] if 'Date' in recent.columns else recent.index,
+                    y=recent['ew_fib_retracement_618'],
+                    mode='lines', name='Fib 61.8%',
+                    line=dict(color='#FBBF24', width=2)
+                ))
+                fig3.add_hline(y=0, line_dash='dash', line_color='#64748B', opacity=0.5)
+                fig3.update_layout(
+                    template='plotly_dark',
+                    plot_bgcolor='rgba(15,23,42,0)',
+                    paper_bgcolor='rgba(15,23,42,0)',
+                    height=300,
+                    margin=dict(l=0, r=0, t=10, b=0),
+                    yaxis_title='Distance',
+                    legend=dict(orientation='h', yanchor='bottom', y=1.02)
+                )
+                st.plotly_chart(fig3, use_container_width=True)
+
+            # ── Theory Reference ──
+            st.markdown("---")
+            with st.expander("📖 Elliott Wave Theory Reference (Frost & Prechter)", expanded=False):
+                st.markdown("""
+                **Elliott Wave Principle** was first described by R.N. Elliott in the 1930s and
+                comprehensively documented by A.J. Frost and Robert R. Prechter Jr. in their
+                seminal text *"Elliott Wave Principle: Key to Market Behavior"* (1978, 10th ed. 2005).
+
+                **Core Rules (Inviolable):**
+                1. **Wave 2** never retraces more than 100% of Wave 1
+                2. **Wave 3** is never the shortest of the three impulse waves (1, 3, 5)
+                3. **Wave 4** never enters the price territory of Wave 1
+
+                **Fibonacci Relationships:**
+                - Wave 2 typically retraces **50–61.8%** of Wave 1
+                - Wave 3 often extends to **161.8%** of Wave 1
+                - Wave 4 typically retraces **38.2%** of Wave 3
+                - Wave 5 often equals or is **61.8%** of Wave 1
+
+                **Pattern Structure:**
+                - **Impulse (5-wave):** Waves 1-2-3-4-5 in the direction of the trend
+                - **Corrective (3-wave):** Waves A-B-C against the trend
+                - Patterns are **fractal** — they repeat at all time scales
+
+                **Reference:** Frost, A.J. & Prechter, R.R. (2005). *Elliott Wave Principle:
+                Key to Market Behavior.* 10th Edition. New Classics Library.
+                """)
+        else:
+            st.info("Elliott Wave features (`ew_*` columns) are not present in the loaded dataset. "
+                    "Re-run the technical indicator calculation and data merge pipeline to generate them.")
+
+    except Exception as e:
+        st.error(f"Error loading Elliott Wave analysis: {str(e)}")
 
 
 def show_comparison_tab(stock, is_forex=False, is_crypto=False):
@@ -1495,7 +1724,8 @@ def show_about_tab():
     - **Stock Models**: 377 days training data across 9 stocks
     - **Forex Models**: 267 days training data across 6 pairs
     - **Crypto Models**: 1311 days training data across 6 major cryptocurrencies
-    - **Features**: 35-42 technical indicators + 7 sentiment metrics
+    - **Features**: 43 technical indicators (incl. 8 Elliott Wave features) + 7 sentiment metrics
+    - **Elliott Wave**: Frost & Prechter impulse/corrective pattern detection with Fibonacci analysis
     - **Accuracy**: ~65% directional accuracy (statistically validated)
     - **Validation**: T-tests, ANOVA, backtesting analysis
 
@@ -1503,6 +1733,7 @@ def show_about_tab():
     - Real-time predictions with confidence intervals
     - Multi-model comparison dashboard
     - Advanced technical analysis (RSI, MACD, Bollinger, Stochastic)
+    - **Elliott Wave analysis** (Frost & Prechter impulse/corrective, Fibonacci levels)
     - Sentiment integration from financial news
     - Automated Trading Signal Generator
     - Progressive Web App (PWA) - installable on any device
