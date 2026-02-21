@@ -34,7 +34,7 @@ def initialize_sentiment_analyzers():
         )
         print("✓ FinBERT loaded")
     except Exception as e:
-        print(f"⚠️  FinBERT loading failed: {str(e)}")
+        print(f" FinBERT loading failed: {str(e)}")
         print("Continuing with VADER only...")
         finbert = None
     
