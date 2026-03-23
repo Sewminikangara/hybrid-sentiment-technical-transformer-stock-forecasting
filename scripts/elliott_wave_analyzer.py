@@ -2,10 +2,6 @@ import numpy as np
 import pandas as pd
 from typing import Tuple, List, Dict, Optional
 from scipy.signal import argrelextrema
-
-
-# 
-#  Fibonacci Constants (Frost & Prechter, Ch. 3)
 FIB_RATIOS = {
     'fib_236': 0.236,
     'fib_382': 0.382,
@@ -18,9 +14,9 @@ FIB_RATIOS = {
 }
 
 
-# 
+
 #  Swing Point Detection
-# 
+
 def detect_swing_points(prices: np.ndarray, order: int = 5) -> Tuple[np.ndarray, np.ndarray]:
     """
     Detect local swing highs and swing lows in price data.
@@ -77,9 +73,9 @@ def merge_swing_points(swing_highs: np.ndarray, swing_lows: np.ndarray,
     return cleaned
 
 
-# 
+
 #  Elliott Wave Validation Rules (Frost & Prechter, Ch. 2)
-# 
+
 def validate_impulse_wave(waves: List[Dict]) -> Dict:
     """
     Validate a potential 5-wave impulse pattern against
@@ -168,7 +164,7 @@ def validate_impulse_wave(waves: List[Dict]) -> Dict:
         else:
             violations.append('Rule 3 violated: Wave 4 overlaps Wave 1')
     
-    # ── FIBONACCI GUIDELINES (bonus confidence) ──
+    # FIBONACCI GUIDELINES (bonus confidence) 
     # Wave 2 retracement: ideally 50-61.8% of Wave 1
     if 0.382 <= w2_retracement <= 0.786:
         confidence += 0.10
@@ -277,9 +273,7 @@ def validate_corrective_wave(waves: List[Dict], impulse_direction: int) -> Dict:
     }
 
 
-# ──────────────────────────────────────────────────────────
 #  Fibonacci Level Calculator
-# ──────────────────────────────────────────────────────────
 def calculate_fibonacci_levels(swing_low: float, swing_high: float) -> Dict[str, float]:
     """
     Calculate Fibonacci retracement and extension levels between two price points.
@@ -619,9 +613,7 @@ class ElliottWaveAnalyzer:
         }
 
 
-# ──────────────────────────────────────────────────────────
 #  Convenience Functions
-# ──────────────────────────────────────────────────────────
 def add_elliott_wave_features(df: pd.DataFrame, price_col: str = 'Close',
                                lookback: int = 120, swing_order: int = 5) -> pd.DataFrame:
     """

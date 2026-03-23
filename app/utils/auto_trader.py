@@ -1,16 +1,16 @@
-"""
-Automated Trading  for Binance Testnet
-Executes trades based on AI model predictions
-"""
-
 import json
 import time
 from datetime import datetime
 from pathlib import Path
 import pandas as pd
 import numpy as np
-from binance.client import Client
-from binance.exceptions import BinanceAPIException
+try:
+    from binance.client import Client
+    from binance.exceptions import BinanceAPIException
+    HAS_BINANCE = True
+except ImportError:
+    HAS_BINANCE = False
+    class BinanceAPIException(Exception): pass
 
 
 class AutoTrader:
@@ -29,19 +29,26 @@ class AutoTrader:
         self.config_file = Path(__file__).parent.parent / 'trading_config.json'
         
         # Initialize Binance client (testnet or live)
-        if api_key and api_secret:
-            if testnet:
-                # Binance Testnet
-                self.client = Client(api_key, api_secret, testnet=True)
-                self.client.API_URL = 'https://testnet.binance.vision/api'
-            else:
-                # Live Binance (use with caution!)
-                self.client = Client(api_key, api_secret)
-            self.connected = True
+        if api_key and api_secret and HAS_BINANCE:
+            try:
+                if testnet:
+                    # Binance Testnet
+                    self.client = Client(api_key, api_secret, testnet=True)
+                    self.client.API_URL = 'https://testnet.binance.vision/api'
+                else:
+                    # Live Binance (use with caution!)
+                    self.client = Client(api_key, api_secret)
+                self.connected = True
+            except Exception as e:
+                print(f"Error connecting to Binance: {e}")
+                self.client = None
+                self.connected = False
         else:
             # Paper trading mode (simulated)
             self.client = None
             self.connected = False
+            if api_key and api_secret and not HAS_BINANCE:
+                print("Warning: API keys provided but python-binance is not installed. Defaulting to paper trading.")
         
         # Load or initialize trading history
         self.load_trading_history()
@@ -54,11 +61,14 @@ class AutoTrader:
         default_config = {
             'risk_per_trade': 0.02,  # 2% of portfolio per trade
             'max_trades_per_day': 10,
-            'stop_loss_pct': 0.02,  # 2% stop loss
-            'take_profit_pct': 0.05,  # 5% take profit
-            'min_confidence': 0.65,  # Minimum 65% confidence to trade
+            'stop_loss_pct': 0.02,  # 2% initial stop loss
+            'trailing_stop_pct': 0.015, # 1.5% trailing stop
+            'tp_target1_pct': 0.03,  # 3% take profit (close 50%)
+            'tp_target2_pct': 0.07,  # 7% take profit (close 50%)
+            'daily_loss_limit_pct': 0.05, # Stop trading if 5% lost today
+            'min_confidence': 0.75,  # Increased confidence for "High Accuracy" signals
             'trading_pairs': ['BTCUSDT', 'ETHUSDT', 'BNBUSDT'],
-            'initial_balance': 10000.0,  # $10,000 initial balance for paper trading
+            'initial_balance': 10000.0,  
         }
         
         if self.config_file.exists():
@@ -116,13 +126,10 @@ class AutoTrader:
                 print(f"Error getting price for {symbol}: {e}")
                 return None
         else:
-            # Paper trading - use simulated/last known price
-            # In production, you'd fetch from a free API
             return self.get_simulated_price(symbol)
     
     def get_simulated_price(self, symbol):
         """Get simulated price for paper trading"""
-        # Simulated prices for demo (in production, fetch from API)
         sim_prices = {
             'BTCUSDT': 50000.0,
             'ETHUSDT': 3000.0,
@@ -167,13 +174,15 @@ class AutoTrader:
             risk_amount = self.trades['balance'] * self.config['risk_per_trade']
             quantity = risk_amount / current_price
         
-        # Calculate stop loss and take profit
+        # Calculate stop loss and multiple take profit targets
         if signal == 'BUY':
             stop_loss = current_price * (1 - self.config['stop_loss_pct'])
-            take_profit = current_price * (1 + self.config['take_profit_pct'])
+            tp1 = current_price * (1 + self.config['tp_target1_pct'])
+            tp2 = current_price * (1 + self.config['tp_target2_pct'])
         else:  # SELL
             stop_loss = current_price * (1 + self.config['stop_loss_pct'])
-            take_profit = current_price * (1 - self.config['take_profit_pct'])
+            tp1 = current_price * (1 - self.config['tp_target1_pct'])
+            tp2 = current_price * (1 - self.config['tp_target2_pct'])
         
         # Create trade record
         trade = {
@@ -181,9 +190,14 @@ class AutoTrader:
             'symbol': symbol,
             'signal': signal,
             'entry_price': current_price,
+            'highest_price': current_price if signal == 'BUY' else 999999.0,
+            'lowest_price': current_price if signal == 'SELL' else 0.0,
             'quantity': quantity,
+            'remaining_quantity': quantity,
             'stop_loss': stop_loss,
-            'take_profit': take_profit,
+            'tp1': tp1,
+            'tp2': tp2,
+            'tp1_hit': False,
             'confidence': confidence,
             'status': 'open',
             'entry_time': datetime.now().isoformat(),
@@ -226,8 +240,9 @@ class AutoTrader:
         }
     
     def check_and_close_positions(self):
-        """Check open positions for stop loss or take profit triggers"""
+        """Check open positions for stop loss, take profit, or trailing stop triggers"""
         closed_positions = []
+        updates_made = False
         
         for position in self.trades['positions']:
             symbol = position['symbol']
@@ -236,74 +251,120 @@ class AutoTrader:
             if current_price is None:
                 continue
             
-            should_close = False
+            should_close_all = False
+            should_close_partial = False
             close_reason = None
             
-            # Check stop loss
+            # Update Trailing Stop logic
+            if position['signal'] == 'BUY':
+                if current_price > position.get('highest_price', 0):
+                    position['highest_price'] = current_price
+                    # Move stop loss up
+                    new_sl = current_price * (1 - self.config.get('trailing_stop_pct', 0.02))
+                    if new_sl > position['stop_loss']:
+                        position['stop_loss'] = new_sl
+                        updates_made = True
+            else: # SELL
+                if current_price < position.get('lowest_price', 999999):
+                    position['lowest_price'] = current_price
+                    # Move stop loss down
+                    new_sl = current_price * (1 + self.config.get('trailing_stop_pct', 0.02))
+                    if new_sl < position['stop_loss']:
+                        position['stop_loss'] = new_sl
+                        updates_made = True
+
+            # 1. Check stop loss
             if position['signal'] == 'BUY' and current_price <= position['stop_loss']:
-                should_close = True
+                should_close_all = True
                 close_reason = 'stop_loss'
             elif position['signal'] == 'SELL' and current_price >= position['stop_loss']:
-                should_close = True
+                should_close_all = True
                 close_reason = 'stop_loss'
             
-            # Check take profit
-            if position['signal'] == 'BUY' and current_price >= position['take_profit']:
-                should_close = True
-                close_reason = 'take_profit'
-            elif position['signal'] == 'SELL' and current_price <= position['take_profit']:
-                should_close = True
-                close_reason = 'take_profit'
+            # 2. Check Take Profit 1 (Close 50%)
+            if not position.get('tp1_hit', False):
+                if (position['signal'] == 'BUY' and current_price >= position['tp1']) or \
+                   (position['signal'] == 'SELL' and current_price <= position['tp1']):
+                    should_close_partial = True
+                    close_reason = 'tp1'
             
-            if should_close:
-                # Close position
-                position['exit_price'] = current_price
-                position['exit_time'] = datetime.now().isoformat()
-                position['close_reason'] = close_reason
-                position['status'] = 'closed'
-                
-                # Calculate profit/loss
-                if position['signal'] == 'BUY':
-                    pnl = (current_price - position['entry_price']) * position['quantity']
-                else:  # SELL
-                    pnl = (position['entry_price'] - current_price) * position['quantity']
-                
-                position['pnl'] = pnl
-                position['pnl_pct'] = (pnl / (position['entry_price'] * position['quantity'])) * 100
-                
-                # Update balance
-                if not self.connected:
-                    if position['signal'] == 'BUY':
-                        self.trades['balance'] += current_price * position['quantity']
-                    else:
-                        self.trades['balance'] += position['entry_price'] * position['quantity']
-                    self.trades['balance'] += pnl
-                
-                # Update performance metrics
-                self.trades['performance']['total_trades'] += 1
-                self.trades['performance']['total_profit'] += pnl
-                
-                if pnl > 0:
-                    self.trades['performance']['winning_trades'] += 1
-                else:
-                    self.trades['performance']['losing_trades'] += 1
-                
-                # Calculate win rate
-                total = self.trades['performance']['total_trades']
-                wins = self.trades['performance']['winning_trades']
-                self.trades['performance']['win_rate'] = (wins / total * 100) if total > 0 else 0
-                
-                # Move to closed trades
-                self.trades['closed_trades'].append(position)
+            # 3. Check Take Profit 2 (Close All)
+            if (position['signal'] == 'BUY' and current_price >= position['tp2']) or \
+               (position['signal'] == 'SELL' and current_price <= position['tp2']):
+                should_close_all = True
+                close_reason = 'tp2'
+            
+            if should_close_all:
+                # Close entire position
+                qty_to_close = position.get('remaining_quantity', position['quantity'])
+                self._process_close(position, current_price, qty_to_close, close_reason, is_partial=False)
                 closed_positions.append(position)
+                updates_made = True
+            elif should_close_partial:
+                # Close half position
+                qty_to_close = position['quantity'] * 0.5
+                self._process_close(position, current_price, qty_to_close, close_reason, is_partial=True)
+                updates_made = True
         
-        # Remove closed positions from open positions
+        # Remove closed positions
         self.trades['positions'] = [p for p in self.trades['positions'] if p['status'] != 'closed']
         
-        if closed_positions:
+        if updates_made or closed_positions:
             self.save_trading_history()
         
         return closed_positions
+
+    def _process_close(self, position, current_price, quantity, reason, is_partial=False):
+        """Helper to process a partial or full close"""
+        # Execute order on Binance if live
+        if self.connected and self.client:
+            try:
+                self.client.create_order(
+                    symbol=position['symbol'],
+                    side='SELL' if position['signal'] == 'BUY' else 'BUY',
+                    type='MARKET',
+                    quantity=round(quantity, 6)
+                )
+            except Exception as e:
+                print(f"Error closing position on Binance: {e}")
+
+        # Calculate PnL for this chunk
+        entry_price = position['entry_price']
+        if position['signal'] == 'BUY':
+            pnl = (current_price - entry_price) * quantity
+        else:
+            pnl = (entry_price - current_price) * quantity
+        
+        # Update balance
+        if not self.connected:
+            # Paper trading math
+            self.trades['balance'] += (current_price * quantity) if position['signal'] == 'BUY' else (entry_price * quantity + pnl)
+        
+        if is_partial:
+            position['tp1_hit'] = True
+            position['remaining_quantity'] -= quantity
+            # Realized PnL is tracked in closed trades
+            partial_record = position.copy()
+            partial_record['status'] = 'partially_closed'
+            partial_record['exit_price'] = current_price
+            partial_record['close_reason'] = reason
+            partial_record['pnl'] = pnl
+            partial_record['quantity'] = quantity
+            self.trades['closed_trades'].append(partial_record)
+        else:
+            position['status'] = 'closed'
+            position['exit_price'] = current_price
+            position['exit_time'] = datetime.now().isoformat()
+            position['close_reason'] = reason
+            position['pnl'] = pnl
+            position['quantity'] = quantity # Final chunk size for record
+            self.trades['closed_trades'].append(position)
+            
+        # Update performance
+        self.trades['performance']['total_trades'] += 1
+        self.trades['performance']['total_profit'] += pnl
+        if pnl > 0: self.trades['performance']['winning_trades'] += 1
+        else: self.trades['performance']['losing_trades'] += 1
     
     def get_performance_summary(self):
         """Get trading performance summary"""

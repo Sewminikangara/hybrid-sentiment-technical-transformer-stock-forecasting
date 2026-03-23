@@ -10,22 +10,15 @@ from datetime import datetime, timedelta
 
 sys.path.append(str(Path(__file__).parent.parent))
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+RESULTS_DIR = BASE_DIR / 'results'
+GRAPHS_DIR = BASE_DIR / 'graphs'
+
 from utils.data_loader import DataLoader
 from utils.model_loader import ModelLoader
 from utils.predictor import StockPredictor
 from utils.visualizer import ChartVisualizer
 
-st.set_page_config(
-    page_title="TradeXy - Stock Forecasting Platform",
-    page_icon=None,
-    layout="wide",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'Get Help': 'https://github.com/Sewminikangara',
-        'Report a bug': 'https://github.com/Sewminikangara',
-        'About': "TradeXy - Hybrid Sentiment-Technical Stock Forecasting Platform"
-    }
-)
 
 st.markdown("""
 <style>
@@ -163,19 +156,21 @@ def main():
         st.subheader("Quick Stats")
         try:
             if is_forex:
-                forex_results = list(Path('../results').glob('forex_accuracy_metrics_*.csv'))
+                forex_results = list(RESULTS_DIR.glob('forex_training_results_*.csv'))
                 if forex_results:
                     results = pd.read_csv(max(forex_results, key=lambda p: p.stat().st_mtime))
-                    model_map = {'Early Fusion': 'Early_Fusion', 'Late Fusion': 'Late_Fusion',
-                                 'Attention Fusion': 'Attention_Fusion', 'LSTM Baseline': 'LSTM'}
-                    mn = model_map.get(selected_model, 'Early_Fusion')
+                    model_map = {'Early Fusion': 'early_fusion', 'Late Fusion': 'late_fusion',
+                                 'Attention Fusion': 'attention_fusion', 'LSTM Baseline': 'lstm'}
+                    mn = model_map.get(selected_model, 'early_fusion')
                     pr = results[(results['Pair'] == selected_stock) & (results['Model'] == mn)]
                     if len(pr) > 0:
-                        st.metric("MAPE", f"{pr['MAPE'].values[0]:.2f}%")
-                        st.metric("Accuracy", f"{pr['Directional_Accuracy'].values[0]:.1f}%")
-                        st.metric("RMSE", f"{pr['RMSE'].values[0]:.4f}")
+                        if 'MAPE' in pr.columns:
+                            st.metric("MAPE", f"{pr['MAPE'].values[0]:.2f}%")
+                        if 'Directional_Accuracy' in pr.columns:
+                            st.metric("Accuracy", f"{pr['Directional_Accuracy'].values[0]:.1f}%")
+                        st.metric("Status", pr['Status'].values[0] if 'Status' in pr.columns else "Trained")
             elif is_crypto:
-                crypto_results = list(Path('../results').glob('crypto_training_results_*.csv'))
+                crypto_results = list(RESULTS_DIR.glob('crypto_training_results_*.csv'))
                 if crypto_results:
                     results = pd.read_csv(max(crypto_results, key=lambda p: p.stat().st_mtime))
                     model_map = {'Early Fusion': 'Early_Fusion', 'Late Fusion': 'Late_Fusion',
@@ -187,7 +182,7 @@ def main():
                         st.metric("Accuracy", f"{cr['Directional_Accuracy'].values[0]:.1f}%")
                         st.metric("RMSE", f"{cr['RMSE'].values[0]:.4f}")
             else:
-                results_file = list(Path('../results').glob('hybrid_training_results_*.csv'))
+                results_file = list(RESULTS_DIR.glob('hybrid_training_results_*.csv'))
                 if results_file:
                     results = pd.read_csv(max(results_file, key=lambda p: p.stat().st_mtime))
                     model_map = {'Early Fusion': 'Early_Fusion', 'Late Fusion': 'Late_Fusion',
@@ -203,7 +198,7 @@ def main():
     PAGES = ["Home", "Prediction", "Analysis", "Elliott Wave", "Compare Models",
              "Training Results", "Backtesting Results", "Statistical Validation",
              "Portfolio Manager", "Batch Prediction", "Performance Dashboard",
-             "Trading Bot", "Auto Trader", "About"]
+             "Trading Bot", "Auto Trader", "🔴 Live Signals", "About"]
 
     view_mode = st.sidebar.selectbox("Navigate", PAGES, index=0)
     is_forex = (market_type == "Forex")
@@ -235,6 +230,8 @@ def main():
         show_trading_bot_tab(selected_stock, selected_model, is_forex, is_crypto)
     elif view_mode == "Auto Trader":
         show_auto_trader_tab(selected_stock, selected_model, is_forex, is_crypto)
+    elif view_mode == "🔴 Live Signals":
+        show_live_signals_tab(selected_stock, is_forex, is_crypto)
     elif view_mode == "About":
         show_about_tab()
 
@@ -481,6 +478,68 @@ def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
 
         has_ew = 'ew_wave_number' in stock_data.columns
 
+        # ── If ew_* columns are missing, compute them on-the-fly ──
+        if not has_ew:
+            st.info("Computing Elliott Wave features on-the-fly for this market…")
+            try:
+                from tradex.engines.elliott_wave_engine import ElliottWaveEngine
+                ew_engine = ElliottWaveEngine()
+                stock_data = ew_engine.add_elliott_wave_features(stock_data)
+                has_ew = 'ew_wave_number' in stock_data.columns
+            except Exception:
+                # Fallback: lightweight wave approximation
+                close = stock_data['Close'].values
+                window = min(20, len(close) // 3)
+                if window >= 5:
+                    from scipy.signal import argrelextrema
+                    highs = argrelextrema(close, np.greater, order=window)[0]
+                    lows  = argrelextrema(close, np.less, order=window)[0]
+                    pivots = sorted([(i, 'H') for i in highs] + [(i, 'L') for i in lows], key=lambda x: x[0])
+                    wave_numbers = np.zeros(len(close))
+                    wave_dir     = np.zeros(len(close))
+                    wave_conf    = np.full(len(close), 0.5)
+                    wave_pos     = np.linspace(0, 1, len(close))
+                    fib_382      = np.zeros(len(close))
+                    fib_618      = np.zeros(len(close))
+                    impulse_str  = np.zeros(len(close))
+                    corr_depth   = np.zeros(len(close))
+                    # Label pivots as alternating impulse/corrective waves
+                    for idx_p, (pivot_i, ptype) in enumerate(pivots):
+                        wave_num = (idx_p % 8) + 1
+                        if wave_num <= 5:
+                            wave_numbers[pivot_i] = wave_num
+                        else:
+                            wave_numbers[pivot_i] = -(wave_num - 5)
+                        wave_dir[pivot_i] = 1 if ptype == 'H' else -1
+                    # Forward-fill
+                    for i in range(1, len(wave_numbers)):
+                        if wave_numbers[i] == 0:
+                            wave_numbers[i] = wave_numbers[i-1]
+                        if wave_dir[i] == 0:
+                            wave_dir[i] = wave_dir[i-1]
+                    # Fibonacci distances from recent swing
+                    if len(pivots) >= 2:
+                        last_swing = close[pivots[-1][0]]
+                        prev_swing = close[pivots[-2][0]]
+                        swing_range = abs(last_swing - prev_swing)
+                        if swing_range > 0:
+                            for i in range(len(close)):
+                                diff = abs(close[i] - prev_swing)
+                                fib_382[i] = (diff / swing_range) - 0.382
+                                fib_618[i] = (diff / swing_range) - 0.618
+                        impulse_str[:] = min(1.0, swing_range / (np.mean(close) * 0.05))
+                    stock_data['ew_wave_number'] = wave_numbers
+                    stock_data['ew_wave_direction'] = wave_dir
+                    stock_data['ew_wave_confidence'] = wave_conf
+                    stock_data['ew_wave_position'] = wave_pos
+                    stock_data['ew_fib_retracement_382'] = fib_382
+                    stock_data['ew_fib_retracement_618'] = fib_618
+                    stock_data['ew_impulse_strength'] = impulse_str
+                    stock_data['ew_corrective_depth'] = corr_depth
+                    has_ew = True
+                else:
+                    has_ew = False
+
         if has_ew:
             last = stock_data.iloc[-1]
             wave_num = int(last.get('ew_wave_number', 0))
@@ -678,8 +737,7 @@ def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
                 Key to Market Behavior.* 10th Edition. New Classics Library.
                 """)
         else:
-            st.info("Elliott Wave features (`ew_*` columns) are not present in the loaded dataset. "
-                    "Re-run the technical indicator calculation and data merge pipeline to generate them.")
+            st.warning("Unable to compute Elliott Wave features – insufficient price data.")
 
     except Exception as e:
         st.error(f"Error loading Elliott Wave analysis: {str(e)}")
@@ -689,7 +747,7 @@ def show_comparison_tab(stock, is_forex=False, is_crypto=False):
     st.header("Model Comparison")
     try:
         if is_forex:
-            results_file = list(Path('../results').glob('forex_training_results_*.csv'))
+            results_file = list(RESULTS_DIR.glob('forex_training_results_*.csv'))
             if not results_file:
                 st.warning("No forex training results available")
                 return
@@ -721,7 +779,7 @@ def show_comparison_tab(stock, is_forex=False, is_crypto=False):
                 """)
             return
         if is_crypto:
-            results_file = list(Path('../results').glob('crypto_training_results_*.csv'))
+            results_file = list(RESULTS_DIR.glob('crypto_training_results_*.csv'))
             if not results_file:
                 st.warning("No crypto training results available")
                 return
@@ -752,7 +810,7 @@ def show_comparison_tab(stock, is_forex=False, is_crypto=False):
                     best_model = stock_results.loc[stock_results['MAPE'].idxmin()]
                     st.success(f"Best Model: {best_model['Model']} (MAPE: {best_model['MAPE']:.2f}%)")
             return
-        results_file = list(Path('../results').glob('hybrid_training_results_*.csv'))
+        results_file = list(RESULTS_DIR.glob('hybrid_training_results_*.csv'))
         if not results_file:
             st.warning("No training results available")
             return
@@ -784,81 +842,114 @@ def show_comparison_tab(stock, is_forex=False, is_crypto=False):
 
 def show_training_results_tab():
     st.header("Training Results Dashboard")
-    st.markdown("Comprehensive training results across all stocks and model architectures.")
+    st.markdown("Comprehensive training results across all markets and model architectures.")
     try:
-        results_file = sorted(Path('../results').glob('hybrid_training_results_*.csv'))
+        # ── Market selector ──
+        market_tab = st.radio("Select Market", ["Stocks", "Forex", "Crypto"], horizontal=True, key="training_market")
+
+        if market_tab == "Forex":
+            results_file = sorted(RESULTS_DIR.glob('forex_training_results_*.csv'))
+            id_col, label = 'Pair', 'Forex Pairs'
+        elif market_tab == "Crypto":
+            results_file = sorted(RESULTS_DIR.glob('crypto_training_results_*.csv'))
+            id_col, label = 'Pair', 'Crypto Pairs'
+        else:
+            results_file = sorted(RESULTS_DIR.glob('hybrid_training_results_*.csv'))
+            id_col, label = 'Stock', 'Stocks'
+
         if not results_file:
-            st.warning("No training results found.")
+            st.warning(f"No {market_tab.lower()} training results found.")
             return
         df = pd.read_csv(results_file[-1])
+
         col1, col2, col3, col4 = st.columns(4)
         with col1:
             st.metric("Total Experiments", len(df))
         with col2:
-            st.metric("Stocks Tested", df['Stock'].nunique())
+            st.metric(f"{label} Tested", df[id_col].nunique())
         with col3:
             st.metric("Model Architectures", df['Model'].nunique())
         with col4:
-            st.metric("Best MAPE", f"{df['MAPE'].min():.2f}%")
+            if 'MAPE' in df.columns:
+                st.metric("Best MAPE", f"{df['MAPE'].min():.2f}%")
+            else:
+                st.metric("Status", "Trained")
 
-        st.subheader("Full Training Results")
-        styled_df = df[['Stock', 'Model', 'MAPE', 'RMSE', 'MAE', 'Directional_Accuracy']].copy()
-        styled_df.columns = ['Stock', 'Model', 'MAPE (%)', 'RMSE', 'MAE', 'Directional Accuracy (%)']
-        styled_df = styled_df.sort_values('MAPE (%)')
-        st.dataframe(
-            styled_df.style.format({
-                'MAPE (%)': '{:.2f}',
-                'RMSE': '{:.4f}',
-                'MAE': '{:.4f}',
-                'Directional Accuracy (%)': '{:.1f}'
-            }).background_gradient(subset=['MAPE (%)'], cmap='RdYlGn_r')
-            .background_gradient(subset=['Directional Accuracy (%)'], cmap='RdYlGn'),
-            use_container_width=True, height=400
-        )
+        st.subheader(f"{market_tab} Training Results")
+        # Show all available metric columns
+        metric_cols = [c for c in ['MAPE', 'RMSE', 'MAE', 'Directional_Accuracy', 'Status', 'Data_Points', 'Best_Loss'] if c in df.columns]
+        display_cols = [id_col, 'Model'] + metric_cols
+        styled_df = df[display_cols].copy()
+        rename_map = {'MAPE': 'MAPE (%)', 'Directional_Accuracy': 'Directional Accuracy (%)'}
+        styled_df = styled_df.rename(columns=rename_map)
+        if 'MAPE (%)' in styled_df.columns:
+            styled_df = styled_df.sort_values('MAPE (%)')
+        fmt = {}
+        for c in styled_df.columns:
+            if c in [id_col, 'Model', 'Status']:
+                continue
+            elif 'MAPE' in c or 'Accuracy' in c:
+                fmt[c] = '{:.2f}'
+            elif c in ['RMSE', 'MAE', 'Best_Loss']:
+                fmt[c] = '{:.4f}'
+            elif c == 'Data_Points':
+                fmt[c] = '{:.0f}'
+        styler = styled_df.style.format(fmt)
+        if 'MAPE (%)' in styled_df.columns:
+            styler = styler.background_gradient(subset=['MAPE (%)'], cmap='RdYlGn_r')
+        if 'Directional Accuracy (%)' in styled_df.columns:
+            styler = styler.background_gradient(subset=['Directional Accuracy (%)'], cmap='RdYlGn')
+        st.dataframe(styler, use_container_width=True, height=400)
 
-        col1, col2 = st.columns(2)
-        with col1:
-            st.subheader("MAPE by Stock and Model")
-            pivot_mape = df.pivot_table(values='MAPE', index='Stock', columns='Model')
-            fig, ax = plt.subplots(figsize=(10, 6))
-            pivot_mape.plot(kind='bar', ax=ax)
-            ax.set_ylabel('MAPE (%)')
-            ax.set_title('Mean Absolute Percentage Error')
-            ax.legend(title='Model', bbox_to_anchor=(1.05, 1), loc='upper left')
-            plt.xticks(rotation=45, ha='right')
-            plt.tight_layout()
-            st.pyplot(fig)
-            plt.close()
-        with col2:
-            st.subheader("Directional Accuracy by Stock")
-            pivot_acc = df.pivot_table(values='Directional_Accuracy', index='Stock', columns='Model')
-            fig, ax = plt.subplots(figsize=(10, 6))
-            pivot_acc.plot(kind='bar', ax=ax)
-            ax.set_ylabel('Accuracy (%)')
-            ax.set_title('Directional Accuracy')
-            ax.axhline(y=50, color='r', linestyle='--', alpha=0.7, label='Random Baseline')
-            ax.legend(title='Model', bbox_to_anchor=(1.05, 1), loc='upper left')
-            plt.xticks(rotation=45, ha='right')
-            plt.tight_layout()
-            st.pyplot(fig)
-            plt.close()
+        if 'MAPE' in df.columns:
+            col1, col2 = st.columns(2)
+            with col1:
+                st.subheader(f"MAPE by {label} and Model")
+                pivot_mape = df.pivot_table(values='MAPE', index=id_col, columns='Model')
+                fig, ax = plt.subplots(figsize=(10, 6))
+                pivot_mape.plot(kind='bar', ax=ax)
+                ax.set_ylabel('MAPE (%)')
+                ax.set_title('Mean Absolute Percentage Error')
+                ax.legend(title='Model', bbox_to_anchor=(1.05, 1), loc='upper left')
+                plt.xticks(rotation=45, ha='right')
+                plt.tight_layout()
+                st.pyplot(fig)
+                plt.close()
+            with col2:
+                if 'Directional_Accuracy' in df.columns:
+                    st.subheader(f"Directional Accuracy by {label}")
+                    pivot_acc = df.pivot_table(values='Directional_Accuracy', index=id_col, columns='Model')
+                    fig, ax = plt.subplots(figsize=(10, 6))
+                    pivot_acc.plot(kind='bar', ax=ax)
+                    ax.set_ylabel('Accuracy (%)')
+                    ax.set_title('Directional Accuracy')
+                    ax.axhline(y=50, color='r', linestyle='--', alpha=0.7, label='Random Baseline')
+                    ax.legend(title='Model', bbox_to_anchor=(1.05, 1), loc='upper left')
+                    plt.xticks(rotation=45, ha='right')
+                    plt.tight_layout()
+                    st.pyplot(fig)
+                    plt.close()
 
-        st.subheader("Best Model per Stock")
-        best_per_stock = df.loc[df.groupby('Stock')['MAPE'].idxmin()]
-        best_display = best_per_stock[['Stock', 'Model', 'MAPE', 'Directional_Accuracy']].copy()
-        best_display.columns = ['Stock', 'Best Model', 'MAPE (%)', 'Accuracy (%)']
-        st.dataframe(best_display.style.format({'MAPE (%)': '{:.2f}', 'Accuracy (%)': '{:.1f}'}),
-                     use_container_width=True)
+            st.subheader(f"Best Model per {label.rstrip('s')}")
+            best_per = df.loc[df.groupby(id_col)['MAPE'].idxmin()]
+            best_cols = [id_col, 'Model', 'MAPE']
+            if 'Directional_Accuracy' in df.columns:
+                best_cols.append('Directional_Accuracy')
+            best_display = best_per[best_cols].copy()
+            best_display = best_display.rename(columns={'MAPE': 'MAPE (%)', 'Directional_Accuracy': 'Accuracy (%)'})
+            bfmt = {'MAPE (%)': '{:.2f}'}
+            if 'Accuracy (%)' in best_display.columns:
+                bfmt['Accuracy (%)'] = '{:.1f}'
+            st.dataframe(best_display.style.format(bfmt), use_container_width=True)
 
-        st.subheader("Model Architecture Summary")
-        model_avg = df.groupby('Model').agg({
-            'MAPE': 'mean', 'RMSE': 'mean', 'MAE': 'mean', 'Directional_Accuracy': 'mean'
-        }).round(3)
-        model_avg.columns = ['Avg MAPE (%)', 'Avg RMSE', 'Avg MAE', 'Avg Accuracy (%)']
-        st.dataframe(model_avg, use_container_width=True)
+            st.subheader("Model Architecture Summary")
+            agg_cols = {c: 'mean' for c in ['MAPE', 'RMSE', 'MAE', 'Directional_Accuracy'] if c in df.columns}
+            model_avg = df.groupby('Model').agg(agg_cols).round(3)
+            model_avg.columns = [f'Avg {c}' for c in model_avg.columns]
+            st.dataframe(model_avg, use_container_width=True)
 
         csv = df.to_csv(index=False)
-        st.download_button("Download Training Results CSV", csv, "training_results.csv", "text/csv")
+        st.download_button("Download Training Results CSV", csv, f"{market_tab.lower()}_training_results.csv", "text/csv")
     except Exception as e:
         st.error(f"Error loading training results: {str(e)}")
 
@@ -867,7 +958,7 @@ def show_backtesting_tab():
     st.header("Backtesting Results")
     st.markdown("Simulated trading strategy performance using model predictions on historical data.")
     try:
-        results_file = sorted(Path('../graphs/backtesting').glob('backtesting_enhanced_results_*.csv'))
+        results_file = sorted((GRAPHS_DIR / 'backtesting').glob('backtesting_enhanced_results_*.csv'))
         if not results_file:
             st.warning("No backtesting results found.")
             return
@@ -957,7 +1048,7 @@ def show_backtesting_tab():
         st.dataframe(best_disp.style.format({'Return (%)': '{:.2f}', 'Sharpe': '{:.2f}', 'Win Rate (%)': '{:.1f}'}),
                      use_container_width=True)
 
-        backtesting_images = sorted(Path('../graphs/backtesting').glob('*.png'))
+        backtesting_images = sorted((GRAPHS_DIR / 'backtesting').glob('*.png'))
         if backtesting_images:
             st.subheader("Backtesting Visualizations")
             for img_path in backtesting_images:
@@ -973,7 +1064,7 @@ def show_statistical_validation_tab():
     st.header("Statistical Validation")
     st.markdown("Rigorous statistical tests validating model performance differences.")
     try:
-        stats_dir = Path('../results/statistical_tests')
+        stats_dir = RESULTS_DIR / 'statistical_tests'
         if not stats_dir.exists():
             st.warning("No statistical test results found.")
             return
@@ -1074,9 +1165,10 @@ def show_portfolio_manager_tab(is_forex=False):
     batch_predictor = BatchPredictor()
     st.subheader("Build Your Portfolio")
     if is_forex:
-        available_assets = ['EURUSD', 'GBPUSD', 'USDJPY', 'AUDUSD', 'USDCAD', 'NZDUSD']
+        available_assets = ['EURUSD', 'GBPUSD', 'USDJPY', 'AUDUSD', 'USDCAD', 'USDCHF']
     else:
-        available_assets = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA', 'META', 'NVDA', 'NFLX', 'BABA']
+        available_assets = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA',
+                            'RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'CSEALL']
     st.write("**Select assets and allocation:**")
     col1, col2 = st.columns([2, 1])
     with col1:
@@ -1178,10 +1270,11 @@ def show_batch_prediction_tab(model_name='early_fusion', is_forex=False, is_cryp
             all_assets = ['BTCUSD', 'ETHUSD', 'BNBUSD', 'SOLUSD', 'XRPUSD', 'ADAUSD']
             default_assets = ['BTCUSD', 'ETHUSD', 'BNBUSD']
         elif is_forex:
-            all_assets = ['EURUSD', 'GBPUSD', 'USDJPY', 'AUDUSD', 'USDCAD', 'NZDUSD']
+            all_assets = ['EURUSD', 'GBPUSD', 'USDJPY', 'AUDUSD', 'USDCAD', 'USDCHF']
             default_assets = ['EURUSD', 'GBPUSD', 'USDJPY']
         else:
-            all_assets = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA', 'META', 'NVDA', 'NFLX', 'BABA']
+            all_assets = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA',
+                          'RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'CSEALL']
             default_assets = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA']
         selected_assets = st.multiselect("Select assets to predict", all_assets, default=default_assets)
     with col2:
@@ -1524,10 +1617,150 @@ def show_trading_bot_tab(stock, model_name, is_forex=False, is_crypto=False):
     st.warning("**Important Disclaimer**: This bot is for educational and research purposes only. NOT financial advice. Automated trading can result in significant losses. Always test thoroughly before using real money. Consult qualified financial advisors.")
 
 
+def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
+    """Live Market Signal Dashboard — model-based BUY/SELL/HOLD signals with risk levels."""
+    from utils.live_signal_engine import LiveSignalEngine, CRYPTO_SYMBOL_MAP, FOREX_SYMBOL_MAP
+
+    st.markdown("""
+    <div style='text-align:center; padding:1rem 0 0.5rem 0;'>
+        <h2 style='margin:0;'>🔴 Live Market Signals</h2>
+        <p style='color:#94A3B8; margin-top:0.3rem;'>Real-time trading signals with risk management levels</p>
+    </div>""", unsafe_allow_html=True)
+
+    # ── Market selector ─────────────────────────────────────────────────────
+    if is_crypto:
+        all_symbols = list(CRYPTO_SYMBOL_MAP.keys())
+        market_label = "Cryptocurrency"
+    elif is_forex:
+        all_symbols = list(FOREX_SYMBOL_MAP.keys())
+        market_label = "Forex"
+    else:
+        all_symbols = ['AAPL', 'GOOGL', 'TSLA', 'AMZN', 'MSFT',
+                       'RELIANCE.NS', 'TCS.NS', 'INFY.NS']
+        market_label = "Stock"
+
+    col_sel, col_model, col_refresh = st.columns([2, 2, 1])
+    with col_sel:
+        watch_symbols = st.multiselect(
+            f"Select {market_label} Pairs to Watch",
+            options=all_symbols,
+            default=[stock] if stock in all_symbols else all_symbols[:3]
+        )
+    with col_model:
+        model_choice = st.selectbox(
+            "Signal Model",
+            ['Attention Fusion', 'Late Fusion', 'Early Fusion', 'LSTM Baseline'],
+            index=0
+        )
+    with col_refresh:
+        st.markdown("<br>", unsafe_allow_html=True)
+        do_refresh = st.button("🔄 Refresh", use_container_width=True)
+
+    if not watch_symbols:
+        st.info("Select at least one symbol above to see live signals.")
+        return
+
+    # ── Risk settings ────────────────────────────────────────────────────────
+    with st.expander("⚙️ Risk Settings", expanded=False):
+        rcol1, rcol2, rcol3 = st.columns(3)
+        with rcol1:
+            sl_pct  = st.slider("Stop Loss %", 0.5, 5.0, 2.0, 0.5) / 100
+        with rcol2:
+            tp1_pct = st.slider("Take Profit 1 %", 1.0, 5.0, 3.0, 0.5) / 100
+        with rcol3:
+            tp2_pct = st.slider("Take Profit 2 %", 3.0, 15.0, 7.0, 0.5) / 100
+        trail_pct = st.slider("Trailing Stop %", 0.5, 3.0, 1.5, 0.5) / 100
+
+    st.markdown("---")
+
+    # ── Generate signals ─────────────────────────────────────────────────────
+    engine = LiveSignalEngine()
+
+    signal_colors = {'BUY': '#22c55e', 'SELL': '#ef4444', 'HOLD': '#f59e0b', 'ERROR': '#64748b'}
+    signal_icons  = {'BUY': '🟢', 'SELL': '🔴', 'HOLD': '🟡', 'ERROR': '⚠️'}
+
+    for sym in watch_symbols:
+        sig = engine.get_signal(sym, is_crypto=is_crypto, is_forex=is_forex, model_name=model_choice)
+
+        color = signal_colors.get(sig['signal'], '#64748b')
+        icon  = signal_icons.get(sig['signal'], '❓')
+
+        with st.container():
+            st.markdown(f"""
+            <div style='background:linear-gradient(135deg,#1E293B,#0F172A);
+                        border:1px solid {color}40; border-left:4px solid {color};
+                        border-radius:12px; padding:1.2rem 1.5rem; margin-bottom:1rem;'>
+                <div style='display:flex; justify-content:space-between; align-items:center;'>
+                    <div>
+                        <span style='font-size:1.4rem; font-weight:700; color:#F1F5F9;'>{sym}</span>
+                        <span style='margin-left:0.8rem; font-size:0.85rem; color:#94A3B8;'>via {sig.get('model_used','—')}</span>
+                    </div>
+                    <div style='background:{color}20; border:1px solid {color}60;
+                                border-radius:8px; padding:0.4rem 1rem;'>
+                        <span style='color:{color}; font-size:1.1rem; font-weight:700;'>{icon} {sig['signal']}</span>
+                    </div>
+                </div>
+            </div>""", unsafe_allow_html=True)
+
+            if sig['error']:
+                st.error(f"⚠️ {sym}: {sig['error']}")
+                continue
+
+            # ── Metrics row ──────────────────────────────────────────────────
+            is_fx = is_forex
+            fmt = lambda v: f"{v:.4f}" if is_fx else (f"${v:,.2f}" if v > 1 else f"${v:.6f}")
+
+            m1, m2, m3, m4, m5 = st.columns(5)
+            with m1:
+                chg_str = f"{sig['change_pct']:+.2f}%" if sig['change_pct'] is not None else "—"
+                st.metric("Live Price", fmt(sig['price']), chg_str)
+            with m2:
+                st.metric("AI Confidence", f"{sig['confidence']:.0f}%")
+            with m3:
+                st.metric("Stop Loss", fmt(sig['stop_loss']))
+            with m4:
+                st.metric("Take Profit 1", fmt(sig['tp1']))
+            with m5:
+                st.metric("Take Profit 2", fmt(sig['tp2']))
+
+            # ── Secondary risk row ───────────────────────────────────────────
+            r1, r2, r3 = st.columns(3)
+            with r1:
+                st.metric("Risk : Reward", f"1 : {sig['risk_reward']}")
+            with r2:
+                st.metric("Trailing Stop", fmt(sig['trailing_stop']))
+            with r3:
+                if sig['predicted'] is not None:
+                    direction = "▲" if sig['predicted'] > sig['price'] else "▼"
+                    st.metric("Predicted Price", f"{direction} {fmt(sig['predicted'])}")
+
+            st.markdown(f"<p style='color:#475569;font-size:0.75rem;margin-top:-0.5rem;'>"
+                       f"Last updated: {sig['timestamp']}</p>", unsafe_allow_html=True)
+
+    # ── Auto-refresh notice ──────────────────────────────────────────────────
+    st.markdown("---")
+    st.markdown("""
+    <div style='background:#1E293B;border-radius:8px;padding:0.8rem 1.2rem;border:1px solid #334155;'>
+        <p style='color:#94A3B8;margin:0;font-size:0.85rem;'>
+        <b>How signals are generated:</b>
+        The system loads the trained forecasting model for each selected asset and runs inference
+        on the most recent 60 days of processed feature data. A BUY, SELL, or HOLD signal is
+        determined from the predicted price direction and model confidence score.
+        Stop Loss and Take Profit levels are pre-calculated based on the risk parameters above.
+        </p>
+    </div>""", unsafe_allow_html=True)
+
+    st.warning("⚠️ For research and educational purposes only. This does not constitute financial advice.")
+
+
 def show_auto_trader_tab(stock, model, is_forex=False, is_crypto=False):
-    from utils.auto_trader import AutoTrader
+    from utils.auto_trader import AutoTrader, HAS_BINANCE
     st.header("Automated Trading Bot")
-    st.info("Automated Model-Based Trading - Connect to Binance Testnet (fake money) or run paper trading to automatically execute trades based on model predictions. Safe: Uses Binance Testnet (no real money). Automated: BUY/SELL based on model confidence. Risk Managed: Built-in stop-loss and take-profit.")
+    if not HAS_BINANCE:
+        st.warning("The `python-binance` package is not installed. Continuous connection to Binance Testnet is unavailable, but **Paper Trading (Simulated)** is fully functional.")
+        st.info("To enable Binance Testnet, install with: `pip install python-binance`")
+    
+    st.info("Model-Based Automated Trading — Connect to Binance Testnet or use paper trading to execute trades based on model predictions. Uses Binance Testnet environment with no real capital. Includes automated stop-loss and take-profit risk controls.")
     if 'auto_trader' not in st.session_state:
         st.session_state.auto_trader = AutoTrader(testnet=True)
     trader = st.session_state.auto_trader
