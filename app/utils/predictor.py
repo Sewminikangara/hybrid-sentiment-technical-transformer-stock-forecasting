@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import torch
 from datetime import timedelta
-from pathlib import Path
 
 from utils.data_loader import DataLoader
 from utils.model_loader import ModelLoader
@@ -20,6 +19,7 @@ class StockPredictor:
         self.sequence_length = 60
 
     def predict(self, days=7):
+        """Generate an N-day price forecast for the configured asset and model."""
         try:
             stock_data = self.data_loader.load_stock_data(
                 self.stock, is_forex=self.is_forex, is_crypto=self.is_crypto
@@ -42,23 +42,37 @@ class StockPredictor:
                            'sentiment_score', 'sentiment_label', 'confidence'] + sentiment_cols
 
             actual_sentiment_cols = [c for c in sentiment_cols if c in stock_data.columns]
-            technical_cols = [c for c in stock_data.columns if c not in exclude]
+            technical_cols        = [c for c in stock_data.columns if c not in exclude]
+            technical_dim         = len(technical_cols)
+            sentiment_dim         = len(actual_sentiment_cols)
 
-            technical_dim = len(technical_cols)
-            sentiment_dim = len(actual_sentiment_cols)
+            # Retrieve training-time price scaler from checkpoint if available
+            model_key  = self.model_loader.model_map.get(self.model_name, 'early_fusion')
+            model_path = self.model_loader.results_path / f'{self.stock}_{model_key}.pt'
+            if not model_path.exists():
+                model_path = self.model_loader.best_models_path / f'best_{model_key}_transformer.pt'
+
+            price_mean = None
+            price_std  = None
+            if model_path.exists():
+                try:
+                    ck = torch.load(model_path, map_location='cpu', weights_only=False)
+                    if isinstance(ck, dict) and 'stats' in ck:
+                        price_mean = ck['stats'].get('price_mean')
+                        price_std  = ck['stats'].get('price_std')
+                except Exception:
+                    pass
 
             model = self.model_loader.load_model(
                 self.stock, self.model_name,
                 technical_dim=technical_dim,
                 sentiment_dim=sentiment_dim
             )
-
             if model is None:
                 return None
 
-            real_close_prices = stock_data['Close'].values
-            last_real_price   = float(real_close_prices[-1])
-
+            real_close_prices  = stock_data['Close'].values
+            last_real_price    = float(real_close_prices[-1])
             technical_features = stock_data[technical_cols].values
             sentiment_features = stock_data[actual_sentiment_cols].values
 
@@ -69,43 +83,52 @@ class StockPredictor:
             from models.baseline_lstm import LSTMModel
             is_lstm = isinstance(model, LSTMModel)
 
-            predictions_raw = []
+            raw_outputs = []
             with torch.no_grad():
                 for _ in range(days):
                     if is_lstm:
-                        if model.lstm.input_size == technical_dim:
-                            pred = model(tech_seq)
-                        else:
-                            pred = model(torch.cat([tech_seq, sent_seq], dim=-1))
+                        pred = (model(tech_seq) if model.lstm.input_size == technical_dim
+                                else model(torch.cat([tech_seq, sent_seq], dim=-1)))
                     else:
                         pred = model(tech_seq, sent_seq)
 
                     raw_val = float(pred.cpu().numpy()[0, 0])
-                    predictions_raw.append(raw_val)
+                    raw_outputs.append(raw_val)
 
                     new_tech = tech_seq[:, -1:, :].clone()
                     new_tech[0, 0, 0] = raw_val
                     tech_seq = torch.cat([tech_seq[:, 1:, :], new_tech], dim=1)
-
                     new_sent = sent_seq[:, -1:, :].clone()
                     sent_seq = torch.cat([sent_seq[:, 1:, :], new_sent], dim=1)
 
-            predictions_raw = np.array(predictions_raw)
-            direction_bias  = float(np.mean(predictions_raw))
+            raw_outputs = np.array(raw_outputs)
 
-            recent_prices = real_close_prices[-90:] if len(real_close_prices) >= 90 else real_close_prices
-            hist_returns  = np.diff(recent_prices) / recent_prices[:-1]
-            hist_mean_ret = float(np.mean(hist_returns)) if len(hist_returns) > 0 else 0.0
-            hist_std_ret  = float(np.std(hist_returns))  if len(hist_returns) > 0 else 0.01
+            # Denormalise: use checkpoint scaler when available
+            if price_mean is not None and price_std is not None and price_std > 0:
+                predicted_level = float(np.mean(raw_outputs)) * price_std + price_mean
+            else:
+                window          = real_close_prices[-90:] if len(real_close_prices) >= 90 else real_close_prices
+                p_mean          = float(np.mean(window))
+                p_std           = float(np.std(window)) if np.std(window) > 0 else p_mean * 0.05
+                predicted_level = float(np.mean(raw_outputs)) * p_std + p_mean
 
-            daily_bias = np.tanh(direction_bias) * 0.005
+            # Derive directional bias: positive model output → bullish, negative → bearish
+            mean_raw     = float(np.mean(raw_outputs))
+            direction    = np.sign(mean_raw) if abs(mean_raw) > 1e-6 else 1.0
+            bias_strength = min(abs(mean_raw) / 10.0, 0.005)  # cap at ±0.5 % per day
 
-            np.random.seed(42)
+            # Historical daily return stats (used for per-day step size)
+            recent       = real_close_prices[-90:] if len(real_close_prices) >= 90 else real_close_prices
+            hist_returns = np.diff(recent) / recent[:-1] if len(recent) > 1 else np.array([0.01])
+            hist_mean    = float(np.mean(hist_returns))
+            hist_std     = float(np.std(hist_returns)) if np.std(hist_returns) > 0 else 0.01
+
+            # Compound forecast: each day applies (historical mean + model directional bias)
             predictions_denorm = np.zeros(days)
             prev = last_real_price
             for i in range(days):
-                daily_return = hist_mean_ret + daily_bias + np.random.normal(0, hist_std_ret * 0.4)
-                prev = prev * (1 + daily_return)
+                daily_return       = hist_mean + direction * bias_strength
+                prev               = prev * (1 + daily_return)
                 predictions_denorm[i] = prev
 
             predictions_denorm = np.clip(
@@ -117,8 +140,8 @@ class StockPredictor:
             last_date  = pd.to_datetime(stock_data['Date'].iloc[-1])
             pred_dates = [last_date + timedelta(days=i + 1) for i in range(days)]
 
-            lower = np.array([predictions_denorm[i] * (1 - hist_std_ret * (i + 1)) for i in range(days)])
-            upper = np.array([predictions_denorm[i] * (1 + hist_std_ret * (i + 1)) for i in range(days)])
+            lower = np.array([predictions_denorm[i] * (1 - hist_std * (i + 1)) for i in range(days)])
+            upper = np.array([predictions_denorm[i] * (1 + hist_std * (i + 1)) for i in range(days)])
 
             return {
                 'dates':  pred_dates,
