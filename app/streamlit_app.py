@@ -22,66 +22,187 @@ from utils.visualizer import ChartVisualizer
 
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
-    .main { background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); }
-    @keyframes fadeInDown {
-        from { opacity: 0; transform: translateY(-20px); }
-        to { opacity: 1; transform: translateY(0); }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    /* ── Global ── */
+    * { font-family: 'Inter', sans-serif; }
+    .main { background: linear-gradient(135deg, #080E1A 0%, #0F1E35 50%, #0A1628 100%) !important; }
+    .block-container { padding-top: 1.5rem !important; max-width: 1280px; }
+
+    /* ── Tabs ── */
+    [data-testid="stTabs"] { margin-top: 0.5rem; }
+    [data-testid="stTabsTabList"] {
+        background: rgba(15, 23, 42, 0.8) !important;
+        border-bottom: 1.5px solid rgba(96,165,250,0.2) !important;
+        padding: 0 0.5rem;
+        border-radius: 12px 12px 0 0;
+        gap: 2px;
     }
-    @keyframes slideInRight {
-        from { opacity: 0; transform: translateX(30px); }
-        to { opacity: 1; transform: translateX(0); }
+    button[data-baseweb="tab"] {
+        background: transparent !important;
+        color: #64748B !important;
+        border: none !important;
+        border-bottom: 2.5px solid transparent !important;
+        border-radius: 8px 8px 0 0 !important;
+        padding: 0.65rem 1.1rem !important;
+        font-weight: 600 !important;
+        font-size: 0.82rem !important;
+        letter-spacing: 0.01em;
+        transition: all 0.2s ease !important;
     }
-    h1, h2, h3 {
-        animation: fadeInDown 0.6s ease-out;
-        background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 50%, #F472B6 100%);
+    button[data-baseweb="tab"]:hover {
+        color: #CBD5E1 !important;
+        background: rgba(96,165,250,0.08) !important;
+    }
+    button[data-baseweb="tab"][aria-selected="true"] {
+        color: #60A5FA !important;
+        border-bottom-color: #60A5FA !important;
+        background: rgba(96,165,250,0.1) !important;
+    }
+    [data-testid="stTabsTabPanel"] {
+        padding-top: 1.5rem !important;
+        border-top: none !important;
+    }
+
+    /* ── Sidebar ── */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #0D1B2A 0%, #112032 100%) !important;
+        border-right: 1px solid rgba(96,165,250,0.15);
+    }
+    [data-testid="stSidebar"] .stRadio label,
+    [data-testid="stSidebar"] label { color: #CBD5E1 !important; font-size: 0.88rem; }
+    [data-testid="stSidebar"] h3 {
+        color: #60A5FA !important;
+        -webkit-text-fill-color: #60A5FA !important;
+        font-size: 0.78rem !important;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin: 1.2rem 0 0.4rem 0;
+    }
+
+    /* ── Headings ── */
+    h1 {
+        background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 60%, #F472B6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        animation: fadeDown 0.7s ease;
+    }
+    h2, h3 {
+        background: linear-gradient(135deg, #60A5FA, #A78BFA);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         font-weight: 700;
+        animation: fadeDown 0.5s ease;
     }
-    .stMetric {
-        background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
-        padding: 1.5rem;
-        border-radius: 16px;
-        border: 1px solid rgba(148, 163, 184, 0.1);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        animation: slideInRight 0.5s ease-out;
-    }
-    .stMetric:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 60px rgba(96, 165, 250, 0.3);
-        border-color: rgba(96, 165, 250, 0.5);
-    }
-    .stButton button {
-        background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
-        color: white; border: none; border-radius: 12px;
-        padding: 0.75rem 2rem; font-weight: 600; font-size: 0.95rem;
+
+    /* ── Metric cards ── */
+    [data-testid="metric-container"] {
+        background: linear-gradient(145deg, #1E293B, #0F172A);
+        border: 1px solid rgba(96,165,250,0.18);
+        border-radius: 14px;
+        padding: 1.2rem 1.4rem !important;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
     }
-    .stButton button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
+    [data-testid="metric-container"]:hover {
+        border-color: rgba(96,165,250,0.5);
+        transform: translateY(-3px);
+        box-shadow: 0 16px 48px rgba(96,165,250,0.15);
     }
-    .stSelectbox, .stRadio { animation: fadeInDown 0.4s ease-out; }
-    .js-plotly-plot {
-        border-radius: 16px; overflow: hidden;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    [data-testid="metric-container"] [data-testid="stMetricLabel"] {
+        color: #94A3B8 !important; font-size: 0.78rem !important;
+        font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
     }
-    .dataframe { border-radius: 12px; overflow: hidden; }
-    @media (max-width: 768px) {
-        .main .block-container { padding: 1rem 0.5rem; }
-        h1 { font-size: 1.75rem !important; }
-        h2 { font-size: 1.35rem !important; }
+    [data-testid="metric-container"] [data-testid="stMetricValue"] {
+        color: #F1F5F9 !important; font-size: 1.5rem !important; font-weight: 700;
     }
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    .stDeployButton {display: none;}
+
+    /* ── Buttons ── */
+    .stButton > button {
+        background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%) !important;
+        color: white !important; border: none !important; border-radius: 10px !important;
+        padding: 0.65rem 2.2rem !important; font-weight: 600 !important; font-size: 0.95rem !important;
+        box-shadow: 0 4px 20px rgba(37,99,235,0.35) !important;
+        transition: all 0.25s ease !important;
+        letter-spacing: 0.02em;
+    }
+    .stButton > button:hover {
+        transform: translateY(-2px) scale(1.02) !important;
+        box-shadow: 0 8px 30px rgba(124,58,237,0.5) !important;
+    }
+    .stButton > button:active { transform: scale(0.97) !important; }
+
+    /* ── Selectboxes ── */
+    .stSelectbox > div > div, .stRadio > div {
+        background: rgba(30,41,59,0.8) !important;
+        border: 1px solid rgba(96,165,250,0.2) !important;
+        border-radius: 10px !important;
+    }
+
+    /* ── Charts ── */
+    .js-plotly-plot { border-radius: 14px !important; overflow: hidden;
+        box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+
+    /* ── Info / alerts ── */
+    .stInfo { background: rgba(37,99,235,0.12) !important;
+        border-left: 3px solid #2563EB !important; border-radius: 0 8px 8px 0; }
+    .stSuccess { background: rgba(22,163,74,0.12) !important;
+        border-left: 3px solid #16A34A !important; }
+    .stWarning { background: rgba(217,119,6,0.12) !important;
+        border-left: 3px solid #D97706 !important; }
+    .stError { background: rgba(220,38,38,0.12) !important;
+        border-left: 3px solid #DC2626 !important; }
+
+    /* ── Divider ── */
+    hr { border-color: rgba(96,165,250,0.12) !important; }
+
+    /* ── Tables ── */
+    .stDataFrame { border-radius: 12px !important; overflow: hidden !important; }
+
+    /* ── Signal card ── */
+    .signal-card {
+        background: linear-gradient(135deg, #1E293B, #0F172A);
+        border-radius: 16px; padding: 1.5rem;
+        border: 1px solid rgba(148,163,184,0.12);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        text-align: center;
+    }
+    .quick-start-card {
+        background: linear-gradient(135deg,rgba(37,99,235,0.15),rgba(124,58,237,0.1));
+        border: 1px solid rgba(96,165,250,0.25);
+        border-radius: 16px; padding: 1.4rem 1.6rem; margin-bottom: 1rem;
+    }
+    .benefit-card {
+        background: linear-gradient(145deg,#1E293B,#162032);
+        border: 1px solid rgba(96,165,250,0.15);
+        border-radius: 14px; padding: 1.4rem;
+        height: 100%;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+    }
+    .benefit-card:hover { border-color: rgba(96,165,250,0.4); transform: translateY(-4px); }
+    .step-badge {
+        display:inline-block; background:linear-gradient(135deg,#2563EB,#7C3AED);
+        color:white; border-radius:50%; width:28px; height:28px;
+        line-height:28px; font-weight:700; font-size:0.85rem; text-align:center;
+        margin-right:0.6rem;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:none} }
+    @keyframes fadeIn   { from{opacity:0} to{opacity:1} }
+
+    /* ── Hide Streamlit chrome ── */
+    #MainMenu, footer, .stDeployButton { display: none !important; }
+    [data-testid="stToolbar"] { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
+
 
 if 'initialized' not in st.session_state:
     st.session_state.initialized = True
@@ -89,7 +210,7 @@ if 'initialized' not in st.session_state:
     st.session_state.model_loader = ModelLoader()
     st.session_state.predictor = None
     st.session_state.selected_stock = 'AAPL'
-    st.session_state.selected_model = 'Early Fusion'
+    st.session_state.selected_model = 'Attention Fusion'  # Best model pre-selected
 
 
 def main():
@@ -104,9 +225,24 @@ def main():
     """, unsafe_allow_html=True)
 
     with st.sidebar:
-        st.markdown("### Trading Settings")
-        market_type = st.radio("Select Market", ["Stocks", "Forex", "Crypto"], index=0,
-                               help="Choose between stock markets, forex currency pairs, or cryptocurrency")
+        #  App brand 
+        st.markdown("""
+        <div style='text-align:center; padding:1rem 0 0.5rem 0;'>
+            <div style='font-size:2rem; font-weight:800;
+                background:linear-gradient(135deg,#60A5FA,#A78BFA);
+                -webkit-background-clip:text; -webkit-text-fill-color:transparent;'>TradeXy</div>
+            <div style='color:#64748B; font-size:0.72rem; letter-spacing:0.08em;
+                text-transform:uppercase; margin-top:2px;'>AI Forecasting Platform</div>
+        </div>
+        <hr style='border-color:rgba(96,165,250,0.15); margin:0.5rem 0 0.8rem 0;'/>
+        """, unsafe_allow_html=True)
+
+        #  Market & Asset selection 
+        st.markdown("###  Market")
+        market_type = st.radio(
+            "Choose market", ["Stocks", "Forex", "Crypto"],
+            index=0, label_visibility="collapsed",
+            help="Stocks = global equities | Forex = currency pairs | Crypto = digital assets")
 
         if market_type == "Stocks":
             stocks = ['AAPL', 'GOOGL', 'TSLA', 'AMZN', 'MSFT',
@@ -146,10 +282,27 @@ def main():
         elif market_type == "Crypto":
             st.info("Crypto predictions use transformer models trained on historical cryptocurrency data.")
 
-        models = ['Early Fusion', 'Late Fusion', 'Attention Fusion', 'LSTM Baseline']
-        selected_model = st.selectbox("Select Model", models, key='model_selector')
-        pred_days = st.slider("Prediction Days", min_value=1, max_value=30, value=7)
+        #  Model & horizon 
+        st.markdown("###  Model")
+        models = ['Attention Fusion', 'Early Fusion', 'Late Fusion', 'LSTM Baseline']
+        model_help = {
+            'Attention Fusion': '⭐ Best accuracy — uses dynamic cross-attention between price + sentiment',
+            'Early Fusion': 'Combines price & sentiment at input — good all-rounder',
+            'Late Fusion': 'Processes price & sentiment separately, then merges — best for Forex',
+            'LSTM Baseline': 'Classic recurrent model — fastest but lower accuracy',
+        }
+        selected_model = st.selectbox(
+            "AI Model", models,
+            help="Attention Fusion achieves highest directional accuracy (70.1%) across most assets",
+            key='model_selector')
+        st.caption(model_help[selected_model])
 
+        st.markdown("###  Horizon")
+        pred_days = st.slider(
+            "Forecast days", min_value=1, max_value=30, value=7,
+            help="How many days ahead to forecast. 5–10 days recommended for best reliability.")
+
+        #  Quick Stats 
         st.markdown("---")
         is_forex = (market_type == "Forex")
         is_crypto = (market_type == "Crypto")
@@ -195,127 +348,236 @@ def main():
         except Exception:
             pass
 
-    PAGES = ["Home", "Prediction", "Analysis", "Elliott Wave", "Compare Models",
-             "Training Results", "Backtesting Results", "Statistical Validation",
-             "Portfolio Manager", "Batch Prediction", "Performance Dashboard",
-             "Trading Bot", "Auto Trader", "🔴 Live Signals", "About"]
-
-    view_mode = st.sidebar.selectbox("Navigate", PAGES, index=0)
-    is_forex = (market_type == "Forex")
+    is_forex  = (market_type == "Forex")
     is_crypto = (market_type == "Crypto")
 
-    if view_mode == "Home":
+    #  Horizontal tab navigation (main area) 
+    TAB_LABELS = [
+        "Home",
+        "Prediction",
+        "Live Signals",
+        "Technical Analysis",
+        "Elliott Wave",
+        "Compare Models",
+        "Auto Trader",
+        "Batch Scan",
+        "Backtesting",
+        "Training Results",
+        "More",
+    ]
+
+    tabs = st.tabs(TAB_LABELS)
+
+    with tabs[0]:
         show_home_tab()
-    elif view_mode == "Prediction":
+    with tabs[1]:
         show_prediction_tab(selected_stock, selected_model, pred_days, is_forex, is_crypto)
-    elif view_mode == "Analysis":
-        show_analysis_tab(selected_stock, is_forex, is_crypto)
-    elif view_mode == "Elliott Wave":
-        show_elliott_wave_tab(selected_stock, is_forex, is_crypto)
-    elif view_mode == "Compare Models":
-        show_comparison_tab(selected_stock, is_forex, is_crypto)
-    elif view_mode == "Training Results":
-        show_training_results_tab()
-    elif view_mode == "Backtesting Results":
-        show_backtesting_tab()
-    elif view_mode == "Statistical Validation":
-        show_statistical_validation_tab()
-    elif view_mode == "Portfolio Manager":
-        show_portfolio_manager_tab(is_forex)
-    elif view_mode == "Batch Prediction":
-        show_batch_prediction_tab(selected_model, is_forex, is_crypto)
-    elif view_mode == "Performance Dashboard":
-        show_performance_dashboard_tab()
-    elif view_mode == "Trading Bot":
-        show_trading_bot_tab(selected_stock, selected_model, is_forex, is_crypto)
-    elif view_mode == "Auto Trader":
-        show_auto_trader_tab(selected_stock, selected_model, is_forex, is_crypto)
-    elif view_mode == "🔴 Live Signals":
+    with tabs[2]:
         show_live_signals_tab(selected_stock, is_forex, is_crypto)
-    elif view_mode == "About":
-        show_about_tab()
+    with tabs[3]:
+        show_analysis_tab(selected_stock, is_forex, is_crypto)
+    with tabs[4]:
+        show_elliott_wave_tab(selected_stock, is_forex, is_crypto)
+    with tabs[5]:
+        show_comparison_tab(selected_stock, is_forex, is_crypto)
+    with tabs[6]:
+        show_auto_trader_tab(selected_stock, selected_model, is_forex, is_crypto)
+    with tabs[7]:
+        show_batch_prediction_tab(selected_model, is_forex, is_crypto)
+    with tabs[8]:
+        show_backtesting_tab()
+    with tabs[9]:
+        show_training_results_tab()
+    with tabs[10]:
+        # Collapsed secondary modules
+        st.markdown("### More Tools")
+        sub_c1, sub_c2, sub_c3 = st.columns(3)
+        with sub_c1:
+            if st.button("📋 Performance Dashboard", use_container_width=True):
+                st.session_state["more_selected"] = "perf"
+            if st.button("✅ Statistical Validation", use_container_width=True):
+                st.session_state["more_selected"] = "stat"
+        with sub_c2:
+            if st.button("💼 Portfolio Manager", use_container_width=True):
+                st.session_state["more_selected"] = "port"
+            if st.button("🤖 Trading Bot", use_container_width=True):
+                st.session_state["more_selected"] = "bot"
+        with sub_c3:
+            if st.button("ℹ️ About", use_container_width=True):
+                st.session_state["more_selected"] = "about"
+        more = st.session_state.get("more_selected", "")
+        if more == "perf":
+            show_performance_dashboard_tab()
+        elif more == "stat":
+            show_statistical_validation_tab()
+        elif more == "port":
+            show_portfolio_manager_tab(is_forex)
+        elif more == "bot":
+            show_trading_bot_tab(selected_stock, selected_model, is_forex, is_crypto)
+        elif more == "about":
+            show_about_tab()
+
 
 
 def show_home_tab():
+    #  Hero 
     st.markdown("""
-    <div style='text-align:center; padding:1rem 0;'>
-        <p style='color:#94A3B8; font-size:1.1rem;'>
-            Research-grade hybrid deep learning platform combining sentiment analysis
-            with technical indicators for multi-market forecasting</p>
+    <div style='text-align:center; padding:2rem 0 1.5rem 0; animation:fadeIn 0.8s ease;'>
+        <div style='font-size:3.8rem; font-weight:800;
+            background:linear-gradient(135deg,#60A5FA 0%,#A78BFA 55%,#F472B6 100%);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            letter-spacing:-0.04em; line-height:1;'>TradeXy</div>
+        <div style='color:#94A3B8; font-size:1.05rem; margin-top:0.6rem; font-weight:500;'>
+            Hybrid Sentiment-Technical AI Forecasting Platform
+        </div>
+        <div style='color:#475569; font-size:0.85rem; margin-top:0.3rem;'>
+            Transformer Models &nbsp;·&nbsp; Multi-Market &nbsp;·&nbsp; Real-Time Signals
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("Markets Covered", "3", "Stocks, Forex & Crypto")
-    with col2:
-        st.metric("Assets Tracked", "21", "9 Stocks + 6 Forex + 6 Crypto")
-    with col3:
-        st.metric("Model Architectures", "4", "Transformer-based")
-    with col4:
-        st.metric("Feature Dimensions", "50", "43 Technical (incl. Elliott Wave) + 7 Sentiment")
+    #  KPI row 
+    c1, c2, c3, c4 = st.columns(4)
+    with c1:
+        st.metric("Markets", "3", "Stocks · Forex · Crypto",
+                  help="Equities (US + India + CSE), Forex pairs, and Cryptocurrency")
+    with c2:
+        st.metric("Assets Tracked", "21", "9 Stocks | 6 Forex | 6 Crypto",
+                  help="21 assets individually trained and evaluated")
+    with c3:
+        st.metric("AI Models", "4", "Transformer-based",
+                  help="Early Fusion, Late Fusion, Attention Fusion, LSTM Baseline")
+    with c4:
+        st.metric("Best Accuracy", "70.1%", "Attention Fusion on Equities",
+                  help="Directional accuracy of the best model on held-out test data")
 
-    st.markdown("---")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.subheader("Prediction Engine")
-        st.markdown("""
-        - 7-day price/rate forecasting
-        - Confidence intervals and trading signals
-        - Real-time model inference
-        - Multi-model ensemble support
-        """)
-    with col2:
-        st.subheader("Risk Management")
-        st.markdown("""
-        - Value at Risk (VaR) and CVaR
-        - Sharpe and Sortino ratios
-        - Portfolio diversification scoring
-        - Stress test scenarios
-        """)
-    with col3:
-        st.subheader("Research Validation")
-        st.markdown("""
-        - Paired t-tests and Wilcoxon tests
-        - Confidence interval analysis
-        - Backtesting with walk-forward validation
-        - Cross-market correlation analysis
-        """)
+    st.markdown("<hr style='border-color:rgba(96,165,250,0.15); margin:1.5rem 0;'/>", unsafe_allow_html=True)
 
-    st.markdown("---")
-    st.subheader("Supported Assets")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.markdown("**Stocks**")
-        stock_df = pd.DataFrame({
-            'Symbol': ['AAPL', 'GOOGL', 'TSLA', 'AMZN', 'MSFT',
-                       'RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'CSEALL'],
-            'Name': ['Apple', 'Google', 'Tesla', 'Amazon', 'Microsoft',
-                     'Reliance', 'TCS', 'Infosys', 'CSE All Share'],
-            'Market': ['NASDAQ', 'NASDAQ', 'NASDAQ', 'NASDAQ', 'NASDAQ',
-                       'NSE', 'NSE', 'NSE', 'CSE']
-        })
-        st.dataframe(stock_df, use_container_width=True, hide_index=True)
-    with col2:
-        st.markdown("**Forex Pairs**")
-        forex_df = pd.DataFrame({
-            'Pair': ['EUR/USD', 'GBP/USD', 'USD/JPY', 'AUD/USD', 'USD/CAD', 'USD/CHF'],
-            'Description': ['Euro / US Dollar', 'British Pound / US Dollar',
-                            'US Dollar / Japanese Yen', 'Australian Dollar / US Dollar',
-                            'US Dollar / Canadian Dollar', 'US Dollar / Swiss Franc'],
-            'Source': ['ECB'] * 6
-        })
-        st.dataframe(forex_df, use_container_width=True, hide_index=True)
-    with col3:
-        st.markdown("**Cryptocurrency Pairs**")
-        crypto_df = pd.DataFrame({
-            'Pair': ['BTC/USD', 'ETH/USD', 'BNB/USD', 'SOL/USD', 'XRP/USD', 'ADA/USD'],
-            'Name': ['Bitcoin', 'Ethereum', 'Binance Coin', 'Solana', 'XRP', 'Cardano'],
-            'Source': ['Yahoo Finance'] * 6
-        })
-        st.dataframe(crypto_df, use_container_width=True, hide_index=True)
-    st.markdown("---")
-    st.caption("Use the sidebar navigation to explore predictions, analysis, backtesting, and more.")
+    #  Quick Start 
+    st.markdown("###  Quick Start — 3 Steps")
+    qs1, qs2, qs3 = st.columns(3)
+    with qs1:
+        st.markdown("""
+        <div class='quick-start-card'>
+            <div style='font-size:1.6rem; margin-bottom:0.5rem;'>📊</div>
+            <div style='font-weight:700; color:#60A5FA; font-size:1rem; margin-bottom:0.5rem;'>
+                <span class='step-badge'>1</span> Pick an Asset
+            </div>
+            <div style='color:#94A3B8; font-size:0.88rem; line-height:1.5;'>
+                Use the sidebar to select a <strong style='color:#E2E8F0;'>Market</strong>
+                (Stocks / Forex / Crypto) and an <strong style='color:#E2E8F0;'>Asset</strong>
+                (e.g. Apple, EUR/USD, Bitcoin).
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    with qs2:
+        st.markdown("""
+        <div class='quick-start-card'>
+            <div style='font-size:1.6rem; margin-bottom:0.5rem;'>🤖</div>
+            <div style='font-weight:700; color:#A78BFA; font-size:1rem; margin-bottom:0.5rem;'>
+                <span class='step-badge'>2</span> Choose a Model
+            </div>
+            <div style='color:#94A3B8; font-size:0.88rem; line-height:1.5;'>
+                <strong style='color:#E2E8F0;'>Attention Fusion</strong> is pre-selected —
+                it is the most accurate model (70.1% directional accuracy).
+                Leave it as-is for the best forecast.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    with qs3:
+        st.markdown("""
+        <div class='quick-start-card'>
+            <div style='font-size:1.6rem; margin-bottom:0.5rem;'>📈</div>
+            <div style='font-weight:700; color:#F472B6; font-size:1rem; margin-bottom:0.5rem;'>
+                <span class='step-badge'>3</span> Generate Forecast
+            </div>
+            <div style='color:#94A3B8; font-size:0.88rem; line-height:1.5;'>
+                Navigate to <strong style='color:#E2E8F0;'>📈 Prediction</strong> and click
+                <strong style='color:#E2E8F0;'>Generate Prediction</strong> to see a price
+                forecast with BUY / SELL / HOLD signal.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<hr style='border-color:rgba(96,165,250,0.15); margin:1.5rem 0;'/>", unsafe_allow_html=True)
+
+    #  What each feature does for you 
+    st.markdown("###  What Can TradeXy Do For You?")
+    bc1, bc2, bc3 = st.columns(3)
+    benefits = [
+        ("bc1", "📈", "Price Forecasting", "#60A5FA",
+         "See where a stock, currency, or crypto is likely to move over the next 1–30 days, "
+         "powered by a Transformer model trained on 5 years of price and news data."),
+        ("bc2", "⚡", "Live Trading Signals", "#A78BFA",
+         "Get a real-time BUY / SELL / HOLD decision with Stop Loss, Take Profit, "
+         "and Risk:Reward ratio calculated automatically — no manual analysis needed."),
+        ("bc3", "🤖", "Automated Paper Trading", "#34D399",
+         "Test trading strategies with virtual money using the Auto Trader module. "
+         "Trailing stops and multi-target exits are handled automatically."),
+    ]
+    for col, (key, icon, title, color, desc) in zip([bc1, bc2, bc3], benefits):
+        with col:
+            st.markdown(f"""
+            <div class='benefit-card'>
+                <div style='font-size:2rem; margin-bottom:0.6rem;'>{icon}</div>
+                <div style='font-weight:700; color:{color}; font-size:1rem;
+                    margin-bottom:0.5rem;'>{title}</div>
+                <div style='color:#94A3B8; font-size:0.875rem; line-height:1.6;'>{desc}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+    st.markdown("<br/>", unsafe_allow_html=True)
+    bc4, bc5, bc6 = st.columns(3)
+    benefits2 = [
+        ("📊", "Technical Analysis", "#F59E0B",
+         "Interactive charts with RSI, MACD, Bollinger Bands, and Moving Averages overlaid "
+         "on the price history — the same tools used by professional traders."),
+        ("🌊", "Elliott Wave Analysis", "#F472B6",
+         "Automatically detects 5-wave market structure and Fibonacci price targets, "
+         "giving structural context to the AI forecast."),
+        ("📦", "Batch Market Scanner", "#818CF8",
+         "Scan all 21 assets simultaneously and rank them by predicted return and model confidence "
+         "— saving hours of individual analysis."),
+    ]
+    for col, (icon, title, color, desc) in zip([bc4, bc5, bc6], benefits2):
+        with col:
+            st.markdown(f"""
+            <div class='benefit-card'>
+                <div style='font-size:2rem; margin-bottom:0.6rem;'>{icon}</div>
+                <div style='font-weight:700; color:{color}; font-size:1rem;
+                    margin-bottom:0.5rem;'>{title}</div>
+                <div style='color:#94A3B8; font-size:0.875rem; line-height:1.6;'>{desc}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+    st.markdown("<hr style='border-color:rgba(96,165,250,0.15); margin:1.8rem 0 1rem 0;'/>", unsafe_allow_html=True)
+
+    #  Supported assets table 
+    st.markdown("###  Supported Assets")
+    ac1, ac2, ac3 = st.columns(3)
+    with ac1:
+        st.markdown("** Equities**")
+        st.dataframe(pd.DataFrame({
+            'Symbol': ['AAPL','GOOGL','TSLA','AMZN','MSFT','RELIANCE.NS','TCS.NS','INFY.NS','CSEALL'],
+            'Company': ['Apple','Google','Tesla','Amazon','Microsoft','Reliance','TCS','Infosys','CSE Index'],
+            'Exchange': ['NASDAQ']*5 + ['NSE']*3 + ['CSE'],
+        }), use_container_width=True, hide_index=True)
+    with ac2:
+        st.markdown("** Forex Pairs**")
+        st.dataframe(pd.DataFrame({
+            'Pair': ['EUR/USD','GBP/USD','USD/JPY','AUD/USD','USD/CAD','USD/CHF'],
+            'Description': ['Euro–Dollar','Pound–Dollar','Dollar–Yen','Aussie–Dollar','Dollar–CAD','Dollar–Franc'],
+        }), use_container_width=True, hide_index=True)
+    with ac3:
+        st.markdown("**₿ Cryptocurrency**")
+        st.dataframe(pd.DataFrame({
+            'Pair': ['BTC/USD','ETH/USD','BNB/USD','SOL/USD','XRP/USD','ADA/USD'],
+            'Name': ['Bitcoin','Ethereum','BNB','Solana','XRP','Cardano'],
+        }), use_container_width=True, hide_index=True)
+
+    st.markdown("<br/><div style='text-align:center; color:#475569; font-size:0.8rem;'>"
+                "Use the sidebar to navigate · Attention Fusion model pre-selected for best accuracy"
+                "</div>", unsafe_allow_html=True)
 
 
 def show_prediction_tab(stock, model, days, is_forex=False, is_crypto=False):
@@ -325,11 +587,21 @@ def show_prediction_tab(stock, model, days, is_forex=False, is_crypto=False):
         label = "Exchange Rate Prediction"
     else:
         label = "Price Prediction"
-    st.header(f"{stock} {label}")
-    if is_forex:
-        st.info("Forex predictions use transformer models trained on currency pairs from European Central Bank data.")
-    elif is_crypto:
-        st.info("Crypto predictions use transformer models trained on historical cryptocurrency market data.")
+    st.header(f"📈 {stock} {label}")
+
+    #  Context banner 
+    st.markdown("""
+    <div style='background:rgba(37,99,235,0.08); border:1px solid rgba(96,165,250,0.2);
+        border-radius:10px; padding:0.75rem 1.1rem; margin-bottom:0.8rem;
+        color:#94A3B8; font-size:0.82rem; line-height:1.5;'>
+        <strong style='color:#60A5FA;'>ℹ️ About the date shown below:</strong>
+        &nbsp;The <em>Training Data Cutoff</em> is the last date of historical data the model was trained on —
+        it is <em>not</em> today's date. When an internet connection is available, a live price
+        is fetched automatically and the label changes to <strong>Live Price Date ✅</strong>.
+        Either way, the AI forecast is generated fresh each time you load this page.
+    </div>
+    """, unsafe_allow_html=True)
+
     try:
         with st.spinner("Loading data..."):
             data_loader = st.session_state.data_loader
@@ -338,18 +610,39 @@ def show_prediction_tab(stock, model, days, is_forex=False, is_crypto=False):
                 st.error(f"No data available for {stock}")
                 return
         latest_price = stock_data['Close'].iloc[-1]
-        prev_price = stock_data['Close'].iloc[-2]
-        pct_change = ((latest_price - prev_price) / prev_price) * 100
-        col1, col2, col3 = st.columns(3)
-        price_label = "Current Rate" if is_forex else "Current Price"
-        price_format = f"{latest_price:.4f}" if is_forex else f"${latest_price:,.2f}"
+        prev_price   = stock_data['Close'].iloc[-2]
+        pct_change   = ((latest_price - prev_price) / prev_price) * 100
+        training_cutoff = pd.to_datetime(stock_data['Date'].iloc[-1]).strftime('%Y-%m-%d')
+
+        #  Try live price from yfinance 
+        live = data_loader.fetch_live_price(stock, is_forex=is_forex, is_crypto=is_crypto)
+        if live:
+            display_price  = live['price']
+            display_pct    = live['pct_change']
+            display_date   = live['date']
+            date_label     = "Live Price Date ✅"
+        else:
+            display_price  = latest_price
+            display_pct    = pct_change
+            display_date   = training_cutoff
+            date_label     = "Training Data Cutoff"
+
+        col1, col2, col3, col4 = st.columns(4)
+        price_label  = "Current Rate" if is_forex else "Current Price"
+        price_format = f"{display_price:.4f}" if is_forex else f"${display_price:,.2f}"
         with col1:
-            st.metric(price_label, price_format, f"{pct_change:+.2f}%", delta_color="normal")
+            st.metric(price_label, price_format, f"{display_pct:+.2f}%", delta_color="normal",
+                      help="Live price from yfinance when available, otherwise last stored training price")
         with col2:
-            latest_date = pd.to_datetime(stock_data['Date'].iloc[-1]).strftime('%Y-%m-%d')
-            st.metric("Last Update", latest_date)
+            st.metric(date_label, display_date,
+                      help="'Live Price Date' = fetched today from yfinance. 'Training Data Cutoff' = last date in the stored training CSV — the model was trained up to this point.")
         with col3:
-            st.metric("Model", model)
+            daily_chg = display_price - (display_price / (1 + display_pct / 100)) if display_pct else 0
+            chg_fmt = f"{daily_chg:+.4f}" if is_forex else f"${daily_chg:+,.2f}"
+            st.metric("Day Change", chg_fmt, help="Price change since previous trading day")
+        with col4:
+            st.metric("Model", model, help="Selected Transformer architecture")
+
         with st.spinner("Generating predictions..."):
             predictor = StockPredictor(stock, model, is_forex=is_forex, is_crypto=is_crypto)
             predictions = predictor.predict(days)
@@ -360,34 +653,85 @@ def show_prediction_tab(stock, model, days, is_forex=False, is_crypto=False):
         visualizer = ChartVisualizer()
         fig = visualizer.create_prediction_chart(stock_data, predictions, stock)
         st.plotly_chart(fig, use_container_width=True)
-        st.subheader("Trading Signal")
+        #  Signal Card 
         pred_price = predictions['prices'][-1]
         signal, confidence = generate_signal(latest_price, pred_price, predictions)
-        signal_colors = {'BUY': '#4CAF50', 'SELL': '#f44336', 'HOLD': '#FFC107'}
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.markdown(f'<div class="prediction-card"><h2 style="color: {signal_colors[signal]}; margin: 0;">{signal}</h2></div>', unsafe_allow_html=True)
-        with col2:
-            st.metric("Confidence", f"{confidence:.0f}%")
-        with col3:
-            expected_return = ((pred_price - latest_price) / latest_price) * 100
-            st.metric("Expected Return", f"{expected_return:+.2f}%")
-        st.subheader("Prediction Summary")
-        col1, col2, col3, col4 = st.columns(4)
+        expected_return = ((pred_price - latest_price) / latest_price) * 100
+        trend = "Bullish 📈" if pred_price > latest_price else "Bearish 📉"
+
+        signal_meta = {
+            'BUY':  {'color': '#22C55E', 'bg': 'rgba(34,197,94,0.12)',
+                     'border': 'rgba(34,197,94,0.4)', 'emoji': '🟢',
+                     'desc': 'The model predicts the price will rise. Consider entering a long position.'},
+            'SELL': {'color': '#EF4444', 'bg': 'rgba(239,68,68,0.12)',
+                     'border': 'rgba(239,68,68,0.4)', 'emoji': '🔴',
+                     'desc': 'The model predicts the price will fall. Consider exiting or shorting.'},
+            'HOLD': {'color': '#F59E0B', 'bg': 'rgba(245,158,11,0.12)',
+                     'border': 'rgba(245,158,11,0.4)', 'emoji': '🟡',
+                     'desc': 'The model sees insufficient directional bias. Stay cautious.'},
+        }
+        sm = signal_meta[signal]
+        st.markdown(f"""
+        <div style='background:{sm["bg"]}; border:1.5px solid {sm["border"]};
+            border-radius:18px; padding:1.6rem 2rem; margin:1.2rem 0;
+            display:flex; align-items:center; gap:2rem; flex-wrap:wrap;'>
+            <div style='text-align:center; min-width:120px;'>
+                <div style='font-size:3.5rem; line-height:1;'>{sm["emoji"]}</div>
+                <div style='font-size:2.2rem; font-weight:800; color:{sm["color"]};
+                    letter-spacing:0.05em; margin-top:0.3rem;'>{signal}</div>
+                <div style='color:#94A3B8; font-size:0.75rem; font-weight:500;
+                    text-transform:uppercase; letter-spacing:0.1em;'>Signal</div>
+            </div>
+            <div style='flex:1; min-width:200px;'>
+                <div style='color:#E2E8F0; font-size:0.95rem; line-height:1.6;
+                    margin-bottom:0.8rem;'>{sm["desc"]}</div>
+                <div style='display:flex; gap:2rem; flex-wrap:wrap;'>
+                    <div>
+                        <div style='color:#64748B; font-size:0.72rem; font-weight:600;
+                            text-transform:uppercase; letter-spacing:0.08em;'>Confidence</div>
+                        <div style='color:{sm["color"]}; font-size:1.4rem; font-weight:700;'>{confidence:.0f}%</div>
+                        <div style='color:#64748B; font-size:0.72rem;'>How certain the model is</div>
+                    </div>
+                    <div>
+                        <div style='color:#64748B; font-size:0.72rem; font-weight:600;
+                            text-transform:uppercase; letter-spacing:0.08em;'>Expected Return</div>
+                        <div style='color:{"#22C55E" if expected_return >= 0 else "#EF4444"};
+                            font-size:1.4rem; font-weight:700;'>{expected_return:+.2f}%</div>
+                        <div style='color:#64748B; font-size:0.72rem;'>Over {days} trading days</div>
+                    </div>
+                    <div>
+                        <div style='color:#64748B; font-size:0.72rem; font-weight:600;
+                            text-transform:uppercase; letter-spacing:0.08em;'>Market Trend</div>
+                        <div style='color:#A78BFA; font-size:1.4rem; font-weight:700;'>{trend}</div>
+                        <div style='color:#64748B; font-size:0.72rem;'>Predicted direction</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        #  Summary metrics 
+        st.markdown("####  Prediction Summary")
+        st.caption("What do these numbers mean? Hover the ℹ️ icon on each metric for an explanation.")
         volatility = np.std([p for p in predictions['prices']])
         pf = f"{pred_price:.4f}" if is_forex else f"${pred_price:,.2f}"
-        pr = (f"{predictions['lower'][-1]:.4f} - {predictions['upper'][-1]:.4f}" if is_forex
-              else f"${predictions['lower'][-1]:,.2f} - ${predictions['upper'][-1]:,.2f}")
+        pr = (f"{predictions['lower'][-1]:.4f} – {predictions['upper'][-1]:.4f}" if is_forex
+              else f"${predictions['lower'][-1]:,.2f} – ${predictions['upper'][-1]:,.2f}")
         vf = f"{volatility:.4f}" if is_forex else f"${volatility:,.2f}"
+        col1, col2, col3, col4 = st.columns(4)
         with col1:
-            st.metric("Predicted Price", pf)
+            st.metric("Predicted End Price", pf,
+                      help=f"The model's best estimate of the closing price after {days} days")
         with col2:
-            st.metric("Price Range", pr)
+            st.metric("Confidence Range", pr,
+                      help="Lower and upper bounds of the 80% confidence interval — the price is likely to stay within this band")
         with col3:
-            st.metric("Volatility", vf)
+            st.metric("Forecast Volatility", vf,
+                      help="How much the predicted price is expected to fluctuate day-to-day. Higher = more uncertainty.")
         with col4:
-            trend = "Bullish" if pred_price > latest_price else "Bearish"
-            st.metric("Trend", trend)
+            trend_raw = "Bullish" if pred_price > latest_price else "Bearish"
+            st.metric("Overall Trend", trend_raw,
+                      help="Bullish means the model expects prices to rise. Bearish means it expects them to fall.")
     except Exception as e:
         st.error(f"Error generating prediction: {str(e)}")
         st.info("Full prediction requires trained models and historical data.")
@@ -478,7 +822,7 @@ def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
 
         has_ew = 'ew_wave_number' in stock_data.columns
 
-        # ── If ew_* columns are missing, compute them on-the-fly ──
+        #  If ew_* columns are missing, compute them on-the-fly 
         if not has_ew:
             st.info("Computing Elliott Wave features on-the-fly for this market…")
             try:
@@ -576,7 +920,7 @@ def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
             else:
                 pos_label = "Late"
 
-            # ── Status Banner ──
+            #  Status Banner 
             st.markdown(f"""
             <div style='background: linear-gradient(135deg, #1E293B 0%, #334155 100%); padding: 1.5rem;
                  border-radius: 16px; border: 2px solid {phase_color}; margin-bottom: 1.5rem;
@@ -586,7 +930,7 @@ def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
             </div>
             """, unsafe_allow_html=True)
 
-            # ── Key Metrics Row ──
+            #  Key Metrics Row 
             col1, col2, col3, col4 = st.columns(4)
             with col1:
                 st.metric("Current Wave", wave_label.split()[-1], phase)
@@ -609,7 +953,7 @@ def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
 
             st.markdown("---")
 
-            # ── Elliott Wave Feature History Chart ──
+            #  Elliott Wave Feature History Chart 
             st.subheader("Elliott Wave Pattern Over Time")
             recent = stock_data.tail(120).copy()
             if 'Date' in recent.columns:
@@ -652,7 +996,7 @@ def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
             )
             st.plotly_chart(fig, use_container_width=True)
 
-            # ── Wave Number Timeline ──
+            #  Wave Number Timeline 
             col1, col2 = st.columns(2)
             with col1:
                 st.subheader("Wave Number Timeline")
@@ -709,7 +1053,7 @@ def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
                 )
                 st.plotly_chart(fig3, use_container_width=True)
 
-            # ── Theory Reference ──
+            #  Theory Reference 
             st.markdown("---")
             with st.expander("📖 Elliott Wave Theory Reference (Frost & Prechter)", expanded=False):
                 st.markdown("""
@@ -844,7 +1188,7 @@ def show_training_results_tab():
     st.header("Training Results Dashboard")
     st.markdown("Comprehensive training results across all markets and model architectures.")
     try:
-        # ── Market selector ──
+        #  Market selector 
         market_tab = st.radio("Select Market", ["Stocks", "Forex", "Crypto"], horizontal=True, key="training_market")
 
         if market_tab == "Forex":
@@ -1627,7 +1971,7 @@ def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
         <p style='color:#94A3B8; margin-top:0.3rem;'>Real-time trading signals with risk management levels</p>
     </div>""", unsafe_allow_html=True)
 
-    # ── Market selector ─────────────────────────────────────────────────────
+    #  Market selector 
     if is_crypto:
         all_symbols = list(CRYPTO_SYMBOL_MAP.keys())
         market_label = "Cryptocurrency"
@@ -1660,7 +2004,7 @@ def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
         st.info("Select at least one symbol above to see live signals.")
         return
 
-    # ── Risk settings ────────────────────────────────────────────────────────
+    #  Risk settings 
     with st.expander("⚙️ Risk Settings", expanded=False):
         rcol1, rcol2, rcol3 = st.columns(3)
         with rcol1:
@@ -1673,7 +2017,7 @@ def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
 
     st.markdown("---")
 
-    # ── Generate signals ─────────────────────────────────────────────────────
+    #  Generate signals 
     engine = LiveSignalEngine()
 
     signal_colors = {'BUY': '#22c55e', 'SELL': '#ef4444', 'HOLD': '#f59e0b', 'ERROR': '#64748b'}
@@ -1706,7 +2050,7 @@ def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
                 st.error(f"⚠️ {sym}: {sig['error']}")
                 continue
 
-            # ── Metrics row ──────────────────────────────────────────────────
+            #  Metrics row 
             is_fx = is_forex
             fmt = lambda v: f"{v:.4f}" if is_fx else (f"${v:,.2f}" if v > 1 else f"${v:.6f}")
 
@@ -1723,7 +2067,7 @@ def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
             with m5:
                 st.metric("Take Profit 2", fmt(sig['tp2']))
 
-            # ── Secondary risk row ───────────────────────────────────────────
+            #  Secondary risk row 
             r1, r2, r3 = st.columns(3)
             with r1:
                 st.metric("Risk : Reward", f"1 : {sig['risk_reward']}")
@@ -1737,7 +2081,7 @@ def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
             st.markdown(f"<p style='color:#475569;font-size:0.75rem;margin-top:-0.5rem;'>"
                        f"Last updated: {sig['timestamp']}</p>", unsafe_allow_html=True)
 
-    # ── Auto-refresh notice ──────────────────────────────────────────────────
+    #  Auto-refresh notice 
     st.markdown("---")
     st.markdown("""
     <div style='background:#1E293B;border-radius:8px;padding:0.8rem 1.2rem;border:1px solid #334155;'>
@@ -1755,12 +2099,71 @@ def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
 
 def show_auto_trader_tab(stock, model, is_forex=False, is_crypto=False):
     from utils.auto_trader import AutoTrader, HAS_BINANCE
-    st.header("Automated Trading Bot")
-    if not HAS_BINANCE:
-        st.warning("The `python-binance` package is not installed. Continuous connection to Binance Testnet is unavailable, but **Paper Trading (Simulated)** is fully functional.")
-        st.info("To enable Binance Testnet, install with: `pip install python-binance`")
-    
-    st.info("Model-Based Automated Trading — Connect to Binance Testnet or use paper trading to execute trades based on model predictions. Uses Binance Testnet environment with no real capital. Includes automated stop-loss and take-profit risk controls.")
+    st.header("🤖 Automated Trading Bot")
+
+    #  Status banner 
+    if HAS_BINANCE:
+        st.markdown("""
+        <div style='background:rgba(34,197,94,0.1); border:1.5px solid rgba(34,197,94,0.35);
+            border-radius:14px; padding:1rem 1.4rem; margin-bottom:1rem; display:flex;
+            align-items:center; gap:1rem;'>
+            <div style='font-size:1.8rem;'>✅</div>
+            <div>
+                <div style='color:#22C55E; font-weight:700; font-size:0.95rem;'>
+                    Binance Testnet Available
+                </div>
+                <div style='color:#94A3B8; font-size:0.82rem; margin-top:2px;'>
+                    python-binance is installed. You can connect to Binance Testnet using free API keys,
+                    or use Paper Trading (simulated) with no setup required.
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.warning("⚠️ `python-binance` not found — Paper Trading (simulated) is still fully functional.")
+
+    #  Mode info cards 
+    mc1, mc2 = st.columns(2)
+    with mc1:
+        st.markdown("""
+        <div style='background:rgba(37,99,235,0.1); border:1px solid rgba(37,99,235,0.3);
+            border-radius:12px; padding:1rem 1.2rem;'>
+            <div style='font-size:1.4rem; margin-bottom:0.4rem;'>📄</div>
+            <div style='color:#60A5FA; font-weight:700; margin-bottom:0.3rem;'>Paper Trading (Simulated)</div>
+            <div style='color:#94A3B8; font-size:0.82rem; line-height:1.5;'>
+                No setup needed. Trades are simulated with a virtual $10,000 balance.
+                Stop-loss, trailing stop, and take-profit logic runs exactly as it would live.
+                <strong style='color:#E2E8F0;'>Recommended for demo and testing.</strong>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    with mc2:
+        st.markdown("""
+        <div style='background:rgba(124,58,237,0.1); border:1px solid rgba(124,58,237,0.3);
+            border-radius:12px; padding:1rem 1.2rem;'>
+            <div style='font-size:1.4rem; margin-bottom:0.4rem;'>🔗</div>
+            <div style='color:#A78BFA; font-weight:700; margin-bottom:0.3rem;'>Binance Testnet (Fake Money)</div>
+            <div style='color:#94A3B8; font-size:0.82rem; line-height:1.5;'>
+                Connects to testnet.binance.vision using free API keys. Executes real orders against
+                a simulated exchange — no real capital involved.
+                <strong style='color:#E2E8F0;'>Requires free API key from testnet.binance.vision.</strong>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<br/>", unsafe_allow_html=True)
+
+    with st.expander("📋 How to get free Binance Testnet API keys", expanded=False):
+        st.markdown("""
+        1. Go to **[testnet.binance.vision](https://testnet.binance.vision)** in your browser
+        2. Click **"Log In with GitHub"** — sign in with your GitHub account (free)
+        3. Under **"API Keys"**, click **"Generate HMAC_SHA256 Key"**
+        4. Copy both the **API Key** and **Secret Key**
+        5. Paste them in the **Connection Settings** panel below and click **Connect to Testnet**
+
+        > The testnet uses fake USDT/BTC — no real money is ever involved.
+        """)
+
     if 'auto_trader' not in st.session_state:
         st.session_state.auto_trader = AutoTrader(testnet=True)
     trader = st.session_state.auto_trader

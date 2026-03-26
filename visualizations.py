@@ -1,9 +1,3 @@
-"""
-Enhanced Visualizations for Dissertation Chapter 4
-Generates publication-quality figures for stock price prediction analysis
-
-Created: February 2026
-"""
 
 import pandas as pd
 import numpy as np

@@ -1,7 +1,3 @@
-"""
-Train CSE All-Share Index (Sri Lankan Market)
-"""
-
 import os
 import pandas as pd
 from datetime import datetime

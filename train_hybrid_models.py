@@ -1,8 +1,3 @@
-"""
-Train All Hybrid Models
-Early Fusion + Late Fusion + Attention Fusion
-"""
-
 import sys
 import pandas as pd
 import numpy as np

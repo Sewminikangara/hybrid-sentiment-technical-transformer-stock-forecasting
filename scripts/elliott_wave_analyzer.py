@@ -616,17 +616,6 @@ class ElliottWaveAnalyzer:
 #  Convenience Functions
 def add_elliott_wave_features(df: pd.DataFrame, price_col: str = 'Close',
                                lookback: int = 120, swing_order: int = 5) -> pd.DataFrame:
-    """
-    Convenience function to add Elliott Wave features to a DataFrame.
     
-    Args:
-        df: DataFrame with price data
-        price_col: Name of the close price column
-        lookback: Lookback window for wave detection
-        swing_order: Swing point sensitivity
-    
-    Returns:
-        DataFrame with 8 new 'ew_*' columns
-    """
     analyzer = ElliottWaveAnalyzer(lookback=lookback, swing_order=swing_order)
     return analyzer.calculate_elliott_wave_features(df, price_col=price_col)
