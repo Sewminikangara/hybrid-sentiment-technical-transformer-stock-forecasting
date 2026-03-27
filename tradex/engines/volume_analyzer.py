@@ -328,8 +328,8 @@ class VolumeAnalyzer:
 
 
 if __name__ == "__main__":
-    print("Volume Profile and Order Flow Analysis Test")
-    print("=" * 50)
+    logger.info("Volume Profile and Order Flow Analysis Test")
+    logger.info("=")
 
     np.random.seed(42)
     n = 200
@@ -347,19 +347,19 @@ if __name__ == "__main__":
     analyzer = VolumeAnalyzer()
     result = analyzer.analyze(df, symbol="TEST")
 
-    print(f"  Symbol: {result.symbol}")
-    print(f"  OBV trend: {result.obv_trend}")
-    print(f"  OBV divergence: {result.obv_divergence}")
-    print(f"  VWAP: {result.vwap:.2f}")
-    print(f"  Price vs VWAP: {result.price_vs_vwap}")
-    print(f"  A/D trend: {result.ad_line_trend}")
-    print(f"  Volume climax: {result.volume_climax}")
-    print(f"  Confirmation score: {result.confirmation_score:.1%}")
-    print(f"\n  Volume Profile:")
-    print(f"    POC: {result.volume_profile.poc_price:.2f}")
-    print(f"    VAH: {result.volume_profile.value_area_high:.2f}")
-    print(f"    VAL: {result.volume_profile.value_area_low:.2f}")
-    print(f"    Price in VA: {result.volume_profile.price_in_value_area}")
-    print(f"\n  Summary: {result.summary}")
+    logger.info("  Symbol: {result.symbol}")
+    logger.info("  OBV trend: {result.obv_trend}")
+    logger.info("  OBV divergence: {result.obv_divergence}")
+    logger.info("  VWAP: {result.vwap:.2f}")
+    logger.info("  Price vs VWAP: {result.price_vs_vwap}")
+    logger.info("  A/D trend: {result.ad_line_trend}")
+    logger.info("  Volume climax: {result.volume_climax}")
+    logger.info("  Confirmation score: {result.confirmation_score:.1%}")
+    logger.info("\n  Volume Profile:")
+    logger.info("    POC: {result.volume_profile.poc_price:.2f}")
+    logger.info("    VAH: {result.volume_profile.value_area_high:.2f}")
+    logger.info("    VAL: {result.volume_profile.value_area_low:.2f}")
+    logger.info("    Price in VA: {result.volume_profile.price_in_value_area}")
+    logger.info("\n  Summary: {result.summary}")
 
-    print("\nVolume analysis test complete.")
+    logger.info("\nVolume analysis test complete.")

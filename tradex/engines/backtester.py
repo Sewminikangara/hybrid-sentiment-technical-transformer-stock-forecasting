@@ -394,8 +394,8 @@ class SignalBacktester:
 
 
 if __name__ == "__main__":
-    print("Signal Backtesting Framework Test")
-    print("=" * 50)
+    logger.info("Signal Backtesting Framework Test")
+    logger.info("=")
 
     np.random.seed(42)
     n = 500
@@ -416,6 +416,6 @@ if __name__ == "__main__":
     )
 
     result = backtester.backtest(df, symbol="TEST")
-    print(backtester.summary(result))
+    logger.info(backtester.summary(result))
 
-    print("\nBacktesting framework test complete.")
+    logger.info("\nBacktesting framework test complete.")

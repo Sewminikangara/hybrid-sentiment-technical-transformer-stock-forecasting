@@ -239,8 +239,8 @@ class AdaptiveThresholdEngine:
 
 
 if __name__ == "__main__":
-    print("Adaptive Thresholds Test")
-    print("=" * 50)
+    logger.info("Adaptive Thresholds Test")
+    logger.info("=")
 
     np.random.seed(42)
 
@@ -257,8 +257,8 @@ if __name__ == "__main__":
     }, index=dates)
 
     result = engine.analyze(df_low)
-    print(f"\nLow Vol Scenario:")
-    print(engine.format_summary(result))
+    logger.info("\nLow Vol Scenario:")
+    logger.info(engine.format_summary(result))
 
     # High volatility
     close_high = 100 + np.cumsum(np.random.randn(n) * 3.0)
@@ -270,7 +270,7 @@ if __name__ == "__main__":
     }, index=dates)
 
     result = engine.analyze(df_high)
-    print(f"\nHigh Vol Scenario:")
-    print(engine.format_summary(result))
+    logger.info("\nHigh Vol Scenario:")
+    logger.info(engine.format_summary(result))
 
-    print("\nAdaptive thresholds test complete.")
+    logger.info("\nAdaptive thresholds test complete.")

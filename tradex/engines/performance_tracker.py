@@ -375,8 +375,8 @@ class SignalPerformanceTracker:
 if __name__ == "__main__":
     import tempfile
 
-    print("Signal Performance Tracker Test")
-    print("=" * 50)
+    logger.info("Signal Performance Tracker Test")
+    logger.info("=")
 
     with tempfile.TemporaryDirectory() as tmpdir:
         tracker = SignalPerformanceTracker(data_dir=tmpdir)
@@ -402,6 +402,6 @@ if __name__ == "__main__":
         # s5 stays open
 
         stats = tracker.get_stats()
-        print(tracker.format_stats(stats))
+        logger.info(tracker.format_stats(stats))
 
-    print("\nPerformance tracker test complete.")
+    logger.info("\nPerformance tracker test complete.")

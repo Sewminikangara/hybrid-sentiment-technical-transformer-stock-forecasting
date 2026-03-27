@@ -225,7 +225,7 @@ def main():
     """, unsafe_allow_html=True)
 
     with st.sidebar:
-        #  App brand 
+        #  App brand
         st.markdown("""
         <div style='text-align:center; padding:1rem 0 0.5rem 0;'>
             <div style='font-size:2rem; font-weight:800;
@@ -237,7 +237,7 @@ def main():
         <hr style='border-color:rgba(96,165,250,0.15); margin:0.5rem 0 0.8rem 0;'/>
         """, unsafe_allow_html=True)
 
-        #  Market & Asset selection 
+        #  Market & Asset selection
         st.markdown("###  Market")
         market_type = st.radio(
             "Choose market", ["Stocks", "Forex", "Crypto"],
@@ -282,7 +282,7 @@ def main():
         elif market_type == "Crypto":
             st.info("Crypto predictions use transformer models trained on historical cryptocurrency data.")
 
-        #  Model & horizon 
+        #  Model & horizon
         st.markdown("###  Model")
         models = ['Attention Fusion', 'Early Fusion', 'Late Fusion', 'LSTM Baseline']
         model_help = {
@@ -302,7 +302,7 @@ def main():
             "Forecast days", min_value=1, max_value=30, value=7,
             help="How many days ahead to forecast. 5–10 days recommended for best reliability.")
 
-        #  Quick Stats 
+        #  Quick Stats
         st.markdown("---")
         is_forex = (market_type == "Forex")
         is_crypto = (market_type == "Crypto")
@@ -351,7 +351,7 @@ def main():
     is_forex  = (market_type == "Forex")
     is_crypto = (market_type == "Crypto")
 
-    #  Horizontal tab navigation (main area) 
+    #  Horizontal tab navigation (main area)
     TAB_LABELS = [
         "Home",
         "Prediction",
@@ -420,7 +420,7 @@ def main():
 
 
 def show_home_tab():
-    #  Hero 
+    #  Hero
     st.markdown("""
     <div style='text-align:center; padding:2rem 0 1.5rem 0; animation:fadeIn 0.8s ease;'>
         <div style='font-size:3.8rem; font-weight:800;
@@ -436,7 +436,7 @@ def show_home_tab():
     </div>
     """, unsafe_allow_html=True)
 
-    #  KPI row 
+    #  KPI row
     c1, c2, c3, c4 = st.columns(4)
     with c1:
         st.metric("Markets", "3", "Stocks · Forex · Crypto",
@@ -453,7 +453,7 @@ def show_home_tab():
 
     st.markdown("<hr style='border-color:rgba(96,165,250,0.15); margin:1.5rem 0;'/>", unsafe_allow_html=True)
 
-    #  Quick Start 
+    #  Quick Start
     st.markdown("###  Quick Start — 3 Steps")
     qs1, qs2, qs3 = st.columns(3)
     with qs1:
@@ -501,7 +501,7 @@ def show_home_tab():
 
     st.markdown("<hr style='border-color:rgba(96,165,250,0.15); margin:1.5rem 0;'/>", unsafe_allow_html=True)
 
-    #  What each feature does for you 
+    #  What each feature does for you
     st.markdown("###  What Can TradeXy Do For You?")
     bc1, bc2, bc3 = st.columns(3)
     benefits = [
@@ -552,7 +552,7 @@ def show_home_tab():
 
     st.markdown("<hr style='border-color:rgba(96,165,250,0.15); margin:1.8rem 0 1rem 0;'/>", unsafe_allow_html=True)
 
-    #  Supported assets table 
+    #  Supported assets table
     st.markdown("###  Supported Assets")
     ac1, ac2, ac3 = st.columns(3)
     with ac1:
@@ -589,7 +589,7 @@ def show_prediction_tab(stock, model, days, is_forex=False, is_crypto=False):
         label = "Price Prediction"
     st.header(f"📈 {stock} {label}")
 
-    #  Context banner 
+    #  Context banner
     st.markdown("""
     <div style='background:rgba(37,99,235,0.08); border:1px solid rgba(96,165,250,0.2);
         border-radius:10px; padding:0.75rem 1.1rem; margin-bottom:0.8rem;
@@ -614,7 +614,7 @@ def show_prediction_tab(stock, model, days, is_forex=False, is_crypto=False):
         pct_change   = ((latest_price - prev_price) / prev_price) * 100
         training_cutoff = pd.to_datetime(stock_data['Date'].iloc[-1]).strftime('%Y-%m-%d')
 
-        #  Try live price from yfinance 
+        #  Try live price from yfinance
         live = data_loader.fetch_live_price(stock, is_forex=is_forex, is_crypto=is_crypto)
         if live:
             display_price  = live['price']
@@ -653,7 +653,7 @@ def show_prediction_tab(stock, model, days, is_forex=False, is_crypto=False):
         visualizer = ChartVisualizer()
         fig = visualizer.create_prediction_chart(stock_data, predictions, stock)
         st.plotly_chart(fig, use_container_width=True)
-        #  Signal Card 
+        #  Signal Card
         pred_price = predictions['prices'][-1]
         signal, confidence = generate_signal(latest_price, pred_price, predictions)
         expected_return = ((pred_price - latest_price) / latest_price) * 100
@@ -710,9 +710,9 @@ def show_prediction_tab(stock, model, days, is_forex=False, is_crypto=False):
         </div>
         """, unsafe_allow_html=True)
 
-        #  Summary metrics 
+        #  Summary metrics
         st.markdown("####  Prediction Summary")
-        st.caption("What do these numbers mean? Hover the ℹ️ icon on each metric for an explanation.")
+        st.caption("What do these numbers mean? Hover the ℹ icon on each metric for an explanation.")
         volatility = np.std([p for p in predictions['prices']])
         pf = f"{pred_price:.4f}" if is_forex else f"${pred_price:,.2f}"
         pr = (f"{predictions['lower'][-1]:.4f} – {predictions['upper'][-1]:.4f}" if is_forex
@@ -822,7 +822,7 @@ def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
 
         has_ew = 'ew_wave_number' in stock_data.columns
 
-        #  If ew_* columns are missing, compute them on-the-fly 
+        #  If ew_* columns are missing, compute them on-the-fly
         if not has_ew:
             st.info("Computing Elliott Wave features on-the-fly for this market…")
             try:
@@ -920,7 +920,7 @@ def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
             else:
                 pos_label = "Late"
 
-            #  Status Banner 
+            #  Status Banner
             st.markdown(f"""
             <div style='background: linear-gradient(135deg, #1E293B 0%, #334155 100%); padding: 1.5rem;
                  border-radius: 16px; border: 2px solid {phase_color}; margin-bottom: 1.5rem;
@@ -930,7 +930,7 @@ def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
             </div>
             """, unsafe_allow_html=True)
 
-            #  Key Metrics Row 
+            #  Key Metrics Row
             col1, col2, col3, col4 = st.columns(4)
             with col1:
                 st.metric("Current Wave", wave_label.split()[-1], phase)
@@ -953,7 +953,7 @@ def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
 
             st.markdown("---")
 
-            #  Elliott Wave Feature History Chart 
+            #  Elliott Wave Feature History Chart
             st.subheader("Elliott Wave Pattern Over Time")
             recent = stock_data.tail(120).copy()
             if 'Date' in recent.columns:
@@ -996,7 +996,7 @@ def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
             )
             st.plotly_chart(fig, use_container_width=True)
 
-            #  Wave Number Timeline 
+            #  Wave Number Timeline
             col1, col2 = st.columns(2)
             with col1:
                 st.subheader("Wave Number Timeline")
@@ -1053,7 +1053,7 @@ def show_elliott_wave_tab(stock, is_forex=False, is_crypto=False):
                 )
                 st.plotly_chart(fig3, use_container_width=True)
 
-            #  Theory Reference 
+            #  Theory Reference
             st.markdown("---")
             with st.expander("📖 Elliott Wave Theory Reference (Frost & Prechter)", expanded=False):
                 st.markdown("""
@@ -1188,7 +1188,7 @@ def show_training_results_tab():
     st.header("Training Results Dashboard")
     st.markdown("Comprehensive training results across all markets and model architectures.")
     try:
-        #  Market selector 
+        #  Market selector
         market_tab = st.radio("Select Market", ["Stocks", "Forex", "Crypto"], horizontal=True, key="training_market")
 
         if market_tab == "Forex":
@@ -1707,10 +1707,12 @@ def show_batch_prediction_tab(model_name='early_fusion', is_forex=False, is_cryp
                 with st.expander("View Python API Example"):
                     st.code(f"""
 from batch_predictor import BatchPredictor
+import logging
+logger = logging.getLogger(__name__)
 predictor = BatchPredictor(model='{model_name}')
 results = predictor.batch_predict(symbols={selected_assets}, days={prediction_days}, is_forex={is_forex}, parallel=True)
 opportunities = predictor.rank_opportunities(symbols={selected_assets}, min_confidence={min_confidence})
-print(opportunities.head())
+logger.info(opportunities.head())
                     """, language='python')
 
 
@@ -1971,7 +1973,7 @@ def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
         <p style='color:#94A3B8; margin-top:0.3rem;'>Real-time trading signals with risk management levels</p>
     </div>""", unsafe_allow_html=True)
 
-    #  Market selector 
+    #  Market selector
     if is_crypto:
         all_symbols = list(CRYPTO_SYMBOL_MAP.keys())
         market_label = "Cryptocurrency"
@@ -2004,7 +2006,7 @@ def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
         st.info("Select at least one symbol above to see live signals.")
         return
 
-    #  Risk settings 
+    #  Risk settings
     with st.expander("⚙️ Risk Settings", expanded=False):
         rcol1, rcol2, rcol3 = st.columns(3)
         with rcol1:
@@ -2017,7 +2019,7 @@ def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
 
     st.markdown("---")
 
-    #  Generate signals 
+    #  Generate signals
     engine = LiveSignalEngine()
 
     signal_colors = {'BUY': '#22c55e', 'SELL': '#ef4444', 'HOLD': '#f59e0b', 'ERROR': '#64748b'}
@@ -2050,7 +2052,7 @@ def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
                 st.error(f"⚠️ {sym}: {sig['error']}")
                 continue
 
-            #  Metrics row 
+            #  Metrics row
             is_fx = is_forex
             fmt = lambda v: f"{v:.4f}" if is_fx else (f"${v:,.2f}" if v > 1 else f"${v:.6f}")
 
@@ -2067,7 +2069,7 @@ def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
             with m5:
                 st.metric("Take Profit 2", fmt(sig['tp2']))
 
-            #  Secondary risk row 
+            #  Secondary risk row
             r1, r2, r3 = st.columns(3)
             with r1:
                 st.metric("Risk : Reward", f"1 : {sig['risk_reward']}")
@@ -2081,7 +2083,7 @@ def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
             st.markdown(f"<p style='color:#475569;font-size:0.75rem;margin-top:-0.5rem;'>"
                        f"Last updated: {sig['timestamp']}</p>", unsafe_allow_html=True)
 
-    #  Auto-refresh notice 
+    #  Auto-refresh notice
     st.markdown("---")
     st.markdown("""
     <div style='background:#1E293B;border-radius:8px;padding:0.8rem 1.2rem;border:1px solid #334155;'>
@@ -2094,14 +2096,14 @@ def show_live_signals_tab(stock, is_forex=False, is_crypto=False):
         </p>
     </div>""", unsafe_allow_html=True)
 
-    st.warning("⚠️ For research and educational purposes only. This does not constitute financial advice.")
+    st.warning("For research and educational purposes only. This does not constitute financial advice.")
 
 
 def show_auto_trader_tab(stock, model, is_forex=False, is_crypto=False):
     from utils.auto_trader import AutoTrader, HAS_BINANCE
-    st.header("🤖 Automated Trading Bot")
+    st.header("Automated Trading Bot")
 
-    #  Status banner 
+    #  Status banner
     if HAS_BINANCE:
         st.markdown("""
         <div style='background:rgba(34,197,94,0.1); border:1.5px solid rgba(34,197,94,0.35);
@@ -2120,9 +2122,9 @@ def show_auto_trader_tab(stock, model, is_forex=False, is_crypto=False):
         </div>
         """, unsafe_allow_html=True)
     else:
-        st.warning("⚠️ `python-binance` not found — Paper Trading (simulated) is still fully functional.")
+        st.warning("`python-binance` not found — Paper Trading (simulated) is still fully functional.")
 
-    #  Mode info cards 
+    #  Mode info cards
     mc1, mc2 = st.columns(2)
     with mc1:
         st.markdown("""

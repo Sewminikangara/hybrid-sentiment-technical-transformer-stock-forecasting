@@ -1,8 +1,3 @@
-"""
-Chart Visualizer for Stock Prediction App
-Creates interactive Plotly charts
-"""
-
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd

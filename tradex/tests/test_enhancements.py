@@ -1,7 +1,7 @@
 """
 TradeXY Unit Tests
 
-Additional tests covering 
+Additional tests covering
     FinBERT sentiment integration (hybrid scorer)
     Multi-timeframe Elliott Wave correlation
     Backtesting framework
@@ -22,11 +22,12 @@ import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+import logging
+logger = logging.getLogger(__name__)
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
-# --- Helper: Generate Test OHLCV Data ---
 
 def make_ohlcv(n=200, base=100, trend=0.1, volatility=1.0, seed=42):
     """Generate OHLCV data with configurable trend and volatility."""
@@ -727,10 +728,9 @@ class TestCrossModuleIntegration(unittest.TestCase):
             self.assertEqual(stats.total_signals, 1)
 
 
-# --- Run Tests ---
 
 if __name__ == "__main__":
-    print("""
+    logger.info("""
         TradeXY - Expanded Unit Tests
         Covers all 10 future enhancements
     """)

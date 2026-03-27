@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 class FinBERTSentimentAnalyzer:
-   
+
 
     MODEL_NAME = "ProsusAI/finbert"
 
@@ -83,7 +83,7 @@ class FinBERTSentimentAnalyzer:
             return 0.0
 
     def score_batch(self, texts: list) -> list:
-        
+
         if not self._available or not texts:
             return [0.0] * len(texts)
 
@@ -106,7 +106,7 @@ class FinBERTSentimentAnalyzer:
             return [0.0] * len(texts)
 
     def analyze(self, text: str) -> Dict:
-        
+
         if not self._available or not text:
             return {"label": "neutral", "confidence": 0.5, "score": 0.0}
 
@@ -134,10 +134,10 @@ class FinBERTSentimentAnalyzer:
 
 
 class HybridSentimentScorer:
-    
+
 
     def __init__(self, finbert_weight: float = 0.7, device: str = "cpu"):
-        
+
         self.finbert_weight = finbert_weight
         self.finbert = FinBERTSentimentAnalyzer(device=device)
         self._rule_scorer = None
@@ -197,11 +197,11 @@ class HybridSentimentScorer:
 
 
 if __name__ == "__main__":
-    print("FinBERT Sentiment Integration Test")
-    print("=" * 50)
+    logger.info("FinBERT Sentiment Integration Test")
+    logger.info("=")
 
     analyzer = FinBERTSentimentAnalyzer()
-    print(f"  FinBERT available: {analyzer.is_available}")
+    logger.info("  FinBERT available: {analyzer.is_available}")
 
     test_texts = [
         "Federal Reserve raises interest rates by 50 basis points",
@@ -212,18 +212,18 @@ if __name__ == "__main__":
 
     for text in test_texts:
         result = analyzer.analyze(text)
-        print(f"\n  Text: {text[:60]}...")
-        print(f"  Label: {result['label']}, Score: {result['score']:+.3f}")
+        logger.info("\n  Text: {text[:60]}...")
+        logger.info("  Label: {result[")
 
-    print("\nHybrid Scorer Test")
-    print("-" * 50)
+    logger.info("\nHybrid Scorer Test")
+    logger.info("-")
     hybrid = HybridSentimentScorer()
 
     for text in test_texts:
         detail = hybrid.score_detailed(text)
-        print(f"\n  Text: {text[:60]}...")
+        logger.info("\n  Text: {text[:60]}...")
         print(f"  Rule: {detail['rule_score']:+.3f}, "
               f"FinBERT: {detail['finbert_score']:+.3f}, "
               f"Hybrid: {detail['hybrid_score']:+.3f}")
 
-    print("\nFinBERT Sentiment Integration test complete.")
+    logger.info("\nFinBERT Sentiment Integration test complete.")

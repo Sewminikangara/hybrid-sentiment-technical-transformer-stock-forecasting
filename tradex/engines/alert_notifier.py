@@ -1,5 +1,5 @@
 """
-Alert Notification System 
+Alert Notification System
 
 """
 
@@ -283,8 +283,8 @@ class AlertManager:
 
 
 if __name__ == "__main__":
-    print("Alert Notification System Test")
-    print("=" * 50)
+    logger.info("Alert Notification System Test")
+    logger.info("=")
 
     # Create a test alert
     alert = AlertMessage(
@@ -308,22 +308,22 @@ if __name__ == "__main__":
         timestamp=datetime.utcnow().isoformat(),
     )
 
-    print("\nPlain text format:")
-    print(alert.to_text())
+    logger.info("\nPlain text format:")
+    logger.info(alert.to_text())
 
-    print("\nHTML format (truncated):")
+    logger.info("\nHTML format (truncated):")
     html = alert.to_html()
-    print(html[:200] + "...")
+    logger.info(html[:200] + "...")
 
     # Test channels (will report not configured)
     manager = AlertManager()
-    print(f"\nTelegram enabled: {manager.telegram.is_enabled}")
-    print(f"Email enabled: {manager.email.is_enabled}")
+    logger.info("\nTelegram enabled: {manager.telegram.is_enabled}")
+    logger.info("Email enabled: {manager.email.is_enabled}")
 
     if manager.any_enabled:
         results = manager.send_signal_alert(alert)
-        print(f"Send results: {results}")
+        logger.info("Send results: {results}")
     else:
-        print("No channels configured. Set environment variables to enable.")
+        logger.info("No channels configured. Set environment variables to enable.")
 
-    print("\nAlert system test complete.")
+    logger.info("\nAlert system test complete.")

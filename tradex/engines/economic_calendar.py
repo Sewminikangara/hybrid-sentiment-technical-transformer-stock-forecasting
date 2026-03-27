@@ -296,8 +296,8 @@ class EconomicCalendar:
 
 
 if __name__ == "__main__":
-    print("Economic Calendar Integration Test")
-    print("=" * 50)
+    logger.info("Economic Calendar Integration Test")
+    logger.info("=")
 
     now = datetime.utcnow()
 
@@ -335,13 +335,13 @@ if __name__ == "__main__":
     # Check for different symbols
     for sym in ["EURUSD", "BTCUSDT", "AAPL", "GBPUSD"]:
         result = calendar.check(sym, current_time=now)
-        print(f"\n  {sym}:")
-        print(f"    Block: {result.should_block_signals}")
-        print(f"    Caution: {result.should_reduce_confidence}")
-        print(f"    Upcoming: {len(result.upcoming_events)} events")
+        logger.info("\n  {sym}:")
+        logger.info("    Block: {result.should_block_signals}")
+        logger.info("    Caution: {result.should_reduce_confidence}")
+        logger.info("    Upcoming: {len(result.upcoming_events)} events")
         if result.next_high_impact:
             print(f"    Next HIGH: {result.next_high_impact.name} "
                   f"in {result.minutes_to_next_high}min")
-        print(f"    Summary: {result.summary}")
+        logger.info("    Summary: {result.summary}")
 
-    print("\nEconomic calendar test complete.")
+    logger.info("\nEconomic calendar test complete.")

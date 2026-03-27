@@ -1,8 +1,3 @@
-"""
-Process Forex Data with Technical Indicators
-Adds technical indicators to forex data (similar to stock processing)
-"""
-
 import pandas as pd
 import numpy as np
 from pathlib import Path

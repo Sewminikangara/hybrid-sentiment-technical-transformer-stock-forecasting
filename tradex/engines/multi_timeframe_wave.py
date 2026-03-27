@@ -39,7 +39,7 @@ class MultiTimeframeResult:
 
 
 class MultiTimeframeWaveAnalyzer:
-    
+
 
     DEFAULT_TIMEFRAMES = ["1d", "4h", "1h"]
 
@@ -196,7 +196,7 @@ class MultiTimeframeWaveAnalyzer:
 
     def analyze(self, dataframes: Dict[str, pd.DataFrame],
                 symbol: str = "UNKNOWN") -> MultiTimeframeResult:
-        
+
         # If a single dataframe is provided, resample it
         if len(dataframes) == 1:
             base_tf = list(dataframes.keys())[0]
@@ -261,8 +261,8 @@ class MultiTimeframeWaveAnalyzer:
 
 
 if __name__ == "__main__":
-    print("Multi-Timeframe Elliott Wave Correlation Test")
-    print("=" * 50)
+    logger.info("Multi-Timeframe Elliott Wave Correlation Test")
+    logger.info("=")
 
     np.random.seed(42)
     n = 500
@@ -279,17 +279,17 @@ if __name__ == "__main__":
     analyzer = MultiTimeframeWaveAnalyzer()
     result = analyzer.analyze({"1h": df}, symbol="TEST")
 
-    print(f"  Symbol: {result.symbol}")
-    print(f"  Timeframes analysed: {result.timeframes_analysed}")
-    print(f"  Alignment score: {result.alignment_score:.3f}")
-    print(f"  Composite confidence: {result.composite_confidence}/100")
-    print(f"  Direction consensus: {result.direction_consensus}")
-    print(f"  Is aligned: {result.is_aligned}")
-    print(f"  Recommendation: {result.recommendation}")
+    logger.info("  Symbol: {result.symbol}")
+    logger.info("  Timeframes analysed: {result.timeframes_analysed}")
+    logger.info("  Alignment score: {result.alignment_score:.3f}")
+    logger.info("  Composite confidence: {result.composite_confidence}/100")
+    logger.info("  Direction consensus: {result.direction_consensus}")
+    logger.info("  Is aligned: {result.is_aligned}")
+    logger.info("  Recommendation: {result.recommendation}")
 
     for tf, r in result.results.items():
         print(f"\n  [{tf}] Wave: {r.current_wave}, "
               f"Dir: {r.direction}, Conf: {r.confidence}, "
               f"Fib: {r.fib_score:.3f}")
 
-    print("\nMulti-Timeframe Wave test complete.")
+    logger.info("\nMulti-Timeframe Wave test complete.")

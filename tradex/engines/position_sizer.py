@@ -255,8 +255,8 @@ class PositionSizer:
 
 
 if __name__ == "__main__":
-    print("Position Sizing (Kelly Criterion) Test")
-    print("=" * 50)
+    logger.info("Position Sizing (Kelly Criterion) Test")
+    logger.info("=")
 
     sizer = PositionSizer(kelly_fraction=0.25, max_risk_pct=5.0)
 
@@ -269,8 +269,8 @@ if __name__ == "__main__":
         reward_risk_ratio=2.0,
         symbol="AAPL",
     )
-    print("\nScenario 1: Known win/loss ratio")
-    print(sizer.format_summary(result1))
+    logger.info("\nScenario 1: Known win/loss ratio")
+    logger.info(sizer.format_summary(result1))
 
     # Scenario 2: From trade history
     np.random.seed(42)
@@ -292,8 +292,8 @@ if __name__ == "__main__":
         stop_loss=44000,
         symbol="BTCUSDT",
     )
-    print("\nScenario 2: From 50 historic trades")
-    print(sizer.format_summary(result2))
+    logger.info("\nScenario 2: From 50 historic trades")
+    logger.info(sizer.format_summary(result2))
 
     # Scenario 3: No edge (poor win rate)
     result3 = sizer.calculate_simple(
@@ -304,7 +304,7 @@ if __name__ == "__main__":
         reward_risk_ratio=1.5,
         symbol="EURUSD",
     )
-    print("\nScenario 3: No edge (35% win rate)")
-    print(sizer.format_summary(result3))
+    logger.info("\nScenario 3: No edge (35% win rate)")
+    logger.info(sizer.format_summary(result3))
 
-    print("\nPosition sizing test complete.")
+    logger.info("\nPosition sizing test complete.")

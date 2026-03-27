@@ -1,8 +1,3 @@
-"""
-Statistical Significance Tests for Stock Price Prediction Models
-Proves that hybrid models outperform baselines with statistical significance
-"""
-
 import pandas as pd
 import numpy as np
 from scipy import stats
@@ -27,9 +22,9 @@ def load_results():
     results_file = 'results/hybrid_training_results_20260207_102703.csv'
     df = pd.read_csv(results_file)
     
-    print(f"  ✓ Loaded {len(df)} model results")
-    print(f"  ✓ Stocks: {df['Stock'].unique().tolist()}")
-    print(f"  ✓ Models: {df['Model'].unique().tolist()}")
+    print(f"   Loaded {len(df)} model results")
+    print(f"   Stocks: {df['Stock'].unique().tolist()}")
+    print(f"   Models: {df['Model'].unique().tolist()}")
     
     return df
 
@@ -96,9 +91,9 @@ def paired_t_test_hybrid_vs_technical(df):
         print(f"    Cohen's d:           {cohens_d:.4f}")
         
         if p_value < 0.05:
-            print(f"    ✓ SIGNIFICANT at α=0.05")
+            print(f"     SIGNIFICANT at α=0.05")
         else:
-            print(f"    ✗ Not significant")
+            print(f"     Not significant")
         
         results.append({
             'Comparison': f'{hybrid_model} vs Early_Fusion',
@@ -144,7 +139,7 @@ def anova_fusion_strategies(df):
     print(f"    p-value:     {p_value:.4f}")
     
     if p_value < 0.05:
-        print(f"    ✓ SIGNIFICANT difference among strategies (α=0.05)")
+        print(f"     SIGNIFICANT difference among strategies (α=0.05)")
         
         # Post-hoc pairwise comparisons
         print(f"\n  Post-hoc Pairwise T-Tests:")
@@ -158,7 +153,7 @@ def anova_fusion_strategies(df):
         pairwise_results = []
         for name1, data1, name2, data2 in pairs:
             t, p = stats.ttest_ind(data1, data2)
-            print(f"    {name1} vs {name2}: t={t:.3f}, p={p:.4f} {'✓' if p < 0.05 else '✗'}")
+            print(f"    {name1} vs {name2}: t={t:.3f}, p={p:.4f} {'' if p < 0.05 else ''}")
             pairwise_results.append({
                 'Pair': f'{name1} vs {name2}',
                 't_stat': t,
@@ -166,7 +161,7 @@ def anova_fusion_strategies(df):
                 'Significant': p < 0.05
             })
     else:
-        print(f"    ✗ No significant difference")
+        print(f"     No significant difference")
         pairwise_results = []
     
     return {
@@ -206,7 +201,7 @@ def correlation_analysis(df):
     
     if abs(pearson_r) > 0.5:
         direction = "negative" if pearson_r < 0 else "positive"
-        print(f"    ✓ Strong {direction} correlation")
+        print(f"     Strong {direction} correlation")
     
     return corr_matrix
 
@@ -281,7 +276,7 @@ def wilcoxon_signed_rank_test(df):
         print(f"  {hybrid_model.replace('_', ' ')} vs Early Fusion:")
         print(f"    W-statistic: {stat:.4f}")
         print(f"    p-value:     {p_value:.4f}")
-        print(f"    {'✓ SIGNIFICANT' if p_value < 0.05 else '✗ Not significant'}")
+        print(f"    {' SIGNIFICANT' if p_value < 0.05 else ' Not significant'}")
         
         results.append({
             'Model': hybrid_model,
@@ -315,7 +310,7 @@ def generate_visualizations(df, output_dir):
     
     plt.tight_layout()
     plt.savefig(output_dir / 'model_comparison_boxplot.png', dpi=300, bbox_inches='tight')
-    print(f"  ✓ Saved: {output_dir / 'model_comparison_boxplot.png'}")
+    print(f"   Saved: {output_dir / 'model_comparison_boxplot.png'}")
     
     # Plot 2: Correlation heatmap
     fig, ax = plt.subplots(figsize=(10, 8))
@@ -329,7 +324,7 @@ def generate_visualizations(df, output_dir):
     
     plt.tight_layout()
     plt.savefig(output_dir / 'correlation_heatmap.png', dpi=300, bbox_inches='tight')
-    print(f"  ✓ Saved: {output_dir / 'correlation_heatmap.png'}")
+    print(f"   Saved: {output_dir / 'correlation_heatmap.png'}")
     
     # Plot 3: Confidence intervals
     fig, ax = plt.subplots(figsize=(12, 6))
@@ -361,7 +356,7 @@ def generate_visualizations(df, output_dir):
     
     plt.tight_layout()
     plt.savefig(output_dir / 'confidence_intervals.png', dpi=300, bbox_inches='tight')
-    print(f"  ✓ Saved: {output_dir / 'confidence_intervals.png'}")
+    print(f"   Saved: {output_dir / 'confidence_intervals.png'}")
 
 def main():
     """Main execution"""
@@ -391,34 +386,34 @@ def main():
     
     # Save all tables
     ttest_results.to_csv(output_dir / f'paired_ttest_results_{timestamp}.csv', index=False)
-    print(f"\n  ✓ Saved: paired_ttest_results_{timestamp}.csv")
+    print(f"\n   Saved: paired_ttest_results_{timestamp}.csv")
     
     if anova_results['pairwise'] is not None:
         anova_results['pairwise'].to_csv(output_dir / f'anova_pairwise_{timestamp}.csv', index=False)
-        print(f"  ✓ Saved: anova_pairwise_{timestamp}.csv")
+        print(f"   Saved: anova_pairwise_{timestamp}.csv")
     
     corr_matrix.to_csv(output_dir / f'correlation_matrix_{timestamp}.csv')
-    print(f"  ✓ Saved: correlation_matrix_{timestamp}.csv")
+    print(f"   Saved: correlation_matrix_{timestamp}.csv")
     
     ci_results.to_csv(output_dir / f'confidence_intervals_{timestamp}.csv', index=False)
-    print(f"  ✓ Saved: confidence_intervals_{timestamp}.csv")
+    print(f"   Saved: confidence_intervals_{timestamp}.csv")
     
     wilcoxon_results.to_csv(output_dir / f'wilcoxon_test_{timestamp}.csv', index=False)
-    print(f"  ✓ Saved: wilcoxon_test_{timestamp}.csv")
+    print(f"   Saved: wilcoxon_test_{timestamp}.csv")
     
     # Summary
     print("\n" + "=" * 80)
     print("STATISTICAL TESTS SUMMARY")
     print("=" * 80)
     
-    print("\n✓ Tests Completed:")
+    print("\n Tests Completed:")
     print("  1. Paired t-test (Hybrid vs Technical)")
     print("  2. ANOVA (Fusion strategies)")
     print("  3. Correlation analysis")
     print("  4. 95% Confidence intervals")
     print("  5. Wilcoxon signed-rank test")
     
-    print("\n✓ Key Findings:")
+    print("\n Key Findings:")
     
     # Count significant results
     sig_ttests = ttest_results['Significant'].sum()
@@ -430,7 +425,7 @@ def main():
     sig_wilcoxon = wilcoxon_results['Significant'].sum()
     print(f"  - {sig_wilcoxon}/3 models significant by non-parametric test")
     
-    print("\n✓ Files Generated:")
+    print("\n Files Generated:")
     print(f"  - 5 CSV files with statistical results")
     print(f"  - 3 visualization plots")
     

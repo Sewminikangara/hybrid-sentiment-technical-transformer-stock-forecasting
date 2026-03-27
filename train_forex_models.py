@@ -1,11 +1,3 @@
-"""
-Train Forex Models (Simplified Version)
-Trains transformer models on forex data with technical + sentiment features
-
-Note: With only 58 days of data, these will be demo models.
-For production, you'd need 1-2 years of data minimum.
-"""
-
 import torch
 import torch.nn as nn
 import pandas as pd

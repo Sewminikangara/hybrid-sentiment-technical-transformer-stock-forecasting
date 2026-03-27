@@ -1,9 +1,3 @@
-"""
-Real Sentiment Data Collection - Quick Version
-Collects sentiment from Yahoo Finance News, Google News, and Reddit
-Uses VADER for fast sentiment analysis (no large model downloads)
-"""
-
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta

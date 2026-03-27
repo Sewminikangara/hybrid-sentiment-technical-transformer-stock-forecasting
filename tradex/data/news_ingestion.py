@@ -8,7 +8,6 @@ from dataclasses import dataclass, field
 
 logger = logging.getLogger("tradex.news_ingestion")
 
-# --- Feed Parser (built-in, no external dependency required) ---
 
 def _parse_rss_feed(feed_url: str, timeout: int = 10) -> List[Dict]:
     """
@@ -16,11 +15,11 @@ def _parse_rss_feed(feed_url: str, timeout: int = 10) -> List[Dict]:
     Uses feedparser if available, falls back to basic XML parsing.
     """
     items = []
-    
+
     try:
         import feedparser
         feed = feedparser.parse(feed_url)
-        
+
         for entry in feed.entries[:20]:  # Limit to 20 most recent
             published = None
             if hasattr(entry, 'published_parsed') and entry.published_parsed:
@@ -29,40 +28,40 @@ def _parse_rss_feed(feed_url: str, timeout: int = 10) -> List[Dict]:
                 published = datetime(*entry.updated_parsed[:6])
             else:
                 published = datetime.utcnow()
-            
+
             items.append({
                 "title": entry.get("title", ""),
                 "content": entry.get("summary", entry.get("description", "")),
                 "url": entry.get("link", ""),
                 "published_at": published,
             })
-        
+
         return items
-    
+
     except ImportError:
         logger.warning("feedparser not installed. Attempting basic XML parsing.")
-    
+
     # Fallback: basic urllib + XML parsing
     try:
         import urllib.request
         import xml.etree.ElementTree as ET
-        
+
         req = urllib.request.Request(feed_url, headers={
             'User-Agent': 'TradeXY/1.0 (Research Project)'
         })
-        
+
         with urllib.request.urlopen(req, timeout=timeout) as response:
             content = response.read().decode('utf-8', errors='ignore')
-        
+
         root = ET.fromstring(content)
-        
+
         # Handle RSS 2.0
         for item in root.findall('.//item')[:20]:
             title = item.findtext('title', '')
             desc = item.findtext('description', '')
             link = item.findtext('link', '')
             pub_date = item.findtext('pubDate', '')
-            
+
             published = datetime.utcnow()
             if pub_date:
                 try:
@@ -70,14 +69,14 @@ def _parse_rss_feed(feed_url: str, timeout: int = 10) -> List[Dict]:
                     published = parsedate_to_datetime(pub_date).replace(tzinfo=None)
                 except Exception:
                     pass
-            
+
             items.append({
                 "title": title,
                 "content": _strip_html(desc),
                 "url": link,
                 "published_at": published,
             })
-        
+
         # Handle Atom feeds
         if not items:
             ns = {'atom': 'http://www.w3.org/2005/Atom'}
@@ -86,24 +85,23 @@ def _parse_rss_feed(feed_url: str, timeout: int = 10) -> List[Dict]:
                 content = entry.findtext('atom:summary', '', ns)
                 link_el = entry.find('atom:link', ns)
                 link = link_el.get('href', '') if link_el is not None else ''
-                
+
                 items.append({
                     "title": title,
                     "content": _strip_html(content),
                     "url": link,
                     "published_at": datetime.utcnow(),
                 })
-    
+
     except Exception as e:
         logger.error(f"Failed to parse feed {feed_url}: {e}")
-    
+
     return items
 
 def _strip_html(text: str) -> str:
     """Remove HTML tags from text."""
     return re.sub(r'<[^>]+>', '', text).strip()
 
-# --- Reddit Reader ---
 
 def _fetch_reddit_posts(subreddit: str, limit: int = 10) -> List[Dict]:
     """
@@ -111,28 +109,28 @@ def _fetch_reddit_posts(subreddit: str, limit: int = 10) -> List[Dict]:
     No API key required - uses .json endpoint.
     """
     items = []
-    
+
     try:
         import urllib.request
         import json
-        
+
         url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit={limit}"
         req = urllib.request.Request(url, headers={
             'User-Agent': 'TradeXY/1.0 (Research Project by student)'
         })
-        
+
         with urllib.request.urlopen(req, timeout=10) as response:
             data = json.loads(response.read().decode('utf-8'))
-        
+
         for post in data.get('data', {}).get('children', []):
             post_data = post.get('data', {})
-            
+
             title = post_data.get('title', '')
             selftext = post_data.get('selftext', '')[:500]
             permalink = post_data.get('permalink', '')
             created = post_data.get('created_utc', 0)
             score = post_data.get('score', 0)
-            
+
             items.append({
                 "title": title,
                 "content": selftext or title,
@@ -140,104 +138,103 @@ def _fetch_reddit_posts(subreddit: str, limit: int = 10) -> List[Dict]:
                 "published_at": datetime.utcfromtimestamp(created) if created else datetime.utcnow(),
                 "score": score,
             })
-    
+
     except Exception as e:
         logger.error(f"Failed to fetch Reddit r/{subreddit}: {e}")
-    
+
     return items
 
-# --- News Ingestion Manager ---
 
 class NewsIngestionManager:
     """
     Manages the ingestion of news from multiple sources.
     Feeds items into the NewsRiskFilter for scoring and risk state updates.
     """
-    
+
     # Default subreddits
     DEFAULT_SUBREDDITS = [
         "cryptocurrency", "bitcoin", "ethereum", "forex",
         "stocks", "investing", "wallstreetbets"
     ]
-    
+
     def __init__(self, rss_feeds: Optional[List[Dict]] = None,
                  subreddits: Optional[List[str]] = None):
         from tradex.config import RSS_FEEDS
-        
+
         self.rss_feeds = rss_feeds or RSS_FEEDS
         self.subreddits = subreddits or self.DEFAULT_SUBREDDITS
-        
+
         self._last_fetch: Dict[str, datetime] = {}
         self._fetch_interval = timedelta(minutes=15)
-        
+
         # Stats
         self.total_fetched = 0
         self.total_ingested = 0
         self.total_duplicates = 0
         self.errors = []
-    
+
     def fetch_all_rss(self) -> List[Dict]:
         """Fetch items from all configured RSS feeds."""
         all_items = []
-        
+
         for feed_config in self.rss_feeds:
             url = feed_config["url"]
             source = feed_config["source"]
-            
+
             # Rate limiting
             last = self._last_fetch.get(url)
             if last and (datetime.utcnow() - last) < self._fetch_interval:
                 continue
-            
+
             logger.info(f"Fetching RSS: {source}")
             items = _parse_rss_feed(url)
-            
+
             for item in items:
                 item["source"] = source
                 item["feed_category"] = feed_config.get("category", "general")
-            
+
             all_items.extend(items)
             self._last_fetch[url] = datetime.utcnow()
             self.total_fetched += len(items)
-            
+
             # Be polite - don't hammer RSS servers
             time.sleep(0.5)
-        
+
         return all_items
-    
+
     def fetch_reddit(self) -> List[Dict]:
         """Fetch posts from configured subreddits."""
         all_items = []
-        
+
         for subreddit in self.subreddits:
             source = f"reddit.com/r/{subreddit}"
-            
+
             last = self._last_fetch.get(source)
             if last and (datetime.utcnow() - last) < self._fetch_interval:
                 continue
-            
+
             logger.info(f"Fetching Reddit: r/{subreddit}")
             items = _fetch_reddit_posts(subreddit, limit=10)
-            
+
             for item in items:
                 item["source"] = source
-            
+
             all_items.extend(items)
             self._last_fetch[source] = datetime.utcnow()
             self.total_fetched += len(items)
-            
+
             time.sleep(1)  # Reddit rate limiting
-        
+
         return all_items
-    
+
     def ingest_into_filter(self, news_filter, items: List[Dict]) -> int:
         """
         Process fetched items through the NewsRiskFilter.
-        
+
         Returns number of successfully ingested (non-duplicate) items.
         """
         ingested = 0
-        
+
         for item in items:
             result = news_filter.ingest_item(
                 title=item.get("title", ""),
@@ -246,32 +243,32 @@ class NewsIngestionManager:
                 url=item.get("url", ""),
                 published_at=item.get("published_at", datetime.utcnow())
             )
-            
+
             if result:
                 ingested += 1
                 self.total_ingested += 1
             else:
                 self.total_duplicates += 1
-        
+
         return ingested
-    
+
     def run_full_ingestion(self, news_filter) -> Dict:
         """
         Run a complete ingestion cycle: RSS + Reddit -> NewsRiskFilter.
         Returns ingestion statistics.
         """
         start = datetime.utcnow()
-        
+
         # Fetch RSS
         rss_items = self.fetch_all_rss()
         rss_ingested = self.ingest_into_filter(news_filter, rss_items)
-        
+
         # Fetch Reddit
         reddit_items = self.fetch_reddit()
         reddit_ingested = self.ingest_into_filter(news_filter, reddit_items)
-        
+
         elapsed = (datetime.utcnow() - start).total_seconds()
-        
+
         stats = {
             "timestamp": start.isoformat(),
             "elapsed_seconds": round(elapsed, 1),
@@ -283,11 +280,11 @@ class NewsIngestionManager:
             "total_duplicates": self.total_duplicates,
             "risk_states": news_filter.get_summary(),
         }
-        
+
         logger.info(f"Ingestion complete: {stats['total_ingested']} new items in {elapsed:.1f}s")
-        
+
         return stats
-    
+
     def get_stats(self) -> Dict:
         """Get ingestion statistics."""
         return {
@@ -299,24 +296,23 @@ class NewsIngestionManager:
             "errors": self.errors[-10:],  # Last 10 errors
         }
 
-# --- Standalone Test ---
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    
-    print("""
+
+    logger.info("""
         TradeXY - News Ingestion Pipeline
         RSS + Reddit -> Score -> Risk States
     """)
-    
+
     from tradex.engines.news_risk_filter import NewsRiskFilter
-    
+
     nrf = NewsRiskFilter()
     manager = NewsIngestionManager()
-    
+
     # Test with simulated items (no network calls)
     test_items = [
-        {"title": "Fed Raises Interest Rates", 
+        {"title": "Fed Raises Interest Rates",
          "content": "The Federal Reserve raises interest rates by 25 basis points",
          "source": "reuters.com", "url": "https://example.com/1",
          "published_at": datetime.utcnow()},
@@ -329,19 +325,19 @@ if __name__ == "__main__":
          "source": "cnbc.com", "url": "https://example.com/3",
          "published_at": datetime.utcnow()},
     ]
-    
+
     ingested = manager.ingest_into_filter(nrf, test_items)
-    print(f"  Ingested: {ingested} items")
-    
+    logger.info("  Ingested: {ingested} items")
+
     stats = manager.get_stats()
-    print(f"  Stats: {stats}")
-    
+    logger.info("  Stats: {stats}")
+
     # Show risk states
     summary = nrf.get_summary()
-    print(f"\n  Risk State Summary:")
-    print(f"    Total news: {summary['total_news_items']}")
-    print(f"    Blocked: {summary['blocked_symbols']}")
-    print(f"    Caution: {summary['caution_symbols']}")
-    print(f"    Clear: {summary['clear_symbols']}")
-    
-    print("\nNews Ingestion test complete.")
+    logger.info("\n  Risk State Summary:")
+    logger.info("    Total news: {summary[")
+    logger.info("    Blocked: {summary[")
+    logger.info("    Caution: {summary[")
+    logger.info("    Clear: {summary[")
+
+    logger.info("\nNews Ingestion test complete.")

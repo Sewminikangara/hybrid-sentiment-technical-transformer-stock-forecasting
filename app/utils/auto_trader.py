@@ -39,7 +39,7 @@ class AutoTrader:
                     self.client = Client(api_key, api_secret, testnet=True)
                     self.client.API_URL = 'https://testnet.binance.vision/api'
                 else:
-                    # Live Binance (use with caution!)
+                    # Live Binance trading
                     self.client = Client(api_key, api_secret)
                 self.connected = True
             except Exception as e:
